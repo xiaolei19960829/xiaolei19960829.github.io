@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【潇雷】：风雨求职路</title>
+    <url>/2019/11/14/%E3%80%90%E6%B1%82%E8%81%8C%E3%80%91%E9%82%A3%E4%BA%9B%E5%BF%83%E9%85%B8%E8%B7%AF/</url>
+    <content><![CDATA[<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>一转眼，来上海就两个半月了，由夏至秋，天气转凉。  如今找工作的事情终于尘埃入定。  应届生社招时的碰壁让我深受打击，不仅投过实习的岗位，也频频报低价格卑微地换取一份糊口的工作，最后，还是没有放弃，总有适合你的工作在等待你。熬一熬，就过去了。</p>
+<h1 id="2-求职"><a href="#2-求职" class="headerlink" title="2.求职"></a>2.求职</h1><h2 id="2-1-简历"><a href="#2-1-简历" class="headerlink" title="2.1 简历"></a>2.1 简历</h2><p>面了一个月，boss沟通八百多家，拉钩5年以下全投过，换来的是寥寥无几的面试机会，从刚开始投简历到找到工作的前两天还改些简历中的小毛病，慢慢的，我发现越到后面，我这简历竟然也能入的了一些大中厂的眼，虽然写的一年工作经验，虽然念的是普通二本非科班，这些特征在浩浩荡荡的简历海洋中本就该沉入海底的，我回头想想，除了那些项目，专业技能外，还有两点：第一是我把本科的CPA专业排名第二写上去了，还有一些奖学金，数学竞赛奖，这些起码能说明我在大学还是学了点东西的。第二是我添加了自己的个人博客和微信公众号，虽然不知道他们会不会看，虽然csdn很low，文章也不多，但是看着还是很努力的。所以个人博客的重要性在面试的时候还是挺加分的。因此，在往后的学习工作中，我将以博客的形式来记录自己的学习和生活。</p>
+<h2 id="2-2-面试"><a href="#2-2-面试" class="headerlink" title="2.2 面试"></a>2.2 面试</h2><p><strong>第一家:</strong> 去了个培训机构，叫一堆的人去面试，做了几道nc逻辑题，结果全给做错了，连培训机构都不想要我，hhhh，服了，现在培训机构也挑人了吗？<br><strong>第二家:</strong> 是一个医疗相关的，面试很紧张，终于来了次正经的技术面，下面是面试题  </p>
+<p><strong>1.两个linux之间相互传文件怎么做？</strong><br>答：可以使用SCP命令。  </p>
+<p><strong>2.mysql查询前十条数据怎么做？</strong><br>select * from emp LIMIT 0,10  </p>
+<p><strong>3.js怎么定义数组？</strong>  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//第一种  </span><br><span class="line">            var arr = new Array();  </span><br><span class="line">            arr[0] = 123  </span><br><span class="line">            arr[1] = &quot;abc&quot;;  </span><br><span class="line">            arr[5] = false;  </span><br><span class="line">            alert(arr[3]);//undefined  </span><br><span class="line">            alert(arr);//123,abc,,,,false  </span><br><span class="line">            alert(arr[10]);//undefined，不会出现越界异常  </span><br><span class="line">            </span><br><span class="line">            //for in 遍历，未定义的不遍历</span><br><span class="line">            for(var i in arr)&#123;</span><br><span class="line">                alert(arr[i]);</span><br><span class="line">            &#125;</span><br><span class="line">              </span><br><span class="line">              </span><br><span class="line">            //第二种  </span><br><span class="line">            var arr2 = new Array(2);//规定了数组的长度为2  </span><br><span class="line">            arr2[0] = &quot;ddd&quot;;  </span><br><span class="line">            arr2[1] = &quot;www&quot;;  </span><br><span class="line">            alert(arr2);//ddd,www  </span><br><span class="line">            arr2[2] = &quot;fff&quot;;//可以再次添加元素，定义的数组大小对此没有影响  </span><br><span class="line">            alert(arr2);//ddd,www,fff  </span><br><span class="line">                 </span><br><span class="line">            //第三种  </span><br><span class="line">            var arr3 = new Array(true,123,false);  </span><br><span class="line">            alert(arr3);//true,123,false  </span><br><span class="line">              </span><br><span class="line">            //第四种,推荐使用  </span><br><span class="line">            var arr4 = [false,&quot;aaa&quot;,123];  </span><br><span class="line">            alert(arr4);//false,aaa,123</span><br></pre></td></tr></table></figure>
+<p><strong>4.vue的条件判断的指令？</strong><br> v-if指令。  </p>
+<p><strong>5.git是干嘛的？（版本控制系统）</strong>  </p>
+<p><strong>6.java的空指针怎么发生的？口述两行代码，一定会发生空指针？</strong><br>当一个对象不存在时，又调用它的话就会产生空指针异常。<br>object o=null；<br>o.tostring();</p>
+<p><strong>7.java的数组越界是怎样的？像ArrayList这种自动增长的，它有没有可能发生越界？为什么？</strong><br>因为arrayList是线程不安全的类，当出现多个线程同时添加元素的时候，此时arrayList就会可能会出现数组越界的问题。  </p>
+<p><strong>8.java的自定义注解是怎么解析的？（反射，加载成.class字节码文件）</strong>  </p>
+<p><strong>9.定义一个简单的java类，这个类要使它能够表达简单的树形结构，那么这个类的关键特征是什么？</strong><br>就是有两个成员变量，类型是自己，分别指向左子树和右子树（以二叉树为例）。  </p>
+<p>中间还问了点单词数学，应该是比较缺人，然后虽然我面试的很差，很多答不上来，但是过了几天还是给我发offer，只不过面试的时候就说就面试来看，我只值6k，我也同意它的说法，但是还是想多面几家试试，就拒绝了，没想到后面才正式开始了苦逼之路。</p>
+<p><strong>第三家:</strong> 是一个50人左右的公司，做笔试题的时候，发现难度简直升级，结果笔试题都写不下去，就灰溜溜的回去了，下面是部分笔试题：<br>1.1万个人抢100个红包，如何保证2个人不能抢到同一个红包？<br>2.Git如何放弃工作区的更改？<br>3.写一个方法，处理接收POST类型的JSON参数的请求（参数为name，age）<br>4.POST请求是否可以是url？a=b&amp;c=d的形式请求？如何不可以请说出理由<br>5.设计一个对外服务的接口实现类，在1，2，3这三台主机上（有不同的IP地址）实现负载均衡和顺序轮询机制<br>6.@Scheduled是否为多线程执行，如果是请说明理由，否则请给出解决方案；<br>7.通过Nginx实现：访问<a href="http://test.ab.com，代理请求到http://101.101.1.1.9/" target="_blank" rel="noopener">http://test.ab.com，代理请求到http://101.101.1.1.9/</a><br>8.以JAR包的方式部署temp.jar，请写出部署命令，以及查看Java进程，结束进程</p>
+<p><strong>第四家：</strong> 自第三家受打击之后就停下来复习了一周，当时也感觉面试好多，才没投几家就去面试了，所以当时想不把一些机会白白浪费掉，尽管如此，现在想来这种做法特别不好，不能停这么久，而且自己学真的学不到那么多，还是少约点面试，保持两天内一个面试放慢节奏还是比较好的。这家面了一个实习，在上海的团队就他一个人，想想就优点怕，它也看出来我心里的担心，最后可能倒在了沟通问题，以及非全日制，和技术回答的比较死板，考虑问题没有挖很深，很多都是直接从面经上看来，比如hashtable为什么不能为null？  </p>
+<p><strong>第五家:</strong> 这次去的是一个岗位上技能啥都不要求的公司，会c，python，java就可以，我以为可能又是骗子公司，没想到公司也没想象中那么小，然后填完信息领到面试官那里，让我上机，实现一个在一个64*64的棋盘上，找出他给的100个点里的最短路径，然后让我开始写，我慢慢的脑子陷入了，感觉到现在都没理解好提议，它给的100个点如何输入到电脑里，一个二维数组，怎么接收这些点，然后算法用迪杰斯特拉算法怎么实现？虽然考研的时候做过这种算法找最短路径的点，但是要真让我实现，还真狠有难度，最后不来了之，自此又陷入自闭。 </p>
+<p><strong>第六家，第七家：</strong>  上海无果，开始换城市，突发的选了嘉兴，去嘉兴，嘉善分别面了两家，第一家，做金融还要出差，感觉也不是想招人的意思，随便问的一些aop，springboot热部署等问题，最后我还是因为技术没过关被刷了，然后赶去嘉善面试，这个初创公司感觉面试官的他的三年经验很有水分，随便聊聊项目就过了，基础也没问，后面给我开了8k，最后犹豫再三还是拒了，初创公司不敢去，更别提没个大牛的初创公司。  </p>
+<p><strong>第八家：</strong>  开始转战上海，一个金融相关的，我面试的感觉还不错，也感觉有希望进，但是最后不知道什么原因被刷了，这家我还是挺想去的。至少工作还是挺成熟的。 </p>
+<p><strong>第九家：</strong> 做智能健身相关的，面试官技术很强，阿里出来的年轻小伙，但是给我的感觉是有点轻蔑，可能这就是牛人吧，最后我都报到6k了，但是我感觉那岗位学的东西也不多，不是纯java开发的。</p>
+<p><strong>第十家：</strong> 转眼又过了一周，这家去了轻轻家教，面的问题很灵活，数据结构的知识我真的忘了很多，但是面试官人很好，跟我聊了挺久的。不过自己还是太菜了，我只想说面试还是很看重运气和那岗位的缺人程度的，最后惨败吧。 </p>
+<p><strong>第十一家：</strong> 又跑了很远的地方去面试，一个挂羊头卖狗头的，应该是猎头公司，收集了很多面试人的信息资料，随便聊聊就不面了。也没抱希望。  </p>
+<p><strong>第十二家：</strong> 这家是挺正规的，离我住处最近的一家了，走路十分钟就到了，面试之前看到这家岗位已经关闭了，面试官是一个很年轻的，这种年轻没多少面试经验的面试官会故意问的比较深，来展示他的能力，根本不从实际情况来面，我就一年的实习经验，把我当几年的面，还问我有没有带过人？也问了一些假大空的问题，消息堆积，重复消费，服务挂了怎么看等等，然后一个小时的面试，直接说，今天的面试到此结束。我就灰溜溜的回去了，不想要我干嘛浪费两个人的时间。</p>
+<p><strong>第十三家：</strong> 这次是最后一次面试了，公司环境不错，成立八年的互联网公司，也有自己的产品，面积也很大，然后经过两轮的技术面试和一轮的hr小姐姐沟通后，终于以自己的实力和运气终于拿到了offer，这虽然不是最好的公司，但是这是现阶段最适合我的公司，面试总结的问题就是提升自己的沟通能力，很多东西，你得学会用自己的话来很精准的描述它，这种能力也是需要锻炼出来的，我在回复它邮件的时候，写了未来我们一起加油。  </p>
+<h2 id="3感慨"><a href="#3感慨" class="headerlink" title="3感慨"></a>3感慨</h2><p>这一个多月我经历了什么？我得到了什么？<br>我的生活才刚刚开始，未来可期。<br>记两首诗：</p>
+<p><strong>《夜》</strong><br>晚风拂我意，<br>荧屏对相思。<br>奔波十里外，<br>另觅橄榄枝。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/850b262531a3b749e927b27f1b28805.jpg" alt="image"></p>
+<p><strong>《光》</strong><br>九月憧憬，新奇欲试笔与刀。<br>十月无闻，无花树下羞与闹。<br>十一过半，滩里霓虹光与照。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/f8e7a632c8e60cd0d9deb53f2ffd247.jpg" alt="image"></p>]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>潇雷哥哥的第一篇博客</title>
     <url>/2019/11/11/%E6%BD%87%E9%9B%B7%E5%93%A5%E5%93%A5%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[# 潇雷
