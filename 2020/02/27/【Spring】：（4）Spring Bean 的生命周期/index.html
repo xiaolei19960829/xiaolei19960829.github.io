@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="spring," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="1.1 简介 Spring：春天-&amp;gt;给软件行业带来了春天 2002年，首先推出Spring框架的雏形：interface21 2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本 Rod Johnson：Spring Framework创始人,音乐学博士 Spring理念：本身就是大杂烩，整合现有的框架技术。  官网：https:&#x2F;&#x2F;spring.io">
-<meta name="keywords" content="spring">
+<meta name="description" content="1、Bean的完整生命周期 在传统的Java应用中，bean的生命周期很简单，使用Java关键字 new 进行Bean 的实例化，然后该Bean 就能够使用了。一旦bean不再被使用，则由Java自动进行垃圾回收。 相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程   如上">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【spring】：（1）概述、ioc理论">
-<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA&#x2F;index.html">
+<meta property="og:title" content="【Spring】：（4）Spring Bean 的生命周期">
+<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;2020&#x2F;02&#x2F;27&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
-<meta property="og:description" content="1.1 简介 Spring：春天-&amp;gt;给软件行业带来了春天 2002年，首先推出Spring框架的雏形：interface21 2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本 Rod Johnson：Spring Framework创始人,音乐学博士 Spring理念：本身就是大杂烩，整合现有的框架技术。  官网：https:&#x2F;&#x2F;spring.io">
+<meta property="og:description" content="1、Bean的完整生命周期 在传统的Java应用中，bean的生命周期很简单，使用Java关键字 new 进行Bean 的实例化，然后该Bean 就能够使用了。一旦bean不再被使用，则由Java自动进行垃圾回收。 相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程   如上">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;%E7%BE%8E%E5%9B%BE&#x2F;1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;blog.kuangstudy.com&#x2F;usr&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;3294472123.png">
-<meta property="og:updated_time" content="2020-02-26T13:13:42.740Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.javazhiyin.com&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;05&#x2F;java0-1558500658.jpg">
+<meta property="og:updated_time" content="2020-02-27T12:26:00.029Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;%E7%BE%8E%E5%9B%BE&#x2F;1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;www.javazhiyin.com&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;05&#x2F;java0-1558500658.jpg">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaolei.com/2019/11/18/【Spring】：（1）概述、ioc理论/"/>
+  <link rel="canonical" href="http://xiaolei.com/2020/02/27/【Spring】：（4）Spring Bean 的生命周期/"/>
 
 
 
 
 
-  <title>【spring】：（1）概述、ioc理论 | 潇雷的博客</title>
+  <title>【Spring】：（4）Spring Bean 的生命周期 | 潇雷的博客</title>
   
 
 
@@ -298,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xiaolei.com/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/">
+    <link itemprop="mainEntityOfPage" href="http://xiaolei.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuLei">
@@ -315,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【spring】：（1）概述、ioc理论</h1>
+          <h1 class="post-title" itemprop="name headline">【Spring】：（4）Spring Bean 的生命周期</h1>
         
 
         <div class="post-meta">
@@ -327,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-18T19:20:12+08:00">
-                2019-11-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T22:56:53+08:00">
+                2020-02-27
               </time>
             
 
@@ -343,34 +341,12 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-02-26T21:13:42+08:00">
-                2020-02-26
+              <time title="更新于" itemprop="dateModified" datetime="2020-02-27T20:26:00+08:00">
+                2020-02-27
               </time>
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5spring/" itemprop="url" rel="index">
-                    <span itemprop="name">工spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -380,8 +356,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/" itemprop="commentCount"></span>
+                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -389,7 +365,7 @@
 
           
           
-             <span id="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/" class="leancloud_visitors" data-flag-title="【spring】：（1）概述、ioc理论">
+             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="leancloud_visitors" data-flag-title="【Spring】：（4）Spring Bean 的生命周期">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,7 +391,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.5k
+                  840
                 </span>
               
 
@@ -440,76 +416,31 @@
       
 
       
-        <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/%E7%BE%8E%E5%9B%BE/1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg"/>
-
-<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><ul>
-<li>Spring：春天-&gt;给软件行业带来了春天</li>
-<li>2002年，首先推出Spring框架的雏形：interface21</li>
-<li>2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本</li>
-<li>Rod Johnson：Spring Framework创始人,音乐学博士</li>
-<li>Spring理念：本身就是大杂烩，整合现有的框架技术。</li>
+        <h3 id="1、Bean的完整生命周期"><a href="#1、Bean的完整生命周期" class="headerlink" title="1、Bean的完整生命周期"></a>1、Bean的完整生命周期</h3><ul>
+<li>在传统的Java应用中，bean的生命周期很简单，使用Java关键字 new 进行Bean 的实例化，然后该Bean 就能够使用了。一旦bean不再被使用，则由Java自动进行垃圾回收。</li>
+<li>相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程</li>
 </ul>
-<p>官网：<a href="https://spring.io/projects/spring-framework" target="_blank" rel="noopener">https://spring.io/projects/spring-framework</a></p>
-<p>官方下载地址：<a href="https://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="noopener">https://repo.spring.io/release/org/springframework/spring/</a></p>
-<p>Github：<a href="https://github.com/spring-projects/spring-framework" target="_blank" rel="noopener">https://github.com/spring-projects/spring-framework</a></p>
-<h2 id="1-2-优点"><a href="#1-2-优点" class="headerlink" title="1.2 优点"></a>1.2 优点</h2><ol>
-<li>方便解耦，简化开发（高内聚，低耦合）</li>
-<li>Spring是一个轻量级的、非侵入式的框架！非侵入式就是对原来的东西没有影响</li>
-<li><strong>控制反转（ioc）、面向切面编程（AOP）</strong></li>
-<li>支持事务的处理，对框架整合的支持</li>
-</ol>
-<p><strong>==总结一句话：Spring就是一个轻量级的控制反转（ioc）和面向切面编程的框架==</strong></p>
-<h2 id="1-3-组成"><a href="#1-3-组成" class="headerlink" title="1.3 组成"></a>1.3 组成</h2><ul>
-<li>spring框架是一个分层架构，由7个定义良好的模块组成，Spring模块构建在核心容器之上，核心容器定义了创建、配置和管理bean的方式。</li>
-</ul>
-<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3294472123.png" alt="image"></p>
-<ul>
-<li>组成Sping框架的每个模块都可以单独存在，或者与其他一个或多个模块联合实现，每个模块的功能如下：<ul>
-<li>核心容器：核心容器提供 Spring 框架的基本功能。核心容器的主要组件是 BeanFactory，它是工厂模式的实现。BeanFactory 使用控制反转（IOC） 模式将应用程序的配置和依赖性规范与实际的应用程序代码分开。</li>
-<li>Spring 上下文：Spring 上下文是一个配置文件，向 Spring 框架提供上下文信息。Spring 上下文包括企业服务，例如 JNDI、EJB、电子邮件、国际化、校验和调度功能。</li>
-<li>Spring AOP：通过配置管理特性，Spring AOP 模块直接将面向切面的编程功能 , 集成到了 Spring 框架中。所以，可以很容易地使 Spring 框架管理任何支持 AOP的对象。Spring AOP 模块为基于 Spring 的应用程序中的对象提供了事务管理服务。通过使用 Spring AOP，不用依赖组件，就可以将声明性事务管理集成到应用程序中。</li>
-<li>Spring DAO：JDBC DAO 抽象层提供了有意义的异常层次结构，可用该结构来管理异常处理和不同数据库供应商抛出的错误消息。异常层次结构简化了错误处理，并且极大地降低了需要编写的异常代码数量（例如打开和关闭连接）。Spring DAO 的面向 JDBC 的异常遵从通用的 DAO 异常层次结构。</li>
-<li>Spring ORM：Spring 框架插入了若干个 ORM 框架，从而提供了 ORM 的对象关系工具，其中包括 JDO、Hibernate 和 iBatis SQL Map。所有这些都遵从 Spring 的通用事务和 DAO 异常层次结构。</li>
-<li>Spring Web 模块：Web 上下文模块建立在应用程序上下文模块之上，为基于 Web 的应用程序提供了上下文。所以，Spring 框架支持与 Jakarta Struts 的集成。Web 模块还简化了处理多部分请求以及将请求参数绑定到域对象的工作。</li>
-<li>Spring MVC 框架：MVC 框架是一个全功能的构建 Web 应用程序的 MVC 实现。通过策略接口，MVC 框架变成为高度可配置的，MVC 容纳了大量视图技术，其中包括 JSP、Velocity、Tiles、iText 和 POI。</li>
+<p><img src="https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg" alt="image"></p>
+<p>如上图所示，Bean 的生命周期还是比较复杂的，下面来对上图每一个步骤做文字描述:</p>
+<p> 1、实例化一个Bean－－也就是我们常说的new；</p>
+<p> 2、按照Spring上下文对实例化的Bean进行配置－－也就是IOC注入；</p>
+<p> 3、如果这个Bean已经实现了BeanNameAware接口，会调用它实现的setBeanName(String)方法，此处传递的就是Spring配置文件中Bean的id值</p>
+<p> 4、如果这个Bean已经实现了BeanFactoryAware接口，会调用它实现的setBeanFactory(setBeanFactory(BeanFactory)传递的是Spring工厂自身（可以用这个方式来获取其它Bean，只需在Spring配置文件中配置一个普通的Bean就可以）；</p>
+<p> 5、如果这个Bean已经实现了ApplicationContextAware接口，会调用setApplicationContext(ApplicationContext)方法，传入Spring上下文（同样这个方式也可以实现步骤4的内容，但比4更好，因为ApplicationContext是BeanFactory的子接口，有更多的实现方法）；</p>
+<p> 6、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessBeforeInitialization(Object obj, String s)方法，BeanPostProcessor经常被用作是Bean内容的更改，并且由于这个是在Bean初始化结束时调用那个的方法，也可以被应用于内存或缓存技术；</p>
+<p> 7、如果Bean在Spring配置文件中配置了init-method属性会自动调用其配置的初始化方法。</p>
+<p> 8、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessAfterInitialization(Object obj, String s)方法、；</p>
+<p>  注：以上工作完成以后就可以应用这个Bean了，那这个Bean是一个Singleton的，所以一般情况下我们调用同一个id的Bean会是在内容地址相同的实例，当然在Spring配置文件中也可以配置非Singleton，这里我们不做赘述。</p>
+<p> 9、当Bean不再需要时，会经过清理阶段，如果Bean实现了DisposableBean这个接口，会调用那个其实现的destroy()方法；</p>
+<p> 10、最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。</p>
+<h3 id="2、各种接口方法分类"><a href="#2、各种接口方法分类" class="headerlink" title="2、各种接口方法分类"></a>2、各种接口方法分类</h3><ul>
+<li>Bean的完整生命周期经历了各种方法调用，这些方法可以划分为以下几类：<ul>
+<li>Bean自身的方法：这个包括了Bean本身调用的方法和通过配置文件中<bean>的init-method和destroy-method指定的方法</li>
+<li>Bean级生命周期接口方法：这个包括了BeanNameAware、BeanFactoryAware、InitializingBean和DiposableBean这些接口的方法</li>
+<li>容器级生命周期接口方法：这个包括了InstantiationAwareBeanPostProcessor 和 BeanPostProcessor 这两个接口实现，一般称它们的实现类为“后处理器”。</li>
+<li>工厂后处理器接口方法：这个包括了AspectJWeavingEnabler, ConfigurationClassPostProcessor, CustomAutowireConfigurer等等非常有用的工厂后处理器　　接口的方法。工厂后处理器也是容器级的。在应用上下文装配配置文件之后立即调用。</li>
 </ul>
 </li>
-</ul>
-<h2 id="1-4-ioc理论推导"><a href="#1-4-ioc理论推导" class="headerlink" title="1.4 ioc理论推导"></a>1.4 ioc理论推导</h2><h4 id="1-4-1-过去我们写代码："><a href="#1-4-1-过去我们写代码：" class="headerlink" title="1.4.1 过去我们写代码："></a>1.4.1 过去我们写代码：</h4><ul>
-<li>1、先一个UserDao接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>2、再去写Dao的实现类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class UserDaoImpl implements UserDao &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        System.out.println(&quot;获取用户数据&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>3、然后去写UserService的接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>4、最后写UserService的实现类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao = new UserDaoImpl();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>5、测试一下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    UserService service = new UserServiceImpl();</span><br><span class="line">    service.getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>这是我们原来的方式，如果在dao层在增加一个实现类，则需要更改service实现类的代码。如果大量增加实现类，大量更改service代码的话，这种方法也就不适用了。耦合性太高，牵一发而动全身！</p>
-<h4 id="1-4-2-如何解决？"><a href="#1-4-2-如何解决？" class="headerlink" title="1.4.2 如何解决？"></a>1.4.2 如何解决？</h4><ul>
-<li>我们可以在需要用到它的地方，不去实现它，而是留出一个接口，利用set，我们去代码里修改下。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao;</span><br><span class="line">    // 利用set实现</span><br><span class="line">    public void setUserDao(UserDao userDao) &#123;</span><br><span class="line">        this.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样改后，就不需要再动service里的代码，用户想调用什么就在外面直接调用。</p>
-<ol>
-<li>之前，程序是主动创建对象！控制权在程序员手上！</li>
-<li>使用set注入后，程序不再具有主动性，而是变成可被动的接收到对象。</li>
-</ol>
-<ul>
-<li>这种思想，从本质上解决了问题，外面程序员不再管理对象的创建，系统的耦合性大大降低，可以更加专注在业务的实现上，这就是ioc的原型。</li>
-</ul>
-<h2 id="1-5-ioc本质"><a href="#1-5-ioc本质" class="headerlink" title="1.5 ioc本质"></a>1.5 ioc本质</h2><ul>
-<li>ioc：inverse of controller 控制反转，ioc是一种新的java编程模式。由Spring来负责控制对象的生命周期和对象间的关系，而不需要程序员来管理，Di是实现ioc的一种方法。</li>
-<li>Spring容器在初始化时会读取配置文件，根据配置文件或元数据创建组织对象存入容器中，程序使用时从ioc容器中取出需要的对象</li>
-</ul>
-<p><strong>搞清楚几个问题：</strong></p>
-<ul>
-<li>谁依赖谁：应用程序依赖于ioc容器</li>
-<li>为什么要依赖：应用程序需要ioc容器来提供对象需要的外部资源。</li>
-<li>谁注入谁：IOC容器注入应用程序某个对象，应用程序依赖的对象。</li>
-<li>注入了什么：注入了某个对象所需要的外部资源（包括对象、资源、常量数据）</li>
 </ul>
 
       
@@ -536,12 +467,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/spring/" rel="tag"># spring</a>
-          
-        </div>
-      
 
       
       
@@ -551,8 +476,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/" rel="next" title="【spring】：（2）第一个程序、ioc创建对象方式、spring配置">
-                <i class="fa fa-chevron-left"></i> 【spring】：（2）第一个程序、ioc创建对象方式、spring配置
+              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="next" title="【Spring】：（3）依赖注入">
+                <i class="fa fa-chevron-left"></i> 【Spring】：（3）依赖注入
               </a>
             
           </div>
@@ -561,8 +486,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="prev" title="【java基础】：反射机制">
-                【java基础】：反射机制 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" rel="prev" title="【Spring】：（5）：Bean的自动装配">
+                【Spring】：（5）：Bean的自动装配 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -647,7 +572,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -718,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-简介"><span class="nav-number">1.</span> <span class="nav-text">1.1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-优点"><span class="nav-number">2.</span> <span class="nav-text">1.2 优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-组成"><span class="nav-number">3.</span> <span class="nav-text">1.3 组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-ioc理论推导"><span class="nav-number">4.</span> <span class="nav-text">1.4 ioc理论推导</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-过去我们写代码："><span class="nav-number">4.0.1.</span> <span class="nav-text">1.4.1 过去我们写代码：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-如何解决？"><span class="nav-number">4.0.2.</span> <span class="nav-text">1.4.2 如何解决？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-ioc本质"><span class="nav-number">5.</span> <span class="nav-text">1.5 ioc本质</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Bean的完整生命周期"><span class="nav-number">1.</span> <span class="nav-text">1、Bean的完整生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、各种接口方法分类"><span class="nav-number">2.</span> <span class="nav-text">2、各种接口方法分类</span></a></li></ol></div>
             
 
           </div>
@@ -759,7 +684,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.1k</span>
+    <span title="Site words total count">11.7k</span>
   
 </div>
 

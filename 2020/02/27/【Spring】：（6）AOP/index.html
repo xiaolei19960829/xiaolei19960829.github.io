@@ -79,14 +79,18 @@
 
 
 
-<meta name="description" content="Java学习者，大数据爱好者，在读研究僧">
-<meta property="og:type" content="website">
-<meta property="og:title" content="潇雷的博客">
-<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;categories&#x2F;%E5%B7%A5spring&#x2F;index.html">
+<meta name="description" content="1、简介 面向切面编程，是一种通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，实现各部分之间的解耦。  2、AOP在Spring中的作用==提供声明式事务：允许用户自定义切面==  横切关注点：跨越应用程序多个模块的方法或功能。就是，与我们业务逻辑无关的，但是我们需要关注的部分，就是横切关注点。如日志，安全，缓">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Spring】：（6）AOP">
+<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;2020&#x2F;02&#x2F;27&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
-<meta property="og:description" content="Java学习者，大数据爱好者，在读研究僧">
+<meta property="og:description" content="1、简介 面向切面编程，是一种通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，实现各部分之间的解耦。  2、AOP在Spring中的作用==提供声明式事务：允许用户自定义切面==  横切关注点：跨越应用程序多个模块的方法或功能。就是，与我们业务逻辑无关的，但是我们需要关注的部分，就是横切关注点。如日志，安全，缓">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog.kuangstudy.com&#x2F;usr&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;1595583263.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;blog.kuangstudy.com&#x2F;usr&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;142667477.png">
+<meta property="og:updated_time" content="2020-02-27T14:34:20.416Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;blog.kuangstudy.com&#x2F;usr&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;1595583263.png">
 
 
 
@@ -116,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaolei.com/categories/工spring/"/>
+  <link rel="canonical" href="http://xiaolei.com/2020/02/27/【Spring】：（6）AOP/"/>
 
 
 
 
 
-  <title>分类: 工spring | 潇雷的博客</title>
+  <title>【Spring】：（6）AOP | 潇雷的博客</title>
   
 
 
@@ -141,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -279,83 +283,263 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>工spring<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaolei.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuLei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/a5dacaaba94d27daad3ec43d3728107.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/" itemprop="url">
-              
-                <span itemprop="name">【spring】：（1）概述、ioc理论</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">【Spring】：（6）AOP</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-18T19:20:12+08:00"
-              content="2019-11-18" >
-          11-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T22:56:53+08:00">
+                2020-02-27
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-02-27T22:34:20+08:00">
+                2020-02-27
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" class="leancloud_visitors" data-flag-title="【Spring】：（6）AOP">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <h3 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h3><ul>
+<li>面向切面编程，是一种通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，实现各部分之间的解耦。<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1595583263.png" alt="image"></li>
+</ul>
+<h3 id="2、AOP在Spring中的作用"><a href="#2、AOP在Spring中的作用" class="headerlink" title="2、AOP在Spring中的作用"></a>2、AOP在Spring中的作用</h3><p><strong>==提供声明式事务：允许用户自定义切面==</strong></p>
+<ul>
+<li>横切关注点：跨越应用程序多个模块的方法或功能。就是，与我们业务逻辑无关的，但是我们需要关注的部分，就是横切关注点。如日志，安全，缓存，事务等等…</li>
+<li>切面（ASPECT）：横切关注点，被模块化的特殊对象，它是一个类</li>
+<li>通知（Advice）：切面必须要完成的工作。它是类中的一个方法</li>
+<li>目标（Target）：被通知对象</li>
+<li>代理（Proxy）：向目标对象应用通知之后创建的对象</li>
+<li>切入点（PointCut）：切面通知 执行的地点的定义</li>
+<li>连接点（jointPoint）：与切入点匹配的执行点</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/142667477.png" alt="image"></p>
+<h3 id="3、使用Spring实现AOP"><a href="#3、使用Spring实现AOP" class="headerlink" title="3、使用Spring实现AOP"></a>3、使用Spring实现AOP</h3><h5 id="3-1-通过Spring-API实现"><a href="#3-1-通过Spring-API实现" class="headerlink" title="3.1 通过Spring API实现"></a>3.1 通过Spring API实现</h5><ul>
+<li>首先编写我们的业务接口和实现类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    public void add();</span><br><span class="line"></span><br><span class="line">    public void delete();</span><br><span class="line"></span><br><span class="line">    public void update();</span><br><span class="line"></span><br><span class="line">    public void search();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/11/18/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/" itemprop="url">
-              
-                <span itemprop="name">【spring】：（2）第一个程序、ioc创建对象方式、spring配置</span>
-              
-            </a>
-        
-      </h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add() &#123;</span><br><span class="line">        System.out.println(&quot;增加用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void delete() &#123;</span><br><span class="line">        System.out.println(&quot;删除用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void update() &#123;</span><br><span class="line">        System.out.println(&quot;更新用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void search() &#123;</span><br><span class="line">        System.out.println(&quot;查询用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后去写我们的增强类，一个前置增强，一个后置增强。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Log implements MethodBeforeAdvice &#123;</span><br><span class="line"></span><br><span class="line">    //method : 要执行的目标对象的方法</span><br><span class="line">    //objects : 被调用的方法的参数</span><br><span class="line">    //Object : 目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void before(Method method, Object[] objects, Object o) throws Throwable &#123;</span><br><span class="line">        System.out.println( o.getClass().getName() + &quot;的&quot; + method.getName() + &quot;方法被执行了&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-18T19:20:12+08:00"
-              content="2019-11-18" >
-          11-18
-        </time>
-      </div>
-
-    </header>
-  </article>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class AfterLog implements AfterReturningAdvice &#123;</span><br><span class="line">    //returnValue 返回值</span><br><span class="line">    //method被调用的方法</span><br><span class="line">    //args 被调用的方法的对象的参数</span><br><span class="line">    //target 被调用的目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;执行了&quot; + target.getClass().getName()</span><br><span class="line">        +&quot;的&quot;+method.getName()+&quot;方法,&quot;</span><br><span class="line">        +&quot;返回值：&quot;+returnValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后去spring的文件中注册，并实现aop切入实现，注意导入约束</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/aop</span><br><span class="line">        http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--注册bean--&gt;</span><br><span class="line">    &lt;bean id=&quot;userService&quot; class=&quot;com.kuang.service.UserServiceImpl&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;log&quot; class=&quot;com.kuang.log.Log&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;afterLog&quot; class=&quot;com.kuang.log.AfterLog&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--aop的配置--&gt;</span><br><span class="line">    &lt;aop:config&gt;</span><br><span class="line">        &lt;!--切入点  expression:表达式匹配要执行的方法--&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;pointcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;!--执行环绕; advice-ref执行方法 . pointcut-ref切入点--&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;log&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;afterLog&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">    &lt;/aop:config&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.search();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Spring的Aop就是将公共的业务 (日志 , 安全等) 和领域业务结合起来 , 当执行领域业务时 , 将会把公共业务加进来 . 实现公共业务的重复利用 . 领域业务更纯粹 , 程序猿专注领域业务 , 其本质还是动态代理 .</li>
+</ul>
+<h5 id="3-2-自定义类来实现AOP"><a href="#3-2-自定义类来实现AOP" class="headerlink" title="3.2 自定义类来实现AOP"></a>3.2 自定义类来实现AOP</h5><ul>
+<li>第一步：写我们自己的一个切入类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class DiyPointcut &#123;</span><br><span class="line"></span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>去spring配置：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--第二种方式自定义实现--&gt;</span><br><span class="line">&lt;!--注册bean--&gt;</span><br><span class="line">&lt;bean id=&quot;diy&quot; class=&quot;com.kuang.config.DiyPointcut&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--aop的配置--&gt;</span><br><span class="line">&lt;aop:config&gt;</span><br><span class="line">    &lt;!--第二种方式：使用AOP的标签实现--&gt;</span><br><span class="line">    &lt;aop:aspect ref=&quot;diy&quot;&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;diyPonitcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;aop:before pointcut-ref=&quot;diyPonitcut&quot; method=&quot;before&quot;/&gt;</span><br><span class="line">        &lt;aop:after pointcut-ref=&quot;diyPonitcut&quot; method=&quot;after&quot;/&gt;</span><br><span class="line">    &lt;/aop:aspect&gt;</span><br><span class="line">&lt;/aop:config&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.add();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-3-使用注解实现"><a href="#3-3-使用注解实现" class="headerlink" title="3.3 使用注解实现"></a>3.3 使用注解实现</h5><ul>
+<li>编写注解实现的增强类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.After;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line">@Aspect</span><br><span class="line">public class AnnotationPointcut &#123;</span><br><span class="line">    @Before(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @After(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void around(ProceedingJoinPoint jp) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;环绕前&quot;);</span><br><span class="line">        System.out.println(&quot;签名:&quot;+jp.getSignature());</span><br><span class="line">        //执行目标方法proceed</span><br><span class="line">        Object proceed = jp.proceed();</span><br><span class="line">        System.out.println(&quot;环绕后&quot;);</span><br><span class="line">        System.out.println(proceed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第二步：在spring配置文件中，注册bean，并增加支持注解的配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--第三种方式:注解实现--&gt;</span><br><span class="line">&lt;bean id=&quot;annotationPointcut&quot; class=&quot;com.kuang.config.AnnotationPointcut&quot;/&gt;</span><br><span class="line">&lt;aop:aspectj-autoproxy/&gt;</span><br></pre></td></tr></table></figure>
+<p>op:aspectj-autoproxy：说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">通过aop命名空间的&lt;aop:aspectj-autoproxy /&gt;声明自动为spring容器中那些配置@aspectJ切面的bean创建代理，织入切面。当然，spring 在内部依旧采用AnnotationAwareAspectJAutoProxyCreator进行自动代理的创建工作，但具体实现的细节已经被&lt;aop:aspectj-autoproxy /&gt;隐藏起来了 </span><br><span class="line"></span><br><span class="line">&lt;aop:aspectj-autoproxy /&gt;有一个proxy-target-class属性，默认为false，表示使用jdk动态代理织入增强，当配为&lt;aop:aspectj-autoproxy  poxy-target-class=&quot;true&quot;/&gt;时，表示使用CGLib动态代理技术织入增强。不过即使proxy-target-class设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" rel="next" title="【Spring】：（5）：Bean的自动装配">
+                <i class="fa fa-chevron-left"></i> 【Spring】：（5）：Bean的自动装配
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -363,6 +547,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -383,8 +574,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -403,7 +603,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -465,6 +665,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、简介"><span class="nav-number">1.</span> <span class="nav-text">1、简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、AOP在Spring中的作用"><span class="nav-number">2.</span> <span class="nav-text">2、AOP在Spring中的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、使用Spring实现AOP"><span class="nav-number">3.</span> <span class="nav-text">3、使用Spring实现AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-通过Spring-API实现"><span class="nav-number">3.0.1.</span> <span class="nav-text">3.1 通过Spring API实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-自定义类来实现AOP"><span class="nav-number">3.0.2.</span> <span class="nav-text">3.2 自定义类来实现AOP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-使用注解实现"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.3 使用注解实现</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
         <div class="back-to-top">
@@ -499,7 +715,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.1k</span>
+    <span title="Site words total count">11.7k</span>
   
 </div>
 
@@ -643,6 +859,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

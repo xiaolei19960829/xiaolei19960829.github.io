@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Java学习者，大数据爱好者，在读研究僧">
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;categories&#x2F;index.html">
+<meta name="description" content="1、Bean的自动装配 自动装配是Spring满足bean依赖的一种方式！ Spring会在上下文中自动寻找，并自动给bean装配属性  在spring中有三种装配的方式：  在xml中显示的配置 在java中显示配置 隐式的自动装配【重要】  2、测试环境搭建：一个人有两个宠物。 3、自动装配12345678910&amp;lt;bean id=&amp;quot;cat&amp;quot; class=&amp;quot;x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Spring】：（5）：Bean的自动装配">
+<meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;2020&#x2F;02&#x2F;27&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
-<meta property="og:description" content="Java学习者，大数据爱好者，在读研究僧">
+<meta property="og:description" content="1、Bean的自动装配 自动装配是Spring满足bean依赖的一种方式！ Spring会在上下文中自动寻找，并自动给bean装配属性  在spring中有三种装配的方式：  在xml中显示的配置 在java中显示配置 隐式的自动装配【重要】  2、测试环境搭建：一个人有两个宠物。 3、自动装配12345678910&amp;lt;bean id=&amp;quot;cat&amp;quot; class=&amp;quot;x">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T07:14:29.374Z">
+<meta property="og:updated_time" content="2020-02-27T12:47:45.139Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaolei.com/categories/"/>
+  <link rel="canonical" href="http://xiaolei.com/2020/02/27/【Spring】：（5）：Bean的自动装配/"/>
 
 
 
 
 
-  <title>分类 | 潇雷的博客</title>
+  <title>【Spring】：（5）：Bean的自动装配 | 潇雷的博客</title>
   
 
 
@@ -282,40 +282,253 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xiaolei.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuLei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/a5dacaaba94d27daad3ec43d3728107.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">分类</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 5 个分类
+          <h1 class="post-title" itemprop="name headline">【Spring】：（5）：Bean的自动装配</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T22:56:53+08:00">
+                2020-02-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-02-27T20:47:45+08:00">
+                2020-02-27
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89%EF%BC%9ABean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" class="leancloud_visitors" data-flag-title="【Spring】：（5）：Bean的自动装配">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  715
+                </span>
+              
+
+              
+
+              
             </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java%E5%9F%BA%E7%A1%80/">java基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BF%83%E6%83%85/">心情</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
-        
-      </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h3 id="1、Bean的自动装配"><a href="#1、Bean的自动装配" class="headerlink" title="1、Bean的自动装配"></a>1、Bean的自动装配</h3><ul>
+<li>自动装配是Spring满足bean依赖的一种方式！</li>
+<li>Spring会在上下文中自动寻找，并自动给bean装配属性</li>
+</ul>
+<p>在spring中有三种装配的方式：</p>
+<ul>
+<li>在xml中显示的配置</li>
+<li>在java中显示配置</li>
+<li>隐式的自动装配【重要】</li>
+</ul>
+<h3 id="2、测试"><a href="#2、测试" class="headerlink" title="2、测试"></a>2、测试</h3><p>环境搭建：一个人有两个宠物。</p>
+<h3 id="3、自动装配"><a href="#3、自动装配" class="headerlink" title="3、自动装配"></a>3、自动装配</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;cat&quot; class=&quot;xiaolei.pojo.Cat&quot;/&gt;</span><br><span class="line">&lt;bean id=&quot;dog&quot; class=&quot;xiaolei.pojo.Dog&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--</span><br><span class="line">byname:会自动在容器上下文中查找，和自己对象set方法后面的值对应的bean id,如果相同，则自动装配</span><br><span class="line">byType:会自动在容器上下文中查找，和自己对象属性类型相同的bean</span><br><span class="line">--&gt;</span><br><span class="line">&lt;bean id=&quot;people&quot; class=&quot;xiaolei.pojo.People&quot; autowire=&quot;byName&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>【小结】：</p>
+<ul>
+<li>byname的时候，需要保证所有bean的id唯一，并且这个bean需要和自动注入的属性的set方法的值一致。</li>
+<li>bytype的时候，需要保证所有bean的class唯一，并且这个bean需要和自动注入的属性的类型一致。</li>
+</ul>
+<h3 id="4、使用注解自动装配"><a href="#4、使用注解自动装配" class="headerlink" title="4、使用注解自动装配"></a>4、使用注解自动装配</h3><p>要使用注解须知：<br>1、导入约束：content约束<br>2、配置注解的支持：==<strong><a href="context:annotation-config" target="_blank" rel="noopener">context:annotation-config</a></strong>==</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xmlns:context=&quot;http://www.springframework.org/schema/context&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- bean definitions here --&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;com.cskaoyan&quot;&gt;   &lt;/context:component-scan&gt;</span><br><span class="line">    &lt;context:annotation-config/&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="Autowired"><a href="#Autowired" class="headerlink" title="@Autowired"></a>@Autowired</h5><ul>
+<li>@Autowired 是按类型自动装配的，不支持id匹配。</li>
+<li>需要导入Spring-aop的包<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//如果允许对象为null，设置required = false,默认为true</span><br><span class="line">@Autowired(required = false)</span><br><span class="line">private Cat cat;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="Qualifier"><a href="#Qualifier" class="headerlink" title="@Qualifier"></a>@Qualifier</h5><ul>
+<li>@Autowired是根据类型自动装配的，加上@Qualifier则可以根据byName的方式自动装配</li>
+<li>@Qualifier不能单独使用</li>
+</ul>
+<p>测试：</p>
+<ul>
+<li>1.配置文件修改内容，保证类型存在对象，且名字不为类的默认名字！</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;dog1&quot; class=&quot;com.kuang.pojo.Dog&quot;/&gt;</span><br><span class="line">&lt;bean id=&quot;dog2&quot; class=&quot;com.kuang.pojo.Dog&quot;/&gt;</span><br><span class="line">&lt;bean id=&quot;cat1&quot; class=&quot;com.kuang.pojo.Cat&quot;/&gt;</span><br><span class="line">&lt;bean id=&quot;cat2&quot; class=&quot;com.kuang.pojo.Cat&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.没有加Qualifier测试，直接报错。</li>
+<li>3.在属性上添加Qualifier注解</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(value = &quot;cat2&quot;)</span><br><span class="line">private Cat cat;</span><br><span class="line">@Autowired</span><br><span class="line">@Qualifier(value = &quot;dog2&quot;)</span><br><span class="line">private Dog dog;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、成功输出</li>
+</ul>
+<h5 id="Resource"><a href="#Resource" class="headerlink" title="@Resource"></a>@Resource</h5><ul>
+<li>@Resource如有指定的name属性，先按该属性进行byName方式查找装配；</li>
+<li>其次再进行默认的byName方式进行装配；</li>
+<li>如果以上都不成功，则按byType的方式自动装配。</li>
+<li>都不成功，则报异常。</li>
+</ul>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="next" title="【Spring】：（4）Spring Bean 的生命周期">
+                <i class="fa fa-chevron-left"></i> 【Spring】：（4）Spring Bean 的生命周期
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" rel="prev" title="【Spring】：（6）AOP">
+                【Spring】：（6）AOP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -351,8 +564,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -432,6 +654,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Bean的自动装配"><span class="nav-number">1.</span> <span class="nav-text">1、Bean的自动装配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、测试"><span class="nav-number">2.</span> <span class="nav-text">2、测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、自动装配"><span class="nav-number">3.</span> <span class="nav-text">3、自动装配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、使用注解自动装配"><span class="nav-number">4.</span> <span class="nav-text">4、使用注解自动装配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Autowired"><span class="nav-number">4.0.1.</span> <span class="nav-text">@Autowired</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Qualifier"><span class="nav-number">4.0.2.</span> <span class="nav-text">@Qualifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Resource"><span class="nav-number">4.0.3.</span> <span class="nav-text">@Resource</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
