@@ -1,6 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>【mybaits】：(3) 动态sql</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E5%8A%A8%E6%80%81sql/</url>
+    <content><![CDATA[<h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>传统的使用JDBC的方法，相信大家在组合复杂的的SQL语句的时候，需要去拼接，稍不注意哪怕少了个空格，都会导致错误。Mybatis的动态SQL功能正是为了解决这种问题， 其通过 if, choose, when, otherwise, trim, where, set, foreach标签，可组合成非常灵活的SQL语句，从而提高开发人员的效率。</p>
+<h3 id="2、动态标签"><a href="#2、动态标签" class="headerlink" title="2、动态标签"></a>2、动态标签</h3><h5 id="2-1-if"><a href="#2-1-if" class="headerlink" title="2.1 if"></a>2.1 if</h5><pre><code>- 例如，根据username和sex来查询数据。如果username为空，那么将只根据sex来查询；反之只根据username来查询。
+- 首先不使用动态sql来书写</code></pre><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByUsernameAndSex&quot;</span><br><span class="line">        resultType=&quot;user&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    &lt;!-- 这里和普通的sql 查询语句差不多，对于只有一个参数，后面的 #&#123;id&#125;表示占位符，里面不一定要写id,</span><br><span class="line">            写啥都可以，但是不要空着，如果有多个参数则必须写pojo类里面的属性 --&gt;</span><br><span class="line">    select * from user where username=#&#123;username&#125; and sex=#&#123;sex&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面的查询语句，我们可以发现，如果#{username}为空，那么查询结构也是空，如何解决这个问题呢？使用if来判断</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByUsernameAndSex&quot; resultType=&quot;user&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    select * from user where</span><br><span class="line">        &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">           username=#&#123;username&#125;</span><br><span class="line">        &lt;/if&gt;      </span><br><span class="line">        &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">           and sex=#&#123;sex&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这样写我们可以看到，如果 sex 等于 null，那么查询语句为 select * from user where username=#{username},但是如果usename 为空呢？那么查询语句为 select * from user where and sex=#{sex}，这是错误的 SQL 语句，如何解决呢？请看下面的 where 语句。</li>
+</ul>
+<h5 id="2-2-where"><a href="#2-2-where" class="headerlink" title="2.2 where"></a>2.2 where</h5><ul>
+<li><p>这个where标签会知道如果他包含的标签中有返回值的话，它就插入一个where。此外，如果标签返回的内容是and或or开头的，则它会剔除掉</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByUsernameAndSex&quot; resultType=&quot;user&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">    &lt;where&gt;</span><br><span class="line">        &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">           username=#&#123;username&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">         </span><br><span class="line">        &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">           and sex=#&#123;sex&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">    &lt;/where&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-if-set"><a href="#2-3-if-set" class="headerlink" title="2.3 if+set"></a>2.3 if+set</h5></li>
+<li><p>同理，上面的对于查询SQL语句包含where关键字，如果在进行更新操作的时候，含有set关键字，我们怎么处理呢？</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 根据 id 更新 user 表的数据 --&gt;</span><br><span class="line">&lt;update id=&quot;updateUserById&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    update user u</span><br><span class="line">        &lt;set&gt;</span><br><span class="line">            &lt;if test=&quot;username != null and username != &apos;&apos;&quot;&gt;</span><br><span class="line">                u.username = #&#123;username&#125;,</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;sex != null and sex != &apos;&apos;&quot;&gt;</span><br><span class="line">                u.sex = #&#123;sex&#125;</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">        &lt;/set&gt;</span><br><span class="line">     </span><br><span class="line">     where id=#&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<p>这样写，</p>
+<ul>
+<li>如果第一个条件 username 为空，那么 sql 语句为：update user u set u.sex=? where id=?</li>
+<li>如果第一个条件不为空，那么 sql 语句为：update user u set u.username = ? ,u.sex = ? where id=?</li>
+</ul>
+<h5 id="2-4-choose（when，otherwise）语句"><a href="#2-4-choose（when，otherwise）语句" class="headerlink" title="2.4 choose（when，otherwise）语句"></a>2.4 choose（when，otherwise）语句</h5><ul>
+<li>有时候，我们不想用到所有的查询条件，只想选择其中的一个，查询条件有一个满足即可，使用choose标签可以解决此类问题，类似Java的switch语句。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByChoose&quot; resultType=&quot;com.ys.po.User&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">      select * from user</span><br><span class="line">      &lt;where&gt;</span><br><span class="line">          &lt;choose&gt;</span><br><span class="line">              &lt;when test=&quot;id !=&apos;&apos; and id != null&quot;&gt;</span><br><span class="line">                  id=#&#123;id&#125;</span><br><span class="line">              &lt;/when&gt;</span><br><span class="line">              &lt;when test=&quot;username !=&apos;&apos; and username != null&quot;&gt;</span><br><span class="line">                  and username=#&#123;username&#125;</span><br><span class="line">              &lt;/when&gt;</span><br><span class="line">              &lt;otherwise&gt;</span><br><span class="line">                  and sex=#&#123;sex&#125;</span><br><span class="line">              &lt;/otherwise&gt;</span><br><span class="line">          &lt;/choose&gt;</span><br><span class="line">      &lt;/where&gt;</span><br><span class="line">  &lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>也就是说，这里我们有三个条件，id，username，sex，只能选择一个作为查询条件</li>
+<li>如果id不为空，那么查询语句为：select * from user where  id=?</li>
+<li>如果 id 为空，那么看username 是否为空，如果不为空，那么语句为 select * from user where  username=?;</li>
+<li>如果 username 为空，那么查询语句为 select * from user where sex=?</li>
+</ul>
+<h5 id="2-5trim语句"><a href="#2-5trim语句" class="headerlink" title="2.5trim语句"></a>2.5trim语句</h5><ul>
+<li>trim标记是一个格式化的标记，可以完成set或者是where标记的功能。</li>
+<li>1、用trim改写上面第二点的if+where语句</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByUsernameAndSex&quot; resultType=&quot;user&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">        select * from user</span><br><span class="line">        &lt;!-- &lt;where&gt;</span><br><span class="line">            &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">               username=#&#123;username&#125;</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">             </span><br><span class="line">            &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">               and sex=#&#123;sex&#125;</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">        &lt;/where&gt;  --&gt;</span><br><span class="line">        &lt;trim prefix=&quot;where&quot; prefixOverrides=&quot;and | or&quot;&gt;</span><br><span class="line">            &lt;if test=&quot;username != null&quot;&gt;</span><br><span class="line">               and username=#&#123;username&#125;</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">            &lt;if test=&quot;sex != null&quot;&gt;</span><br><span class="line">               and sex=#&#123;sex&#125;</span><br><span class="line">            &lt;/if&gt;</span><br><span class="line">        &lt;/trim&gt;</span><br><span class="line">    &lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>prefix：前缀<br>prefixOverride：去掉第一个and或者是or</p>
+<ul>
+<li>2、用trim改写上面第三点的if+set语句</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 根据 id 更新 user 表的数据 --&gt;</span><br><span class="line">    &lt;update id=&quot;updateUserById&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">        update user u</span><br><span class="line">            &lt;!-- &lt;set&gt;</span><br><span class="line">                &lt;if test=&quot;username != null and username != &apos;&apos;&quot;&gt;</span><br><span class="line">                    u.username = #&#123;username&#125;,</span><br><span class="line">                &lt;/if&gt;</span><br><span class="line">                &lt;if test=&quot;sex != null and sex != &apos;&apos;&quot;&gt;</span><br><span class="line">                    u.sex = #&#123;sex&#125;</span><br><span class="line">                &lt;/if&gt;</span><br><span class="line">            &lt;/set&gt; --&gt;</span><br><span class="line">            &lt;trim prefix=&quot;set&quot; suffixOverrides=&quot;,&quot;&gt;</span><br><span class="line">                &lt;if test=&quot;username != null and username != &apos;&apos;&quot;&gt;</span><br><span class="line">                    u.username = #&#123;username&#125;,</span><br><span class="line">                &lt;/if&gt;</span><br><span class="line">                &lt;if test=&quot;sex != null and sex != &apos;&apos;&quot;&gt;</span><br><span class="line">                    u.sex = #&#123;sex&#125;,</span><br><span class="line">                &lt;/if&gt;</span><br><span class="line">            &lt;/trim&gt;</span><br><span class="line">         </span><br><span class="line">         where id=#&#123;id&#125;</span><br><span class="line">    &lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>suffix：后缀　　</li>
+<li>suffixoverride：去掉最后一个逗号（也可以是其他的标记，就像是上面前缀中的and一样）</li>
+</ul>
+<h5 id="2-6-sql片段"><a href="#2-6-sql片段" class="headerlink" title="2.6 sql片段"></a>2.6 sql片段</h5><ul>
+<li>有时候可能某个 sql 语句我们用的特别多，为了增加代码的重用性，简化代码，我们需要将这些代码抽取出来，然后使用时直接调用。</li>
+<li>有时候可能某个 sql 语句我们用的特别多，为了增加代码的重用性，简化代码，我们需要将这些代码抽取出来，然后使用时直接调用。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 定义 sql 片段 --&gt;</span><br><span class="line">&lt;sql id=&quot;selectUserByUserNameAndSexSQL&quot;&gt;</span><br><span class="line">    &lt;if test=&quot;username != null and username != &apos;&apos;&quot;&gt;</span><br><span class="line">        AND username = #&#123;username&#125;</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;sex != null and sex != &apos;&apos;&quot;&gt;</span><br><span class="line">        AND sex = #&#123;sex&#125;</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">&lt;/sql&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>引用sql片段</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByUsernameAndSex&quot; resultType=&quot;user&quot; parameterType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">    &lt;trim prefix=&quot;where&quot; prefixOverrides=&quot;and | or&quot;&gt;</span><br><span class="line">        &lt;!-- 引用 sql 片段，如果refid 指定的不在本文件中，那么需要在前面加上 namespace --&gt;</span><br><span class="line">        &lt;include refid=&quot;selectUserByUserNameAndSexSQL&quot;&gt;&lt;/include&gt;</span><br><span class="line">        &lt;!-- 在这里还可以引用其他的 sql 片段 --&gt;</span><br><span class="line">    &lt;/trim&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>【注意】：最好基于单表定义sql片段，提高片段的可重用性；在sql片段中最好不要包括where</li>
+</ul>
+<h5 id="2-7foreach语句"><a href="#2-7foreach语句" class="headerlink" title="2.7foreach语句"></a>2.7foreach语句</h5><ul>
+<li>需求：我们需要查询user表id分为1,2,3的用户</li>
+<li>sql语句：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select * from user where id=1 or id=2 or id=3</span><br><span class="line">　　　　　　 select * from user where id in (1,2,3)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>建立一个UserVo类，里面封装一个List<integer>ids的属性</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package com.ys.vo;</span><br><span class="line"> </span><br><span class="line">import java.util.List;</span><br><span class="line"> </span><br><span class="line">public class UserVo &#123;</span><br><span class="line">    //封装多个用户的id</span><br><span class="line">    private List&lt;Integer&gt; ids;</span><br><span class="line"> </span><br><span class="line">    public List&lt;Integer&gt; getIds() &#123;</span><br><span class="line">        return ids;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public void setIds(List&lt;Integer&gt; ids) &#123;</span><br><span class="line">        this.ids = ids;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>我们用 foreach 来改写 select * from user where id=1 or id=2 or id=3</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select id=&quot;selectUserByListId&quot; parameterType=&quot;com.ys.vo.UserVo&quot; resultType=&quot;com.ys.po.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">    &lt;where&gt;</span><br><span class="line">        &lt;!--</span><br><span class="line">            collection:指定输入对象中的集合属性</span><br><span class="line">            item:每次遍历生成的对象</span><br><span class="line">            open:开始遍历时的拼接字符串</span><br><span class="line">            close:结束时拼接的字符串</span><br><span class="line">            separator:遍历对象之间需要拼接的字符串</span><br><span class="line">            select * from user where 1=1 and (id=1 or id=2 or id=3)</span><br><span class="line">          --&gt;</span><br><span class="line">        &lt;foreach collection=&quot;ids&quot; item=&quot;id&quot; open=&quot;and (&quot; close=&quot;)&quot; separator=&quot;or&quot;&gt;</span><br><span class="line">            id=#&#123;id&#125;</span><br><span class="line">        &lt;/foreach&gt;</span><br><span class="line">    &lt;/where&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p>==【注意】：在mapper文件中写sql语句时，遇到特殊字符时，如：&lt; 等，建议使用<![CDATA[ sql 语句 ]]>标记，将sql语句包裹住，不被解析器解析==</p>
+<h3 id="3、项目sql实例"><a href="#3、项目sql实例" class="headerlink" title="3、项目sql实例"></a>3、项目sql实例</h3><ul>
+<li>统计个数：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;countSkillInfoTYB&quot; resultType=&quot;java.lang.Integer&quot;&gt;</span><br><span class="line">    select count(tb.id)</span><br><span class="line">    from ss_user_skill_info_tyb tb</span><br><span class="line">    &lt;trim prefix=&quot;WHERE&quot; prefixOverrides=&quot;AND|OR &quot;&gt;</span><br><span class="line">        &lt;if test=&quot;state !=null&quot;&gt;</span><br><span class="line">            and tb.state=#&#123;state&#125;</span><br><span class="line">        &lt;/if&gt;</span><br><span class="line">    &lt;/trim&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">insert into ss_skill_tag</span><br><span class="line">&lt;trim prefix=&quot;(&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot; &gt;</span><br><span class="line"></span><br><span class="line">    &lt;if test=&quot;tagName != null&quot; &gt;</span><br><span class="line">        tag_name,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;url != null&quot; &gt;</span><br><span class="line">        url,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;sortNum != null&quot; &gt;</span><br><span class="line">        sort_num,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;status != null&quot; &gt;</span><br><span class="line">        status,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    add_date</span><br><span class="line">&lt;/trim&gt;</span><br><span class="line">&lt;trim prefix=&quot;values (&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot; &gt;</span><br><span class="line"></span><br><span class="line">    &lt;if test=&quot;content != null&quot; &gt;</span><br><span class="line">        #&#123;content&#125;,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;url != null&quot; &gt;</span><br><span class="line">        #&#123;url&#125;,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;sortNum != null&quot; &gt;</span><br><span class="line">        #&#123;sortNum&#125;,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    &lt;if test=&quot;status != null&quot; &gt;</span><br><span class="line">        #&#123;status&#125;,</span><br><span class="line">    &lt;/if&gt;</span><br><span class="line">    now()</span><br><span class="line">&lt;/trim&gt;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【mybaits】：(2) 配置解析</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h3 id="1、核心配置文件"><a href="#1、核心配置文件" class="headerlink" title="1、核心配置文件"></a>1、核心配置文件</h3><ul>
+<li>能配置的内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">configuration（配置）</span><br><span class="line">    properties（属性）</span><br><span class="line">    settings（设置）</span><br><span class="line">    typeAliases（类型别名）</span><br><span class="line">    typeHandlers（类型处理器）</span><br><span class="line">    objectFactory（对象工厂）</span><br><span class="line">    plugins（插件）</span><br><span class="line">    environments（环境配置）</span><br><span class="line">        environment（环境变量）</span><br><span class="line">            transactionManager（事务管理器）</span><br><span class="line">            dataSource（数据源）</span><br><span class="line">    databaseIdProvider（数据库厂商标识）</span><br><span class="line">    mappers（映射器）</span><br><span class="line">&lt;!-- 注意元素节点的顺序！顺序不对会报错 --&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2、environments元素"><a href="#2、environments元素" class="headerlink" title="2、environments元素"></a>2、environments元素</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">  &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">    &lt;transactionManager type=&quot;JDBC&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;...&quot; value=&quot;...&quot;/&gt;</span><br><span class="line">    &lt;/transactionManager&gt;</span><br><span class="line">    &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">    &lt;/dataSource&gt;</span><br><span class="line">  &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置MyBatis的多套运行环境，将Sql映射到多个不同的数据库上，必须指定其中一个位默认运行环境（通过default指定）</li>
+<li>子元素节点：environment<ul>
+<li>具体的一套环境，通过设置id进行区别，id保证唯一。</li>
+</ul>
+</li>
+<li>子元素节点：transactionManager【事务管理器】</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 语法 --&gt;</span><br><span class="line">&lt;transactionManager type=&quot;[ JDBC | MANAGED ]&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>子元素节点：数据源（datasource）<ul>
+<li>dataSource元素使用标准的JDBC数据源接口来配置JDBC连接对象的资源。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3、mapper元素"><a href="#3、mapper元素" class="headerlink" title="3、mapper元素"></a>3、mapper元素</h3><ul>
+<li><p>映射器：定义映射SQL语句文件</p>
+</li>
+<li><p>告诉mybatis去哪找这些语句,该标签可以指定xxxMapper.xml的文件路径，也就是集中管理sql语句的文件。</p>
+</li>
+<li><p>引入资源方式：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用相对于类路径的资源引用 --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper resource=&quot;org/mybatis/builder/PostMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用完全限定资源定位符（URL） --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper url=&quot;file:///var/mappers/AuthorMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">使用映射器接口实现类的完全限定类名</span><br><span class="line">需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper class=&quot;org.mybatis.builder.AuthorMapper&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">将包内的映射器接口实现全部注册为映射器</span><br><span class="line">但是需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;package name=&quot;org.mybatis.builder&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>namespace+id可以限定唯一的标签</li>
+<li>namespace要写成映射包中对应接口的全类名。</li>
+<li>id就是方法名，同一个映射文件中的id不能重复</li>
+<li>resultType是返回值要封装的类型，javaBean和普通类型都可以选择写全类名、或者简写。</li>
+<li>接口中的方法名要和我们的namespace下的id对应起来。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--namespace要写成接口的全类名--&gt;</span><br><span class="line">&lt;mapper namespace=&quot;cskaoyan.mapper.UserMapper&quot;&gt;</span><br><span class="line">    &lt;select id=&quot;queryUserByName&quot; resultType=&quot;cskaoyan.User&quot;&gt;</span><br><span class="line">        select id,username,password,age,email from user where username = #&#123;as&#125;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4、Properties（属性配置项）优化"><a href="#4、Properties（属性配置项）优化" class="headerlink" title="4、Properties（属性配置项）优化"></a>4、Properties（属性配置项）优化</h3><ul>
+<li>在外面单独通过<properties>为数据源配置信息，可以降低datasource的配置项的耦合度，方便修改。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">username=root</span><br><span class="line">password=123456</span><br><span class="line">url=jdbc:mysql://localhost:3306/mybatis</span><br><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">=================================================================</span><br><span class="line">&lt;properties resource=&quot;db.properties&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;jdbcurl&quot; value=&quot;jdbc:mysql://localhost:3306/mydb2?serverTimezone=GMT&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br><span class="line">================================================================</span><br><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">    &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">        &lt;!--这里暂时指定通过JDBC实现事务，这就需要我们手动提交、关闭 --&gt;</span><br><span class="line">        &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">        &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">            &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">        &lt;/dataSource&gt;</span><br><span class="line">    &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="5、typeAliases优化"><a href="#5、typeAliases优化" class="headerlink" title="5、typeAliases优化"></a>5、typeAliases优化</h3><ul>
+<li>类型别名是为Java类型设置一个短的名字，不太好用。</li>
+<li>方法一：直接指定全类名的别名。type写javabean的全类名；alias写别名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;typeAlias type=&quot;cskaoyan.User&quot; alias=&quot;xl&quot;&gt;&lt;/typeAlias&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">=====================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方法二：指定某个包，这个包内的全类名，默认简写就是类名的首字母小写【批量配置别名】</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;package name=&quot;cskaoyan&quot;&gt;&lt;/package&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">====================================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;user&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>方法三：基本类型的默认别名</p>
+<ul>
+<li>八大基本类型在类型前加上下划线_</li>
+<li>包装基本类型就是首字母小写</li>
+</ul>
+</li>
+<li><p>方法四：注解的方式设置类简称：@Alias</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Alias(&quot;xl&quot;)</span><br><span class="line">public class people&#123;</span><br><span class="line">    String id;</span><br><span class="line">    String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectPeople&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">    select * from ddd;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、setting设置"><a href="#6、setting设置" class="headerlink" title="6、setting设置"></a>6、setting设置</h3><ul>
+<li>重点：<ul>
+<li>懒加载</li>
+<li>日志实现</li>
+<li>缓存开启关闭</li>
+</ul>
+</li>
+<li>完整的settings元素的实例如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;multipleResultSetsEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useColumnLabel&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useGeneratedKeys&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingBehavior&quot; value=&quot;PARTIAL&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingUnknownColumnBehavior&quot; value=&quot;WARNING&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultExecutorType&quot; value=&quot;SIMPLE&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultStatementTimeout&quot; value=&quot;25&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultFetchSize&quot; value=&quot;100&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;safeRowBoundsEnabled&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;mapUnderscoreToCamelCase&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;localCacheScope&quot; value=&quot;SESSION&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;jdbcTypeForNull&quot; value=&quot;OTHER&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode,toString&quot;/&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="7、生命周期和作用域"><a href="#7、生命周期和作用域" class="headerlink" title="7、生命周期和作用域"></a>7、生命周期和作用域</h3><ul>
+<li><p>生命周期、作用域是至关重要的，因为错误的使用会导致非常严重的并发问题。</p>
+</li>
+<li><p>SqlSessionFactoryBuilder：</p>
+<ul>
+<li>一旦创建了sqlSessionFactory，就不再需要它了</li>
+<li>局部变量</li>
+</ul>
+</li>
+<li><p>SqlSessionFactory：</p>
+<ul>
+<li>说白了就是可以想象为：数据库连接池。</li>
+<li>一旦创建就应该在应用的运行期间一直存在，没有任何理由对其它或重新创建另一个实例。</li>
+<li>因此sqlSessionFactory的最佳作用域是应用作用域，程序开始就开始，程序结束就结束。</li>
+<li>最简单的就是使用单例模式或者静态单例模式</li>
+</ul>
+</li>
+<li><p>sqlsession：</p>
+<ul>
+<li>sqlsession的实例不是线程安全的，因此不能被共享，所以它的最佳作用域是请求或方法作用域。</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2347803678.png" alt="image"></p>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【mybaits】：(1) Mybatis简介</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89Mybatis%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<h3 id="1、Mybatis介绍"><a href="#1、Mybatis介绍" class="headerlink" title="1、Mybatis介绍"></a>1、Mybatis介绍</h3><ul>
+<li><p>Object relationship mapping 对象关系映射</p>
+</li>
+<li><p>映射关系：将数据中和java对象联系起来。</p>
+</li>
+<li><p>对比jdbc：</p>
+<ul>
+<li>定制化sql：更能适应业务复杂度（灵活的修改sql）</li>
+<li>进行动态sql ：（sql语句的部分可以根据不同的条件出现）</li>
+<li>分离sql集中管理：可以把SQL语句放在配置文件中，进行集中管理。这个配置文件叫做Mapping映射文件，多个映射文件分别管理不同的模块</li>
+<li>mybatis对参数和结果的封装处理更完善，使用更方便 直接封装成对应的类型</li>
+<li>输出映射：把数据库查询出来的数据记录，封装成结果集：可以是基本类型、数组、集合或JavaBean······</li>
+<li>输入映射：把参数的值交给SQL语句，去数据库中查询对应的记录。</li>
+</ul>
+</li>
+<li><p>实际上就是把：sql语句暴露给开发者，自己去写，其他的封装起来。去修改非常方便（增删改查都是我们自己来写）</p>
+</li>
+<li><p>Mybatis是一款持久层框架，它支持定制化sql（灵活的修改）、存储过程（函数）、以及高级映射（javabean和数据库对象的映射–&gt;输入映射和输出映射）。Mybatis避免了几乎所有的jdbc代码和手动设置参数以及获取结果集。</p>
+</li>
+<li><p>Mybatis可以使用简单的XML或注解来配置和映射原生信息。</p>
+</li>
+<li><p>将接口和java的POJOs映射成数据库中的记录</p>
+</li>
+</ul>
+<h3 id="2、第一个程序"><a href="#2、第一个程序" class="headerlink" title="2、第一个程序"></a>2、第一个程序</h3><ul>
+<li>1、搭建数据库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE `mybatis`;</span><br><span class="line"></span><br><span class="line">USE `mybatis`;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `user`;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(20) NOT NULL,</span><br><span class="line">  `name` varchar(30) DEFAULT NULL,</span><br><span class="line">  `pwd` varchar(30) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">insert  into `user`(`id`,`name`,`pwd`) values (1,&apos;狂神&apos;,&apos;123456&apos;),(2,&apos;张三&apos;,&apos;abcdef&apos;),(3,&apos;李四&apos;,&apos;987654&apos;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、导入Mybatis相关的jar包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.47&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、编写mybatis核心配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/kuang/dao/userMapper.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、编写mybatis工具类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.apache.ibatis.io.Resources;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">public class MybatisUtils &#123;</span><br><span class="line"></span><br><span class="line">    private static SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String resource = &quot;mybatis-config.xml&quot;;</span><br><span class="line">            InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取SqlSession连接</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return sqlSessionFactory.openSession();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>这是一个建造者的生产模式：</p>
+<ul>
+<li>1、首先通过Resource.getResourceAsStream（）获取输入流，参数为mybatis配置文件</li>
+<li>2、然后new一个SqlSessionFactoryBuilder，创建一个 工厂的建造者</li>
+<li>3、工厂建造者对象调用build（）方法获取一个Sqlsession工厂对象，参数是之前得到的输入流</li>
+<li>4、工厂对象调用openSession()方法，获取一个sqlSesson对象。</li>
+<li>5、sqlSesson对象可以调用各种sql语句，其中本例中查询一个记录就是selectOne（）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>5、创建实体类：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    </span><br><span class="line">    private int id;  //id</span><br><span class="line">    private String name;   //姓名</span><br><span class="line">    private String pwd;   //密码</span><br><span class="line">    </span><br><span class="line">    //构造,有参,无参</span><br><span class="line">    //set/get</span><br><span class="line">    //toString()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>6、编写Mapper接口类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import com.kuang.pojo.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserMapper &#123;</span><br><span class="line">    List&lt;User&gt; selectUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>7、编写Mapper.xml配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.kuang.dao.UserMapper&quot;&gt;</span><br><span class="line">  &lt;select id=&quot;selectUser&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8、编写测试类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void selectUser() &#123;</span><br><span class="line">        SqlSession session = MybatisUtils.getSession();</span><br><span class="line">        //方法一:</span><br><span class="line">        //List&lt;User&gt; users = session.selectList(&quot;com.kuang.mapper.UserMapper.selectUser&quot;);</span><br><span class="line">        //方法二:</span><br><span class="line">        UserMapper mapper = session.getMapper(UserMapper.class);</span><br><span class="line">        List&lt;User&gt; users = mapper.selectUser();</span><br><span class="line"></span><br><span class="line">        for (User user: users)&#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、CRUD"><a href="#3、CRUD" class="headerlink" title="3、CRUD"></a>3、CRUD</h3><ul>
+<li><p>namespace：名称为对应Mapper接口或者Dao接口的完整包名。</p>
+</li>
+<li><p>select：</p>
+<ul>
+<li>接口中的方法名与映射文件中的sql语句id一一对应</li>
+<li>parameterType：传入SQL语句的参数类型。【万能的Map，参数多的时候多使用】</li>
+<li>resultType：Sql语句返回值类型【完整的类名】</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByNP2&quot; parameterType=&quot;map&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">select * from user where name = #&#123;username&#125; and pwd = #&#123;pwd&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>insert：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">     insert into user (id,name,pwd) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>update：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;update id=&quot;updateUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>delete：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteUser&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    delete from user where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>所有的增删改操作都需要提交事务</li>
+<li>接口的所有普通参数，尽量都写上@Param参数，尤其是多个参数时，必须写上</li>
+<li>有时候根据业务的需求，可以考虑map传递参数</li>
+<li>为了规范操作，在sql配置文件中，我们尽量将Parameter参数和resultType都写上</li>
+</ol>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【设计模式】：代理模式</title>
     <url>/2020/02/27/%E3%80%90%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E3%80%91%EF%BC%9A%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><ul>
@@ -412,10 +733,7 @@
   <entry>
     <title>【spring】：（1）概述、ioc理论</title>
     <url>/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/</url>
-    <content><![CDATA[<img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/%E7%BE%8E%E5%9B%BE/1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg"/>
-
-
-<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><ul>
+    <content><![CDATA[<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><ul>
 <li>Spring：春天-&gt;给软件行业带来了春天</li>
 <li>2002年，首先推出Spring框架的雏形：interface21</li>
 <li>2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本</li>
@@ -483,8 +801,7 @@
 <li>为什么要依赖：应用程序需要ioc容器来提供对象需要的外部资源。</li>
 <li>谁注入谁：IOC容器注入应用程序某个对象，应用程序依赖的对象。</li>
 <li>注入了什么：注入了某个对象所需要的外部资源（包括对象、资源、常量数据）</li>
-</ul>
-]]></content>
+</ul>]]></content>
       <categories>
         <category>spring</category>
       </categories>
