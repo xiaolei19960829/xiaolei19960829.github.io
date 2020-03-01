@@ -79,18 +79,14 @@
 
 
 
-<meta name="description" content="1、Bean的自动装配 自动装配是Spring满足bean依赖的一种方式！ Spring会在上下文中自动寻找，并自动给bean装配属性  在spring中有三种装配的方式：  在xml中显示的配置 在java中显示配置 隐式的自动装配【重要】  2、测试环境搭建：一个人有两个宠物。 3、自动装配12345678910&amp;lt;bean id=&amp;quot;cat&amp;quot; class=&amp;quo">
 <meta name="keywords" content="spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【spring】：（5）Bean的自动装配">
 <meta property="og:url" content="http:&#x2F;&#x2F;xiaolei.com&#x2F;2020&#x2F;02&#x2F;27&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
-<meta property="og:description" content="1、Bean的自动装配 自动装配是Spring满足bean依赖的一种方式！ Spring会在上下文中自动寻找，并自动给bean装配属性  在spring中有三种装配的方式：  在xml中显示的配置 在java中显示配置 隐式的自动装配【重要】  2、测试环境搭建：一个人有两个宠物。 3、自动装配12345678910&amp;lt;bean id=&amp;quot;cat&amp;quot; class=&amp;quo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;%E7%BE%8E%E5%9B%BE&#x2F;1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg">
-<meta property="og:updated_time" content="2020-02-27T15:51:20.396Z">
+<meta property="og:updated_time" content="2020-03-01T15:10:18.795Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;%E7%BE%8E%E5%9B%BE&#x2F;1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg">
 
 
 
@@ -342,8 +338,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-02-27T23:51:20+08:00">
-                2020-02-27
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-01T23:10:18+08:00">
+                2020-03-01
               </time>
             
           </span>
@@ -439,10 +435,7 @@
       
 
       
-        <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/%E7%BE%8E%E5%9B%BE/1bffb1a3f9f12ff2a0b3a0c2f83d9eeb_5be671fc13d35.jpg"/>
-
-
-<h3 id="1、Bean的自动装配"><a href="#1、Bean的自动装配" class="headerlink" title="1、Bean的自动装配"></a>1、Bean的自动装配</h3><ul>
+        <h3 id="1、Bean的自动装配"><a href="#1、Bean的自动装配" class="headerlink" title="1、Bean的自动装配"></a>1、Bean的自动装配</h3><ul>
 <li>自动装配是Spring满足bean依赖的一种方式！</li>
 <li>Spring会在上下文中自动寻找，并自动给bean装配属性</li>
 </ul>
@@ -491,7 +484,6 @@
 <li>如果以上都不成功，则按byType的方式自动装配。</li>
 <li>都不成功，则报异常。</li>
 </ul>
-
       
     </div>
     
@@ -627,7 +619,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -739,7 +731,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">20.8k</span>
+    <span title="Site words total count">23.3k</span>
   
 </div>
 
@@ -957,7 +949,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "post.xml";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
