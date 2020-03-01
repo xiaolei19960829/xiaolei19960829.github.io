@@ -3,7 +3,7 @@ var titleTime;
 document.addEventListener('visibilitychange', function () {
     if (document.hidden) {
         $('[rel="shortcut icon"]').attr('href', "/TEP.png");
-        document.title = 'w(?��?)w ��BUG����������';
+        document.title = '??????';
         clearTimeout(titleTime);
     }
     else {
