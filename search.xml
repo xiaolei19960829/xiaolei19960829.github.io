@@ -277,6 +277,117 @@
       </tags>
   </entry>
   <entry>
+    <title>【mybaits】：(1) Mybatis简介</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89Mybatis%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<h3 id="1、Mybatis介绍"><a href="#1、Mybatis介绍" class="headerlink" title="1、Mybatis介绍"></a>1、Mybatis介绍</h3><ul>
+<li><p>Object relationship mapping 对象关系映射</p>
+</li>
+<li><p>映射关系：将数据中和java对象联系起来。</p>
+</li>
+<li><p>对比jdbc：</p>
+<ul>
+<li>定制化sql：更能适应业务复杂度（灵活的修改sql）</li>
+<li>进行动态sql ：（sql语句的部分可以根据不同的条件出现）</li>
+<li>分离sql集中管理：可以把SQL语句放在配置文件中，进行集中管理。这个配置文件叫做Mapping映射文件，多个映射文件分别管理不同的模块</li>
+<li>mybatis对参数和结果的封装处理更完善，使用更方便 直接封装成对应的类型</li>
+<li>输出映射：把数据库查询出来的数据记录，封装成结果集：可以是基本类型、数组、集合或JavaBean······</li>
+<li>输入映射：把参数的值交给SQL语句，去数据库中查询对应的记录。</li>
+</ul>
+</li>
+<li><p>实际上就是把：sql语句暴露给开发者，自己去写，其他的封装起来。去修改非常方便（增删改查都是我们自己来写）</p>
+</li>
+<li><p>Mybatis是一款持久层框架，它支持定制化sql（灵活的修改）、存储过程（函数）、以及高级映射（javabean和数据库对象的映射–&gt;输入映射和输出映射）。Mybatis避免了几乎所有的jdbc代码和手动设置参数以及获取结果集。</p>
+</li>
+<li><p>Mybatis可以使用简单的XML或注解来配置和映射原生信息。</p>
+</li>
+<li><p>将接口和java的POJOs映射成数据库中的记录</p>
+</li>
+</ul>
+<h3 id="2、第一个程序"><a href="#2、第一个程序" class="headerlink" title="2、第一个程序"></a>2、第一个程序</h3><ul>
+<li>1、搭建数据库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE `mybatis`;</span><br><span class="line"></span><br><span class="line">USE `mybatis`;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `user`;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(20) NOT NULL,</span><br><span class="line">  `name` varchar(30) DEFAULT NULL,</span><br><span class="line">  `pwd` varchar(30) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">insert  into `user`(`id`,`name`,`pwd`) values (1,&apos;狂神&apos;,&apos;123456&apos;),(2,&apos;张三&apos;,&apos;abcdef&apos;),(3,&apos;李四&apos;,&apos;987654&apos;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、导入Mybatis相关的jar包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.47&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、编写mybatis核心配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/kuang/dao/userMapper.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、编写mybatis工具类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.apache.ibatis.io.Resources;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">public class MybatisUtils &#123;</span><br><span class="line"></span><br><span class="line">    private static SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String resource = &quot;mybatis-config.xml&quot;;</span><br><span class="line">            InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取SqlSession连接</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return sqlSessionFactory.openSession();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>这是一个建造者的生产模式：</p>
+<ul>
+<li>1、首先通过Resource.getResourceAsStream（）获取输入流，参数为mybatis配置文件</li>
+<li>2、然后new一个SqlSessionFactoryBuilder，创建一个 工厂的建造者</li>
+<li>3、工厂建造者对象调用build（）方法获取一个Sqlsession工厂对象，参数是之前得到的输入流</li>
+<li>4、工厂对象调用openSession()方法，获取一个sqlSesson对象。</li>
+<li>5、sqlSesson对象可以调用各种sql语句，其中本例中查询一个记录就是selectOne（）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>5、创建实体类：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    </span><br><span class="line">    private int id;  //id</span><br><span class="line">    private String name;   //姓名</span><br><span class="line">    private String pwd;   //密码</span><br><span class="line">    </span><br><span class="line">    //构造,有参,无参</span><br><span class="line">    //set/get</span><br><span class="line">    //toString()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>6、编写Mapper接口类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import com.kuang.pojo.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserMapper &#123;</span><br><span class="line">    List&lt;User&gt; selectUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>7、编写Mapper.xml配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.kuang.dao.UserMapper&quot;&gt;</span><br><span class="line">  &lt;select id=&quot;selectUser&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8、编写测试类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void selectUser() &#123;</span><br><span class="line">        SqlSession session = MybatisUtils.getSession();</span><br><span class="line">        //方法一:</span><br><span class="line">        //List&lt;User&gt; users = session.selectList(&quot;com.kuang.mapper.UserMapper.selectUser&quot;);</span><br><span class="line">        //方法二:</span><br><span class="line">        UserMapper mapper = session.getMapper(UserMapper.class);</span><br><span class="line">        List&lt;User&gt; users = mapper.selectUser();</span><br><span class="line"></span><br><span class="line">        for (User user: users)&#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、CRUD"><a href="#3、CRUD" class="headerlink" title="3、CRUD"></a>3、CRUD</h3><ul>
+<li><p>namespace：名称为对应Mapper接口或者Dao接口的完整包名。</p>
+</li>
+<li><p>select：</p>
+<ul>
+<li>接口中的方法名与映射文件中的sql语句id一一对应</li>
+<li>parameterType：传入SQL语句的参数类型。【万能的Map，参数多的时候多使用】</li>
+<li>resultType：Sql语句返回值类型【完整的类名】</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByNP2&quot; parameterType=&quot;map&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">select * from user where name = #&#123;username&#125; and pwd = #&#123;pwd&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>insert：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">     insert into user (id,name,pwd) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>update：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;update id=&quot;updateUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>delete：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteUser&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    delete from user where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>所有的增删改操作都需要提交事务</li>
+<li>接口的所有普通参数，尽量都写上@Param参数，尤其是多个参数时，必须写上</li>
+<li>有时候根据业务的需求，可以考虑map传递参数</li>
+<li>为了规范操作，在sql配置文件中，我们尽量将Parameter参数和resultType都写上</li>
+</ol>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【mybaits】：(2) 配置解析</title>
     <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/</url>
     <content><![CDATA[<h3 id="1、核心配置文件"><a href="#1、核心配置文件" class="headerlink" title="1、核心配置文件"></a>1、核心配置文件</h3><ul>
@@ -388,117 +499,6 @@
 </li>
 </ul>
 <p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2347803678.png" alt="image"></p>]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【mybaits】：(1) Mybatis简介</title>
-    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89Mybatis%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<h3 id="1、Mybatis介绍"><a href="#1、Mybatis介绍" class="headerlink" title="1、Mybatis介绍"></a>1、Mybatis介绍</h3><ul>
-<li><p>Object relationship mapping 对象关系映射</p>
-</li>
-<li><p>映射关系：将数据中和java对象联系起来。</p>
-</li>
-<li><p>对比jdbc：</p>
-<ul>
-<li>定制化sql：更能适应业务复杂度（灵活的修改sql）</li>
-<li>进行动态sql ：（sql语句的部分可以根据不同的条件出现）</li>
-<li>分离sql集中管理：可以把SQL语句放在配置文件中，进行集中管理。这个配置文件叫做Mapping映射文件，多个映射文件分别管理不同的模块</li>
-<li>mybatis对参数和结果的封装处理更完善，使用更方便 直接封装成对应的类型</li>
-<li>输出映射：把数据库查询出来的数据记录，封装成结果集：可以是基本类型、数组、集合或JavaBean······</li>
-<li>输入映射：把参数的值交给SQL语句，去数据库中查询对应的记录。</li>
-</ul>
-</li>
-<li><p>实际上就是把：sql语句暴露给开发者，自己去写，其他的封装起来。去修改非常方便（增删改查都是我们自己来写）</p>
-</li>
-<li><p>Mybatis是一款持久层框架，它支持定制化sql（灵活的修改）、存储过程（函数）、以及高级映射（javabean和数据库对象的映射–&gt;输入映射和输出映射）。Mybatis避免了几乎所有的jdbc代码和手动设置参数以及获取结果集。</p>
-</li>
-<li><p>Mybatis可以使用简单的XML或注解来配置和映射原生信息。</p>
-</li>
-<li><p>将接口和java的POJOs映射成数据库中的记录</p>
-</li>
-</ul>
-<h3 id="2、第一个程序"><a href="#2、第一个程序" class="headerlink" title="2、第一个程序"></a>2、第一个程序</h3><ul>
-<li>1、搭建数据库</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE `mybatis`;</span><br><span class="line"></span><br><span class="line">USE `mybatis`;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `user`;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(20) NOT NULL,</span><br><span class="line">  `name` varchar(30) DEFAULT NULL,</span><br><span class="line">  `pwd` varchar(30) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">insert  into `user`(`id`,`name`,`pwd`) values (1,&apos;狂神&apos;,&apos;123456&apos;),(2,&apos;张三&apos;,&apos;abcdef&apos;),(3,&apos;李四&apos;,&apos;987654&apos;);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>2、导入Mybatis相关的jar包</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.47&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>3、编写mybatis核心配置文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/kuang/dao/userMapper.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>4、编写mybatis工具类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.apache.ibatis.io.Resources;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">public class MybatisUtils &#123;</span><br><span class="line"></span><br><span class="line">    private static SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String resource = &quot;mybatis-config.xml&quot;;</span><br><span class="line">            InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取SqlSession连接</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return sqlSessionFactory.openSession();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>这是一个建造者的生产模式：</p>
-<ul>
-<li>1、首先通过Resource.getResourceAsStream（）获取输入流，参数为mybatis配置文件</li>
-<li>2、然后new一个SqlSessionFactoryBuilder，创建一个 工厂的建造者</li>
-<li>3、工厂建造者对象调用build（）方法获取一个Sqlsession工厂对象，参数是之前得到的输入流</li>
-<li>4、工厂对象调用openSession()方法，获取一个sqlSesson对象。</li>
-<li>5、sqlSesson对象可以调用各种sql语句，其中本例中查询一个记录就是selectOne（）</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>5、创建实体类：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    </span><br><span class="line">    private int id;  //id</span><br><span class="line">    private String name;   //姓名</span><br><span class="line">    private String pwd;   //密码</span><br><span class="line">    </span><br><span class="line">    //构造,有参,无参</span><br><span class="line">    //set/get</span><br><span class="line">    //toString()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>6、编写Mapper接口类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import com.kuang.pojo.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserMapper &#123;</span><br><span class="line">    List&lt;User&gt; selectUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>7、编写Mapper.xml配置文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.kuang.dao.UserMapper&quot;&gt;</span><br><span class="line">  &lt;select id=&quot;selectUser&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>8、编写测试类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void selectUser() &#123;</span><br><span class="line">        SqlSession session = MybatisUtils.getSession();</span><br><span class="line">        //方法一:</span><br><span class="line">        //List&lt;User&gt; users = session.selectList(&quot;com.kuang.mapper.UserMapper.selectUser&quot;);</span><br><span class="line">        //方法二:</span><br><span class="line">        UserMapper mapper = session.getMapper(UserMapper.class);</span><br><span class="line">        List&lt;User&gt; users = mapper.selectUser();</span><br><span class="line"></span><br><span class="line">        for (User user: users)&#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、CRUD"><a href="#3、CRUD" class="headerlink" title="3、CRUD"></a>3、CRUD</h3><ul>
-<li><p>namespace：名称为对应Mapper接口或者Dao接口的完整包名。</p>
-</li>
-<li><p>select：</p>
-<ul>
-<li>接口中的方法名与映射文件中的sql语句id一一对应</li>
-<li>parameterType：传入SQL语句的参数类型。【万能的Map，参数多的时候多使用】</li>
-<li>resultType：Sql语句返回值类型【完整的类名】</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByNP2&quot; parameterType=&quot;map&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">select * from user where name = #&#123;username&#125; and pwd = #&#123;pwd&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>insert：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">     insert into user (id,name,pwd) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>update：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;update id=&quot;updateUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>delete：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteUser&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    delete from user where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ol>
-<li>所有的增删改操作都需要提交事务</li>
-<li>接口的所有普通参数，尽量都写上@Param参数，尤其是多个参数时，必须写上</li>
-<li>有时候根据业务的需求，可以考虑map传递参数</li>
-<li>为了规范操作，在sql配置文件中，我们尽量将Parameter参数和resultType都写上</li>
-</ol>]]></content>
       <categories>
         <category>mybatis</category>
       </categories>
@@ -890,6 +890,75 @@
       </tags>
   </entry>
   <entry>
+    <title>【spring】：（6）AOP</title>
+    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/</url>
+    <content><![CDATA[<h3 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h3><ul>
+<li>面向切面编程，是一种通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，实现各部分之间的解耦。<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1595583263.png" alt="image"></li>
+</ul>
+<h3 id="2、AOP在Spring中的作用"><a href="#2、AOP在Spring中的作用" class="headerlink" title="2、AOP在Spring中的作用"></a>2、AOP在Spring中的作用</h3><p><strong>==提供声明式事务：允许用户自定义切面==</strong></p>
+<ul>
+<li>横切关注点：跨越应用程序多个模块的方法或功能。就是，与我们业务逻辑无关的，但是我们需要关注的部分，就是横切关注点。如日志，安全，缓存，事务等等…</li>
+<li>切面（ASPECT）：横切关注点，被模块化的特殊对象，它是一个类</li>
+<li>通知（Advice）：切面必须要完成的工作。它是类中的一个方法</li>
+<li>目标（Target）：被通知对象</li>
+<li>代理（Proxy）：向目标对象应用通知之后创建的对象</li>
+<li>切入点（PointCut）：切面通知 执行的地点的定义</li>
+<li>连接点（jointPoint）：与切入点匹配的执行点</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/142667477.png" alt="image"></p>
+<h3 id="3、使用Spring实现AOP"><a href="#3、使用Spring实现AOP" class="headerlink" title="3、使用Spring实现AOP"></a>3、使用Spring实现AOP</h3><h5 id="3-1-通过Spring-API实现"><a href="#3-1-通过Spring-API实现" class="headerlink" title="3.1 通过Spring API实现"></a>3.1 通过Spring API实现</h5><ul>
+<li>首先编写我们的业务接口和实现类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    public void add();</span><br><span class="line"></span><br><span class="line">    public void delete();</span><br><span class="line"></span><br><span class="line">    public void update();</span><br><span class="line"></span><br><span class="line">    public void search();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add() &#123;</span><br><span class="line">        System.out.println(&quot;增加用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void delete() &#123;</span><br><span class="line">        System.out.println(&quot;删除用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void update() &#123;</span><br><span class="line">        System.out.println(&quot;更新用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void search() &#123;</span><br><span class="line">        System.out.println(&quot;查询用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后去写我们的增强类，一个前置增强，一个后置增强。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Log implements MethodBeforeAdvice &#123;</span><br><span class="line"></span><br><span class="line">    //method : 要执行的目标对象的方法</span><br><span class="line">    //objects : 被调用的方法的参数</span><br><span class="line">    //Object : 目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void before(Method method, Object[] objects, Object o) throws Throwable &#123;</span><br><span class="line">        System.out.println( o.getClass().getName() + &quot;的&quot; + method.getName() + &quot;方法被执行了&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class AfterLog implements AfterReturningAdvice &#123;</span><br><span class="line">    //returnValue 返回值</span><br><span class="line">    //method被调用的方法</span><br><span class="line">    //args 被调用的方法的对象的参数</span><br><span class="line">    //target 被调用的目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;执行了&quot; + target.getClass().getName()</span><br><span class="line">        +&quot;的&quot;+method.getName()+&quot;方法,&quot;</span><br><span class="line">        +&quot;返回值：&quot;+returnValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后去spring的文件中注册，并实现aop切入实现，注意导入约束</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/aop</span><br><span class="line">        http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--注册bean--&gt;</span><br><span class="line">    &lt;bean id=&quot;userService&quot; class=&quot;com.kuang.service.UserServiceImpl&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;log&quot; class=&quot;com.kuang.log.Log&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;afterLog&quot; class=&quot;com.kuang.log.AfterLog&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--aop的配置--&gt;</span><br><span class="line">    &lt;aop:config&gt;</span><br><span class="line">        &lt;!--切入点  expression:表达式匹配要执行的方法--&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;pointcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;!--执行环绕; advice-ref执行方法 . pointcut-ref切入点--&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;log&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;afterLog&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">    &lt;/aop:config&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.search();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Spring的Aop就是将公共的业务 (日志 , 安全等) 和领域业务结合起来 , 当执行领域业务时 , 将会把公共业务加进来 . 实现公共业务的重复利用 . 领域业务更纯粹 , 程序猿专注领域业务 , 其本质还是动态代理 .</li>
+</ul>
+<h5 id="3-2-自定义类来实现AOP"><a href="#3-2-自定义类来实现AOP" class="headerlink" title="3.2 自定义类来实现AOP"></a>3.2 自定义类来实现AOP</h5><ul>
+<li>第一步：写我们自己的一个切入类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class DiyPointcut &#123;</span><br><span class="line"></span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>去spring配置：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--第二种方式自定义实现--&gt;</span><br><span class="line">&lt;!--注册bean--&gt;</span><br><span class="line">&lt;bean id=&quot;diy&quot; class=&quot;com.kuang.config.DiyPointcut&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--aop的配置--&gt;</span><br><span class="line">&lt;aop:config&gt;</span><br><span class="line">    &lt;!--第二种方式：使用AOP的标签实现--&gt;</span><br><span class="line">    &lt;aop:aspect ref=&quot;diy&quot;&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;diyPonitcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;aop:before pointcut-ref=&quot;diyPonitcut&quot; method=&quot;before&quot;/&gt;</span><br><span class="line">        &lt;aop:after pointcut-ref=&quot;diyPonitcut&quot; method=&quot;after&quot;/&gt;</span><br><span class="line">    &lt;/aop:aspect&gt;</span><br><span class="line">&lt;/aop:config&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.add();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3-3-使用注解实现"><a href="#3-3-使用注解实现" class="headerlink" title="3.3 使用注解实现"></a>3.3 使用注解实现</h5><ul>
+<li>编写注解实现的增强类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.After;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line">@Aspect</span><br><span class="line">public class AnnotationPointcut &#123;</span><br><span class="line">    @Before(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @After(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void around(ProceedingJoinPoint jp) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;环绕前&quot;);</span><br><span class="line">        System.out.println(&quot;签名:&quot;+jp.getSignature());</span><br><span class="line">        //执行目标方法proceed</span><br><span class="line">        Object proceed = jp.proceed();</span><br><span class="line">        System.out.println(&quot;环绕后&quot;);</span><br><span class="line">        System.out.println(proceed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第二步：在spring配置文件中，注册bean，并增加支持注解的配置</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--第三种方式:注解实现--&gt;</span><br><span class="line">&lt;bean id=&quot;annotationPointcut&quot; class=&quot;com.kuang.config.AnnotationPointcut&quot;/&gt;</span><br><span class="line">&lt;aop:aspectj-autoproxy/&gt;</span><br></pre></td></tr></table></figure>
+<p>op:aspectj-autoproxy：说明</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">通过aop命名空间的&lt;aop:aspectj-autoproxy /&gt;声明自动为spring容器中那些配置@aspectJ切面的bean创建代理，织入切面。当然，spring 在内部依旧采用AnnotationAwareAspectJAutoProxyCreator进行自动代理的创建工作，但具体实现的细节已经被&lt;aop:aspectj-autoproxy /&gt;隐藏起来了 </span><br><span class="line"></span><br><span class="line">&lt;aop:aspectj-autoproxy /&gt;有一个proxy-target-class属性，默认为false，表示使用jdk动态代理织入增强，当配为&lt;aop:aspectj-autoproxy  poxy-target-class=&quot;true&quot;/&gt;时，表示使用CGLib动态代理技术织入增强。不过即使proxy-target-class设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【java基础】：(1)反射机制</title>
     <url>/2020/02/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h1 id="java基础之反射"><a href="#java基础之反射" class="headerlink" title="java基础之反射"></a>java基础之反射</h1><ul>
@@ -947,102 +1016,6 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>反射</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【java基础】：(2)注解</title>
-    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
-<li>概念</li>
-<li>5个基本注解</li>
-<li>jdk元注解</li>
-<li>自定义注解</li>
-</ol>
-<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
-<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
-<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
-<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
-<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
-</ul>
-<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
-<li>@Override</li>
-<li>@Deprecated</li>
-<li>@SuppressWarnings</li>
-<li>@SafeVarags</li>
-<li>@FunctionalInterface</li>
-</ul>
-<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
-<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
-<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
-</ul>
-<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
-<li>可以取消编译器警告。</li>
-<li>@SuppressWarnings（value=“unchecked”）</li>
-</ul>
-<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
-<ul>
-<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
-<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
-</ul>
-<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
-<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
-<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
-<li>value的成员变量：<ul>
-<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
-<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
-<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
-</ul>
-</li>
-<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
-<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
-</ul>
-<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
-<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
-</ul>
-<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
-<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
-<li>配置文件：<ul>
-<li>优点：可配置，不用改源码。</li>
-<li>缺点：不直观，开发效率低</li>
-</ul>
-</li>
-<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
-</ul>
-<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
-<li><ol>
-<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
-</ol>
-</li>
-</ul>]]></content>
-      <categories>
-        <category>java基础</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
       </tags>
   </entry>
   <entry>
@@ -1119,75 +1092,6 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【spring】：（6）AOP</title>
-    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/</url>
-    <content><![CDATA[<h3 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h3><ul>
-<li>面向切面编程，是一种通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。是函数式编程的一种衍生范型，利用AOP可以对业务逻辑的各个部分进行隔离，实现各部分之间的解耦。<br><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/1595583263.png" alt="image"></li>
-</ul>
-<h3 id="2、AOP在Spring中的作用"><a href="#2、AOP在Spring中的作用" class="headerlink" title="2、AOP在Spring中的作用"></a>2、AOP在Spring中的作用</h3><p><strong>==提供声明式事务：允许用户自定义切面==</strong></p>
-<ul>
-<li>横切关注点：跨越应用程序多个模块的方法或功能。就是，与我们业务逻辑无关的，但是我们需要关注的部分，就是横切关注点。如日志，安全，缓存，事务等等…</li>
-<li>切面（ASPECT）：横切关注点，被模块化的特殊对象，它是一个类</li>
-<li>通知（Advice）：切面必须要完成的工作。它是类中的一个方法</li>
-<li>目标（Target）：被通知对象</li>
-<li>代理（Proxy）：向目标对象应用通知之后创建的对象</li>
-<li>切入点（PointCut）：切面通知 执行的地点的定义</li>
-<li>连接点（jointPoint）：与切入点匹配的执行点</li>
-</ul>
-<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/142667477.png" alt="image"></p>
-<h3 id="3、使用Spring实现AOP"><a href="#3、使用Spring实现AOP" class="headerlink" title="3、使用Spring实现AOP"></a>3、使用Spring实现AOP</h3><h5 id="3-1-通过Spring-API实现"><a href="#3-1-通过Spring-API实现" class="headerlink" title="3.1 通过Spring API实现"></a>3.1 通过Spring API实现</h5><ul>
-<li>首先编写我们的业务接口和实现类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    public void add();</span><br><span class="line"></span><br><span class="line">    public void delete();</span><br><span class="line"></span><br><span class="line">    public void update();</span><br><span class="line"></span><br><span class="line">    public void search();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void add() &#123;</span><br><span class="line">        System.out.println(&quot;增加用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void delete() &#123;</span><br><span class="line">        System.out.println(&quot;删除用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void update() &#123;</span><br><span class="line">        System.out.println(&quot;更新用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void search() &#123;</span><br><span class="line">        System.out.println(&quot;查询用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>然后去写我们的增强类，一个前置增强，一个后置增强。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Log implements MethodBeforeAdvice &#123;</span><br><span class="line"></span><br><span class="line">    //method : 要执行的目标对象的方法</span><br><span class="line">    //objects : 被调用的方法的参数</span><br><span class="line">    //Object : 目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void before(Method method, Object[] objects, Object o) throws Throwable &#123;</span><br><span class="line">        System.out.println( o.getClass().getName() + &quot;的&quot; + method.getName() + &quot;方法被执行了&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class AfterLog implements AfterReturningAdvice &#123;</span><br><span class="line">    //returnValue 返回值</span><br><span class="line">    //method被调用的方法</span><br><span class="line">    //args 被调用的方法的对象的参数</span><br><span class="line">    //target 被调用的目标对象</span><br><span class="line">    @Override</span><br><span class="line">    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;执行了&quot; + target.getClass().getName()</span><br><span class="line">        +&quot;的&quot;+method.getName()+&quot;方法,&quot;</span><br><span class="line">        +&quot;返回值：&quot;+returnValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最后去spring的文件中注册，并实现aop切入实现，注意导入约束</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/aop</span><br><span class="line">        http://www.springframework.org/schema/aop/spring-aop.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--注册bean--&gt;</span><br><span class="line">    &lt;bean id=&quot;userService&quot; class=&quot;com.kuang.service.UserServiceImpl&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;log&quot; class=&quot;com.kuang.log.Log&quot;/&gt;</span><br><span class="line">    &lt;bean id=&quot;afterLog&quot; class=&quot;com.kuang.log.AfterLog&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--aop的配置--&gt;</span><br><span class="line">    &lt;aop:config&gt;</span><br><span class="line">        &lt;!--切入点  expression:表达式匹配要执行的方法--&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;pointcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;!--执行环绕; advice-ref执行方法 . pointcut-ref切入点--&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;log&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">        &lt;aop:advisor advice-ref=&quot;afterLog&quot; pointcut-ref=&quot;pointcut&quot;/&gt;</span><br><span class="line">    &lt;/aop:config&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>测试</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.search();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Spring的Aop就是将公共的业务 (日志 , 安全等) 和领域业务结合起来 , 当执行领域业务时 , 将会把公共业务加进来 . 实现公共业务的重复利用 . 领域业务更纯粹 , 程序猿专注领域业务 , 其本质还是动态代理 .</li>
-</ul>
-<h5 id="3-2-自定义类来实现AOP"><a href="#3-2-自定义类来实现AOP" class="headerlink" title="3.2 自定义类来实现AOP"></a>3.2 自定义类来实现AOP</h5><ul>
-<li>第一步：写我们自己的一个切入类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class DiyPointcut &#123;</span><br><span class="line"></span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>去spring配置：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--第二种方式自定义实现--&gt;</span><br><span class="line">&lt;!--注册bean--&gt;</span><br><span class="line">&lt;bean id=&quot;diy&quot; class=&quot;com.kuang.config.DiyPointcut&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--aop的配置--&gt;</span><br><span class="line">&lt;aop:config&gt;</span><br><span class="line">    &lt;!--第二种方式：使用AOP的标签实现--&gt;</span><br><span class="line">    &lt;aop:aspect ref=&quot;diy&quot;&gt;</span><br><span class="line">        &lt;aop:pointcut id=&quot;diyPonitcut&quot; expression=&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;/&gt;</span><br><span class="line">        &lt;aop:before pointcut-ref=&quot;diyPonitcut&quot; method=&quot;before&quot;/&gt;</span><br><span class="line">        &lt;aop:after pointcut-ref=&quot;diyPonitcut&quot; method=&quot;after&quot;/&gt;</span><br><span class="line">    &lt;/aop:aspect&gt;</span><br><span class="line">&lt;/aop:config&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>测试</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        UserService userService = (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        userService.add();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="3-3-使用注解实现"><a href="#3-3-使用注解实现" class="headerlink" title="3.3 使用注解实现"></a>3.3 使用注解实现</h5><ul>
-<li>编写注解实现的增强类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line">import org.aspectj.lang.annotation.After;</span><br><span class="line">import org.aspectj.lang.annotation.Around;</span><br><span class="line">import org.aspectj.lang.annotation.Aspect;</span><br><span class="line">import org.aspectj.lang.annotation.Before;</span><br><span class="line"></span><br><span class="line">@Aspect</span><br><span class="line">public class AnnotationPointcut &#123;</span><br><span class="line">    @Before(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void before()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行前---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @After(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void after()&#123;</span><br><span class="line">        System.out.println(&quot;---------方法执行后---------&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Around(&quot;execution(* com.kuang.service.UserServiceImpl.*(..))&quot;)</span><br><span class="line">    public void around(ProceedingJoinPoint jp) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;环绕前&quot;);</span><br><span class="line">        System.out.println(&quot;签名:&quot;+jp.getSignature());</span><br><span class="line">        //执行目标方法proceed</span><br><span class="line">        Object proceed = jp.proceed();</span><br><span class="line">        System.out.println(&quot;环绕后&quot;);</span><br><span class="line">        System.out.println(proceed);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第二步：在spring配置文件中，注册bean，并增加支持注解的配置</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--第三种方式:注解实现--&gt;</span><br><span class="line">&lt;bean id=&quot;annotationPointcut&quot; class=&quot;com.kuang.config.AnnotationPointcut&quot;/&gt;</span><br><span class="line">&lt;aop:aspectj-autoproxy/&gt;</span><br></pre></td></tr></table></figure>
-<p>op:aspectj-autoproxy：说明</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">通过aop命名空间的&lt;aop:aspectj-autoproxy /&gt;声明自动为spring容器中那些配置@aspectJ切面的bean创建代理，织入切面。当然，spring 在内部依旧采用AnnotationAwareAspectJAutoProxyCreator进行自动代理的创建工作，但具体实现的细节已经被&lt;aop:aspectj-autoproxy /&gt;隐藏起来了 </span><br><span class="line"></span><br><span class="line">&lt;aop:aspectj-autoproxy /&gt;有一个proxy-target-class属性，默认为false，表示使用jdk动态代理织入增强，当配为&lt;aop:aspectj-autoproxy  poxy-target-class=&quot;true&quot;/&gt;时，表示使用CGLib动态代理技术织入增强。不过即使proxy-target-class设置为false，如果目标类没有声明接口，则spring将自动使用CGLib动态代理。</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1331,6 +1235,102 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>代理模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【java基础】：(2)注解</title>
+    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
+<li>概念</li>
+<li>5个基本注解</li>
+<li>jdk元注解</li>
+<li>自定义注解</li>
+</ol>
+<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
+<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
+<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
+<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
+<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
+</ul>
+<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
+<li>@Override</li>
+<li>@Deprecated</li>
+<li>@SuppressWarnings</li>
+<li>@SafeVarags</li>
+<li>@FunctionalInterface</li>
+</ul>
+<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
+<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
+<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
+</ul>
+<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
+<li>可以取消编译器警告。</li>
+<li>@SuppressWarnings（value=“unchecked”）</li>
+</ul>
+<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
+<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
+</ul>
+<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
+<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
+<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
+<li>value的成员变量：<ul>
+<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
+<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
+<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
+</ul>
+</li>
+<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
+<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
+</ul>
+<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
+<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
+</ul>
+<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
+<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
+<li>配置文件：<ul>
+<li>优点：可配置，不用改源码。</li>
+<li>缺点：不直观，开发效率低</li>
+</ul>
+</li>
+<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
+</ul>
+<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
+<li><ol>
+<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
+</ol>
+</li>
+</ul>]]></content>
+      <categories>
+        <category>java基础</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
       </tags>
   </entry>
 </search>
