@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="注解," />
+  <meta name="keywords" content="反射," />
 
 
 
@@ -80,16 +80,14 @@
 
 
 
-<meta name="keywords" content="注解">
+<meta name="keywords" content="反射">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【java基础】：注解">
-<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;03&#x2F;14&#x2F;%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E6%B3%A8%E8%A7%A3&#x2F;index.html">
+<meta property="og:title" content="【java基础】：（3）Integer等包装类的缓存机制">
+<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;code&#x2F;java%E5%9F%BA%E7%A1%80&#x2F;%E6%B3%A8%E8%A7%A3.png">
-<meta property="og:updated_time" content="2020-04-27T14:47:58.114Z">
+<meta property="og:updated_time" content="2020-05-10T07:46:47.027Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;code&#x2F;java%E5%9F%BA%E7%A1%80&#x2F;%E6%B3%A8%E8%A7%A3.png">
 
 
 
@@ -119,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://xulei1996.com/2020/03/14/【java基础】：注解/"/>
+  <link rel="canonical" href="http://xulei1996.com/2020/04/18/【java基础】：（3）Integer等包装类的缓存机制/"/>
 
 
 
 
 
-  <title>【java基础】：注解 | 潇雷的博客</title>
+  <title>【java基础】：（3）Integer等包装类的缓存机制 | 潇雷的博客</title>
   
 
 
@@ -296,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E6%B3%A8%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuLei">
@@ -313,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【java基础】：注解</h1>
+          <h1 class="post-title" itemprop="name headline">【java基础】：（3）Integer等包装类的缓存机制</h1>
         
 
         <div class="post-meta">
@@ -325,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-14T10:20:12+08:00">
-                2020-03-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
               </time>
             
 
@@ -341,8 +339,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T22:47:58+08:00">
-                2020-04-27
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-10T15:46:47+08:00">
+                2020-05-10
               </time>
             
           </span>
@@ -378,8 +376,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E6%B3%A8%E8%A7%A3/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
+                <a href="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +385,7 @@
 
           
           
-             <span id="/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%E6%B3%A8%E8%A7%A3/" class="leancloud_visitors" data-flag-title="【java基础】：注解">
+             <span id="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="leancloud_visitors" data-flag-title="【java基础】：（3）Integer等包装类的缓存机制">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -413,7 +411,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k
+                  888
                 </span>
               
 
@@ -438,91 +436,42 @@
       
 
       
-        <h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
-<li>概念</li>
-<li>5个基本注解</li>
-<li>jdk元注解</li>
-<li>自定义注解</li>
-</ol>
-<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
-<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
-<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
-<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
-<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
+        <h3 id="1、装箱和拆箱"><a href="#1、装箱和拆箱" class="headerlink" title="1、装箱和拆箱"></a>1、装箱和拆箱</h3><ul>
+<li>1.1 为什么要有包装类型<ul>
+<li>让基本类型也具有对象的特征，因为容器都是装对象的。</li>
+<li>自动装箱：int i=new Integer（6）；</li>
+<li>底层调用Integer.valueOf(6)</li>
 </ul>
-<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
-<li>@Override</li>
-<li>@Deprecated</li>
-<li>@SuppressWarnings</li>
-<li>@SafeVarags</li>
-<li>@FunctionalInterface</li>
+</li>
+<li>1.2 什么是自动装箱？<ul>
+<li>自动装箱就是java编译器把基本类型转化为对应的包装类型的过程。例如把int转为Integer</li>
 </ul>
-<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
-<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
-<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
+</li>
 </ul>
-<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
-<li>可以取消编译器警告。</li>
-<li>@SuppressWarnings（value=“unchecked”）</li>
-</ul>
-<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
+<h3 id="2、Integer类的缓存机制"><a href="#2、Integer类的缓存机制" class="headerlink" title="2、Integer类的缓存机制"></a>2、Integer类的缓存机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"> * @since  1.5</span><br><span class="line"> */</span><br><span class="line">public static Integer valueOf(int i) &#123;</span><br><span class="line">//当前值在缓存数组区间段，则直接返回该缓存值</span><br><span class="line">    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        return IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    //缓存创建新的Integer实例</span><br><span class="line">    return new Integer(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> private static class IntegerCache &#123;</span><br><span class="line">    static final int low = -128;</span><br><span class="line">    static final int high;</span><br><span class="line">    static final Integer cache[];</span><br><span class="line"></span><br><span class="line">//初始化时，缓存数值为-128 -127的Integer实例，默认是-128到127</span><br><span class="line">    static &#123;</span><br><span class="line">        // high value may be configured by property</span><br><span class="line">        int h = 127;</span><br><span class="line">        String integerCacheHighPropValue =</span><br><span class="line">            sun.misc.VM.getSavedProperty(&quot;java.lang.Integer.IntegerCache.high&quot;);</span><br><span class="line">        if (integerCacheHighPropValue != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                int i = parseInt(integerCacheHighPropValue);</span><br><span class="line">                i = Math.max(i, 127);</span><br><span class="line">                // Maximum array size is Integer.MAX_VALUE</span><br><span class="line">                h = Math.min(i, Integer.MAX_VALUE - (-low) -1);</span><br><span class="line">            &#125; catch( NumberFormatException nfe) &#123;</span><br><span class="line">                // If the property cannot be parsed into an int, ignore it.</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        high = h;</span><br><span class="line"></span><br><span class="line">        cache = new Integer[(high - low) + 1];</span><br><span class="line">        int j = low;</span><br><span class="line">        for(int k = 0; k &lt; cache.length; k++)</span><br><span class="line">            cache[k] = new Integer(j++);</span><br><span class="line"></span><br><span class="line">        // range [-128, 127] must be interned (JLS7 5.1.7)</span><br><span class="line">        assert IntegerCache.high &gt;= 127;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
-<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
+<li>该类的作用是将数值为-128 ~127区间内的Integer实例缓存到catch数组中，通过valueOf（）方法很明显发现，会复用缓存中的实例。</li>
 </ul>
-<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
-<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
+<h3 id="3、其他具有缓存机制的类"><a href="#3、其他具有缓存机制的类" class="headerlink" title="3、其他具有缓存机制的类"></a>3、其他具有缓存机制的类</h3><ul>
+<li>实际上，不仅仅Integer具有缓存机制，Byte，Short，long,Character都具有缓存机制。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static class LongCache &#123;</span><br><span class="line">    private LongCache()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    static final Long cache[] = new Long[-(-128) + 127 + 1];</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        for(int i = 0; i &lt; cache.length; i++)</span><br><span class="line">            cache[i] = new Long(i - 128);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>这些类都有缓存的范围，其中Byte，Short，Integer，Long为 -128 到 127，Character范围为 0 到 127。除了 Integer 可以通过参数改变范围外，其它的都不行。因为其他参数都是写死的，而Integer的下标是写死的，但是上标定义的h=127，是可以通过jvm设置参数改变的。Integer的缓存上界high可以通过jvm参数-XX:AutoBoxCacheMax=size指定，取指定值与127的最大值并且不超过Integer表示范围。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4、附录几道面试题"><a href="#4、附录几道面试题" class="headerlink" title="4、附录几道面试题"></a>4、附录几道面试题</h3><ul>
+<li>面试题1：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//情景1</span><br><span class="line">   Integer c = 128;</span><br><span class="line">   Integer d = 128;</span><br><span class="line">   System.out.println(c == d);//false 因为是两个对象</span><br><span class="line"></span><br><span class="line">   //情景2</span><br><span class="line">   Integer a = 1;</span><br><span class="line">   Integer b = 1;</span><br><span class="line">   System.out.println(a == b);//true。b.intValue()</span><br><span class="line"></span><br><span class="line">   //情景3</span><br><span class="line">   Integer e = new Integer(1);</span><br><span class="line">   Integer f = new Integer(1);</span><br><span class="line">   System.out.println(e == f);//false</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
+<li>面试题2：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//情景4</span><br><span class="line">   int a = 1;</span><br><span class="line">   Integer b = Integer.valueOf(1);</span><br><span class="line">   Integer c = new Integer(1);</span><br><span class="line"></span><br><span class="line">   System.out.println(a == b);//true</span><br><span class="line">   System.out.println(a == c);//true</span><br><span class="line">   //a是基本类型，bc是引用类型，比较时，会自动拆成基本类型，比较值</span><br></pre></td></tr></table></figure>
 
-</li>
+<ul>
+<li>面试题3：</li>
 </ul>
-<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
-<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
-<li>value的成员变量：<ul>
-<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
-<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
-<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
-</ul>
-</li>
-<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
-<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
-</ul>
-<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
-<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
-</ul>
-<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
-<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
-<li>配置文件：<ul>
-<li>优点：可配置，不用改源码。</li>
-<li>缺点：不直观，开发效率低</li>
-</ul>
-</li>
-<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
-</ul>
-<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
-<li><ol>
-<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
-</ol>
-</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//代码来源于《深入理解Java虚拟机》第4章4.3.1 P121。</span><br><span class="line">public class SynAddRunnable implements Runnable &#123;</span><br><span class="line"></span><br><span class="line">    int a, b;</span><br><span class="line"></span><br><span class="line">    public SynAddRunnable(int a, int b) &#123;</span><br><span class="line">        this.a = a;</span><br><span class="line">        this.b = b;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        synchronized (Integer.valueOf(a)) &#123;</span><br><span class="line">            synchronized (Integer.valueOf(b)) &#123;</span><br><span class="line">                System.out.println(a + b);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">            new Thread(new SynAddRunnable(1, 2)).start();</span><br><span class="line">            new Thread(new SynAddRunnable(2, 1)).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上面这段程序会发生死锁。造成死锁的原因：[-128，127]之间的数字会被缓存，而Integer.valueOf()会返回缓存的对象。因此代码中200次for循环实际上总共只创建了两个对象，当线程A持有Integer.valueOf(1)时，如果线程B持有Integer.valueOf(2)，则就会出现死锁，属于动态锁顺序死锁。</li>
 </ul>
       
     </div>
@@ -550,7 +499,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag"># 注解</a>
+            <a href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag"># 反射</a>
           
         </div>
       
@@ -563,8 +512,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/01/%E3%80%90JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%94%81%E7%90%86%E8%A7%A3%E3%80%81%E9%9B%86%E5%90%88%E7%B1%BB%E7%9A%84%E5%B9%B6%E5%8F%91%E4%BD%BF%E7%94%A8%E3%80%81JUC%E4%B8%89%E4%B8%AA%E8%BE%85%E5%8A%A9%E7%B1%BB%E3%80%81%E8%AF%BB%E5%86%99%E9%94%81%E3%80%81%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/" rel="next" title="【JUC并发编程】：（2）锁理解、集合类的并发使用、JUC三个辅助类、读写锁、阻塞队列">
-                <i class="fa fa-chevron-left"></i> 【JUC并发编程】：（2）锁理解、集合类的并发使用、JUC三个辅助类、读写锁、阻塞队列
+              <a href="/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/" rel="next" title="【java基础】：(2)注解">
+                <i class="fa fa-chevron-left"></i> 【java基础】：(2)注解
               </a>
             
           </div>
@@ -655,7 +604,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -752,7 +701,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解："><span class="nav-number">1.</span> <span class="nav-text">注解：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、注解"><span class="nav-number">1.1.</span> <span class="nav-text">一、注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注解的作用："><span class="nav-number">1.1.0.1.</span> <span class="nav-text">注解的作用：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注解的格式："><span class="nav-number">1.1.0.2.</span> <span class="nav-text">注解的格式：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、基本注解"><span class="nav-number">1.2.</span> <span class="nav-text">二、基本注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Override-限定重写父类方法"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 @Override:限定重写父类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Deprecated"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 @Deprecated</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-SuppressWarnings：镇压警告"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 @SuppressWarnings：镇压警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-SafeVarags与堆污染？"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 @SafeVarags与堆污染？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java8的函数式接口"><span class="nav-number">1.2.5.</span> <span class="nav-text">Java8的函数式接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、JDK元注解"><span class="nav-number">1.3.</span> <span class="nav-text">三、JDK元注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-使用-Retention"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 使用@Retention</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-使用Target"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 使用Target</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-使用Documented"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 使用Documented</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-使用-Inherited"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 使用@Inherited</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、自定义注解"><span class="nav-number">1.4.</span> <span class="nav-text">四、自定义注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-自定义元注解"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 自定义元注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-自定义注解使用"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 自定义注解使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-注解与配置文件"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 注解与配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-注解使用注意事项"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 注解使用注意事项</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、装箱和拆箱"><span class="nav-number">1.</span> <span class="nav-text">1、装箱和拆箱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Integer类的缓存机制"><span class="nav-number">2.</span> <span class="nav-text">2、Integer类的缓存机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、其他具有缓存机制的类"><span class="nav-number">3.</span> <span class="nav-text">3、其他具有缓存机制的类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、附录几道面试题"><span class="nav-number">4.</span> <span class="nav-text">4、附录几道面试题</span></a></li></ol></div>
             
 
           </div>
@@ -826,7 +775,7 @@ show_date_time();
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">24.8k</span>
+    <span title="Site words total count">25.7k</span>
   
 </div>
 
