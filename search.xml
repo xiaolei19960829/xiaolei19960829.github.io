@@ -388,125 +388,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【mybaits】：(2) 配置解析</title>
-    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h3 id="1、核心配置文件"><a href="#1、核心配置文件" class="headerlink" title="1、核心配置文件"></a>1、核心配置文件</h3><ul>
-<li>能配置的内容如下：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">configuration（配置）</span><br><span class="line">    properties（属性）</span><br><span class="line">    settings（设置）</span><br><span class="line">    typeAliases（类型别名）</span><br><span class="line">    typeHandlers（类型处理器）</span><br><span class="line">    objectFactory（对象工厂）</span><br><span class="line">    plugins（插件）</span><br><span class="line">    environments（环境配置）</span><br><span class="line">        environment（环境变量）</span><br><span class="line">            transactionManager（事务管理器）</span><br><span class="line">            dataSource（数据源）</span><br><span class="line">    databaseIdProvider（数据库厂商标识）</span><br><span class="line">    mappers（映射器）</span><br><span class="line">&lt;!-- 注意元素节点的顺序！顺序不对会报错 --&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="2、environments元素"><a href="#2、environments元素" class="headerlink" title="2、environments元素"></a>2、environments元素</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">  &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">    &lt;transactionManager type=&quot;JDBC&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;...&quot; value=&quot;...&quot;/&gt;</span><br><span class="line">    &lt;/transactionManager&gt;</span><br><span class="line">    &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">    &lt;/dataSource&gt;</span><br><span class="line">  &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>配置MyBatis的多套运行环境，将Sql映射到多个不同的数据库上，必须指定其中一个位默认运行环境（通过default指定）</li>
-<li>子元素节点：environment<ul>
-<li>具体的一套环境，通过设置id进行区别，id保证唯一。</li>
-</ul>
-</li>
-<li>子元素节点：transactionManager【事务管理器】</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 语法 --&gt;</span><br><span class="line">&lt;transactionManager type=&quot;[ JDBC | MANAGED ]&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>子元素节点：数据源（datasource）<ul>
-<li>dataSource元素使用标准的JDBC数据源接口来配置JDBC连接对象的资源。</li>
-</ul>
-</li>
-</ul>
-<h3 id="3、mapper元素"><a href="#3、mapper元素" class="headerlink" title="3、mapper元素"></a>3、mapper元素</h3><ul>
-<li><p>映射器：定义映射SQL语句文件</p>
-</li>
-<li><p>告诉mybatis去哪找这些语句,该标签可以指定xxxMapper.xml的文件路径，也就是集中管理sql语句的文件。</p>
-</li>
-<li><p>引入资源方式：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用相对于类路径的资源引用 --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper resource=&quot;org/mybatis/builder/PostMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用完全限定资源定位符（URL） --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper url=&quot;file:///var/mappers/AuthorMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">使用映射器接口实现类的完全限定类名</span><br><span class="line">需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper class=&quot;org.mybatis.builder.AuthorMapper&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">将包内的映射器接口实现全部注册为映射器</span><br><span class="line">但是需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;package name=&quot;org.mybatis.builder&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>namespace+id可以限定唯一的标签</li>
-<li>namespace要写成映射包中对应接口的全类名。</li>
-<li>id就是方法名，同一个映射文件中的id不能重复</li>
-<li>resultType是返回值要封装的类型，javaBean和普通类型都可以选择写全类名、或者简写。</li>
-<li>接口中的方法名要和我们的namespace下的id对应起来。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--namespace要写成接口的全类名--&gt;</span><br><span class="line">&lt;mapper namespace=&quot;cskaoyan.mapper.UserMapper&quot;&gt;</span><br><span class="line">    &lt;select id=&quot;queryUserByName&quot; resultType=&quot;cskaoyan.User&quot;&gt;</span><br><span class="line">        select id,username,password,age,email from user where username = #&#123;as&#125;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="4、Properties（属性配置项）优化"><a href="#4、Properties（属性配置项）优化" class="headerlink" title="4、Properties（属性配置项）优化"></a>4、Properties（属性配置项）优化</h3><ul>
-<li>在外面单独通过<properties>为数据源配置信息，可以降低datasource的配置项的耦合度，方便修改。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">username=root</span><br><span class="line">password=123456</span><br><span class="line">url=jdbc:mysql://localhost:3306/mybatis</span><br><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">=================================================================</span><br><span class="line">&lt;properties resource=&quot;db.properties&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;jdbcurl&quot; value=&quot;jdbc:mysql://localhost:3306/mydb2?serverTimezone=GMT&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br><span class="line">================================================================</span><br><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">    &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">        &lt;!--这里暂时指定通过JDBC实现事务，这就需要我们手动提交、关闭 --&gt;</span><br><span class="line">        &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">        &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">            &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">        &lt;/dataSource&gt;</span><br><span class="line">    &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="5、typeAliases优化"><a href="#5、typeAliases优化" class="headerlink" title="5、typeAliases优化"></a>5、typeAliases优化</h3><ul>
-<li>类型别名是为Java类型设置一个短的名字，不太好用。</li>
-<li>方法一：直接指定全类名的别名。type写javabean的全类名；alias写别名</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;typeAlias type=&quot;cskaoyan.User&quot; alias=&quot;xl&quot;&gt;&lt;/typeAlias&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">=====================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>方法二：指定某个包，这个包内的全类名，默认简写就是类名的首字母小写【批量配置别名】</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;package name=&quot;cskaoyan&quot;&gt;&lt;/package&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">====================================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;user&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>方法三：基本类型的默认别名</p>
-<ul>
-<li>八大基本类型在类型前加上下划线_</li>
-<li>包装基本类型就是首字母小写</li>
-</ul>
-</li>
-<li><p>方法四：注解的方式设置类简称：@Alias</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Alias(&quot;xl&quot;)</span><br><span class="line">public class people&#123;</span><br><span class="line">    String id;</span><br><span class="line">    String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectPeople&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">    select * from ddd;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="6、setting设置"><a href="#6、setting设置" class="headerlink" title="6、setting设置"></a>6、setting设置</h3><ul>
-<li>重点：<ul>
-<li>懒加载</li>
-<li>日志实现</li>
-<li>缓存开启关闭</li>
-</ul>
-</li>
-<li>完整的settings元素的实例如下</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;multipleResultSetsEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useColumnLabel&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useGeneratedKeys&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingBehavior&quot; value=&quot;PARTIAL&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingUnknownColumnBehavior&quot; value=&quot;WARNING&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultExecutorType&quot; value=&quot;SIMPLE&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultStatementTimeout&quot; value=&quot;25&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultFetchSize&quot; value=&quot;100&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;safeRowBoundsEnabled&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;mapUnderscoreToCamelCase&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;localCacheScope&quot; value=&quot;SESSION&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;jdbcTypeForNull&quot; value=&quot;OTHER&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode,toString&quot;/&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="7、生命周期和作用域"><a href="#7、生命周期和作用域" class="headerlink" title="7、生命周期和作用域"></a>7、生命周期和作用域</h3><ul>
-<li><p>生命周期、作用域是至关重要的，因为错误的使用会导致非常严重的并发问题。</p>
-</li>
-<li><p>SqlSessionFactoryBuilder：</p>
-<ul>
-<li>一旦创建了sqlSessionFactory，就不再需要它了</li>
-<li>局部变量</li>
-</ul>
-</li>
-<li><p>SqlSessionFactory：</p>
-<ul>
-<li>说白了就是可以想象为：数据库连接池。</li>
-<li>一旦创建就应该在应用的运行期间一直存在，没有任何理由对其它或重新创建另一个实例。</li>
-<li>因此sqlSessionFactory的最佳作用域是应用作用域，程序开始就开始，程序结束就结束。</li>
-<li>最简单的就是使用单例模式或者静态单例模式</li>
-</ul>
-</li>
-<li><p>sqlsession：</p>
-<ul>
-<li>sqlsession的实例不是线程安全的，因此不能被共享，所以它的最佳作用域是请求或方法作用域。</li>
-<li></li>
-</ul>
-</li>
-</ul>
-<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2347803678.png" alt="image"></p>]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【mybaits】：(3) 动态sql</title>
     <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E5%8A%A8%E6%80%81sql/</url>
     <content><![CDATA[<h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><p>传统的使用JDBC的方法，相信大家在组合复杂的的SQL语句的时候，需要去拼接，稍不注意哪怕少了个空格，都会导致错误。Mybatis的动态SQL功能正是为了解决这种问题， 其通过 if, choose, when, otherwise, trim, where, set, foreach标签，可组合成非常灵活的SQL语句，从而提高开发人员的效率。</p>
@@ -674,6 +555,125 @@
       </categories>
       <tags>
         <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【mybaits】：(2) 配置解析</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h3 id="1、核心配置文件"><a href="#1、核心配置文件" class="headerlink" title="1、核心配置文件"></a>1、核心配置文件</h3><ul>
+<li>能配置的内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">configuration（配置）</span><br><span class="line">    properties（属性）</span><br><span class="line">    settings（设置）</span><br><span class="line">    typeAliases（类型别名）</span><br><span class="line">    typeHandlers（类型处理器）</span><br><span class="line">    objectFactory（对象工厂）</span><br><span class="line">    plugins（插件）</span><br><span class="line">    environments（环境配置）</span><br><span class="line">        environment（环境变量）</span><br><span class="line">            transactionManager（事务管理器）</span><br><span class="line">            dataSource（数据源）</span><br><span class="line">    databaseIdProvider（数据库厂商标识）</span><br><span class="line">    mappers（映射器）</span><br><span class="line">&lt;!-- 注意元素节点的顺序！顺序不对会报错 --&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="2、environments元素"><a href="#2、environments元素" class="headerlink" title="2、environments元素"></a>2、environments元素</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">  &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">    &lt;transactionManager type=&quot;JDBC&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;...&quot; value=&quot;...&quot;/&gt;</span><br><span class="line">    &lt;/transactionManager&gt;</span><br><span class="line">    &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">    &lt;/dataSource&gt;</span><br><span class="line">  &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置MyBatis的多套运行环境，将Sql映射到多个不同的数据库上，必须指定其中一个位默认运行环境（通过default指定）</li>
+<li>子元素节点：environment<ul>
+<li>具体的一套环境，通过设置id进行区别，id保证唯一。</li>
+</ul>
+</li>
+<li>子元素节点：transactionManager【事务管理器】</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 语法 --&gt;</span><br><span class="line">&lt;transactionManager type=&quot;[ JDBC | MANAGED ]&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>子元素节点：数据源（datasource）<ul>
+<li>dataSource元素使用标准的JDBC数据源接口来配置JDBC连接对象的资源。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3、mapper元素"><a href="#3、mapper元素" class="headerlink" title="3、mapper元素"></a>3、mapper元素</h3><ul>
+<li><p>映射器：定义映射SQL语句文件</p>
+</li>
+<li><p>告诉mybatis去哪找这些语句,该标签可以指定xxxMapper.xml的文件路径，也就是集中管理sql语句的文件。</p>
+</li>
+<li><p>引入资源方式：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用相对于类路径的资源引用 --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper resource=&quot;org/mybatis/builder/PostMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用完全限定资源定位符（URL） --&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper url=&quot;file:///var/mappers/AuthorMapper.xml&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">使用映射器接口实现类的完全限定类名</span><br><span class="line">需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;mapper class=&quot;org.mybatis.builder.AuthorMapper&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">将包内的映射器接口实现全部注册为映射器</span><br><span class="line">但是需要配置文件名称和接口名称一致，并且位于同一目录下</span><br><span class="line">--&gt;</span><br><span class="line">&lt;mappers&gt;</span><br><span class="line">  &lt;package name=&quot;org.mybatis.builder&quot;/&gt;</span><br><span class="line">&lt;/mappers&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>namespace+id可以限定唯一的标签</li>
+<li>namespace要写成映射包中对应接口的全类名。</li>
+<li>id就是方法名，同一个映射文件中的id不能重复</li>
+<li>resultType是返回值要封装的类型，javaBean和普通类型都可以选择写全类名、或者简写。</li>
+<li>接口中的方法名要和我们的namespace下的id对应起来。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--namespace要写成接口的全类名--&gt;</span><br><span class="line">&lt;mapper namespace=&quot;cskaoyan.mapper.UserMapper&quot;&gt;</span><br><span class="line">    &lt;select id=&quot;queryUserByName&quot; resultType=&quot;cskaoyan.User&quot;&gt;</span><br><span class="line">        select id,username,password,age,email from user where username = #&#123;as&#125;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4、Properties（属性配置项）优化"><a href="#4、Properties（属性配置项）优化" class="headerlink" title="4、Properties（属性配置项）优化"></a>4、Properties（属性配置项）优化</h3><ul>
+<li>在外面单独通过<properties>为数据源配置信息，可以降低datasource的配置项的耦合度，方便修改。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">username=root</span><br><span class="line">password=123456</span><br><span class="line">url=jdbc:mysql://localhost:3306/mybatis</span><br><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">=================================================================</span><br><span class="line">&lt;properties resource=&quot;db.properties&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;jdbcurl&quot; value=&quot;jdbc:mysql://localhost:3306/mydb2?serverTimezone=GMT&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&quot;/&gt;</span><br><span class="line">&lt;/properties&gt;</span><br><span class="line">================================================================</span><br><span class="line">&lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">    &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">        &lt;!--这里暂时指定通过JDBC实现事务，这就需要我们手动提交、关闭 --&gt;</span><br><span class="line">        &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">        &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">            &lt;property name=&quot;driver&quot; value=&quot;$&#123;driver&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;url&quot; value=&quot;$&#123;url&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;username&quot; value=&quot;$&#123;username&#125;&quot;/&gt;</span><br><span class="line">            &lt;property name=&quot;password&quot; value=&quot;$&#123;password&#125;&quot;/&gt;</span><br><span class="line">        &lt;/dataSource&gt;</span><br><span class="line">    &lt;/environment&gt;</span><br><span class="line">&lt;/environments&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="5、typeAliases优化"><a href="#5、typeAliases优化" class="headerlink" title="5、typeAliases优化"></a>5、typeAliases优化</h3><ul>
+<li>类型别名是为Java类型设置一个短的名字，不太好用。</li>
+<li>方法一：直接指定全类名的别名。type写javabean的全类名；alias写别名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;typeAlias type=&quot;cskaoyan.User&quot; alias=&quot;xl&quot;&gt;&lt;/typeAlias&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">=====================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方法二：指定某个包，这个包内的全类名，默认简写就是类名的首字母小写【批量配置别名】</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;typeAliases&gt;</span><br><span class="line">    &lt;package name=&quot;cskaoyan&quot;&gt;&lt;/package&gt;</span><br><span class="line">&lt;/typeAliases&gt;</span><br><span class="line">====================================================================================</span><br><span class="line">具体使用</span><br><span class="line">&lt;select id=&quot;queryUserById&quot; resultType=&quot;user&quot;&gt;</span><br><span class="line">  select id,username,password,age,email from user where id = #&#123;abc&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>方法三：基本类型的默认别名</p>
+<ul>
+<li>八大基本类型在类型前加上下划线_</li>
+<li>包装基本类型就是首字母小写</li>
+</ul>
+</li>
+<li><p>方法四：注解的方式设置类简称：@Alias</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Alias(&quot;xl&quot;)</span><br><span class="line">public class people&#123;</span><br><span class="line">    String id;</span><br><span class="line">    String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectPeople&quot; resultType=&quot;xl&quot;&gt;</span><br><span class="line">    select * from ddd;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、setting设置"><a href="#6、setting设置" class="headerlink" title="6、setting设置"></a>6、setting设置</h3><ul>
+<li>重点：<ul>
+<li>懒加载</li>
+<li>日志实现</li>
+<li>缓存开启关闭</li>
+</ul>
+</li>
+<li>完整的settings元素的实例如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">  &lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadingEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;multipleResultSetsEnabled&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useColumnLabel&quot; value=&quot;true&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;useGeneratedKeys&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingBehavior&quot; value=&quot;PARTIAL&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;autoMappingUnknownColumnBehavior&quot; value=&quot;WARNING&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultExecutorType&quot; value=&quot;SIMPLE&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultStatementTimeout&quot; value=&quot;25&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;defaultFetchSize&quot; value=&quot;100&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;safeRowBoundsEnabled&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;mapUnderscoreToCamelCase&quot; value=&quot;false&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;localCacheScope&quot; value=&quot;SESSION&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;jdbcTypeForNull&quot; value=&quot;OTHER&quot;/&gt;</span><br><span class="line">  &lt;setting name=&quot;lazyLoadTriggerMethods&quot; value=&quot;equals,clone,hashCode,toString&quot;/&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="7、生命周期和作用域"><a href="#7、生命周期和作用域" class="headerlink" title="7、生命周期和作用域"></a>7、生命周期和作用域</h3><ul>
+<li><p>生命周期、作用域是至关重要的，因为错误的使用会导致非常严重的并发问题。</p>
+</li>
+<li><p>SqlSessionFactoryBuilder：</p>
+<ul>
+<li>一旦创建了sqlSessionFactory，就不再需要它了</li>
+<li>局部变量</li>
+</ul>
+</li>
+<li><p>SqlSessionFactory：</p>
+<ul>
+<li>说白了就是可以想象为：数据库连接池。</li>
+<li>一旦创建就应该在应用的运行期间一直存在，没有任何理由对其它或重新创建另一个实例。</li>
+<li>因此sqlSessionFactory的最佳作用域是应用作用域，程序开始就开始，程序结束就结束。</li>
+<li>最简单的就是使用单例模式或者静态单例模式</li>
+</ul>
+</li>
+<li><p>sqlsession：</p>
+<ul>
+<li>sqlsession的实例不是线程安全的，因此不能被共享，所以它的最佳作用域是请求或方法作用域。</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/2347803678.png" alt="image"></p>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -1019,6 +1019,102 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </tags>
   </entry>
   <entry>
+    <title>【java基础】：(2)注解</title>
+    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
+<li>概念</li>
+<li>5个基本注解</li>
+<li>jdk元注解</li>
+<li>自定义注解</li>
+</ol>
+<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
+<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
+<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
+<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
+<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
+</ul>
+<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
+<li>@Override</li>
+<li>@Deprecated</li>
+<li>@SuppressWarnings</li>
+<li>@SafeVarags</li>
+<li>@FunctionalInterface</li>
+</ul>
+<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
+<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
+<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
+</ul>
+<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
+<li>可以取消编译器警告。</li>
+<li>@SuppressWarnings（value=“unchecked”）</li>
+</ul>
+<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
+<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
+</ul>
+<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
+<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
+<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
+<li>value的成员变量：<ul>
+<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
+<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
+<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
+</ul>
+</li>
+<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
+<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
+</ul>
+<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
+<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
+</ul>
+<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
+<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
+<li>配置文件：<ul>
+<li>优点：可配置，不用改源码。</li>
+<li>缺点：不直观，开发效率低</li>
+</ul>
+</li>
+<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
+</ul>
+<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
+<li><ol>
+<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
+</ol>
+</li>
+</ul>]]></content>
+      <categories>
+        <category>java基础</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【java基础】：（3）Integer等包装类的缓存机制</title>
     <url>/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h3 id="1、装箱和拆箱"><a href="#1、装箱和拆箱" class="headerlink" title="1、装箱和拆箱"></a>1、装箱和拆箱</h3><ul>
@@ -1235,102 +1331,6 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>代理模式</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【java基础】：(2)注解</title>
-    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
-<li>概念</li>
-<li>5个基本注解</li>
-<li>jdk元注解</li>
-<li>自定义注解</li>
-</ol>
-<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
-<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
-<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
-<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
-<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
-</ul>
-<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
-<li>@Override</li>
-<li>@Deprecated</li>
-<li>@SuppressWarnings</li>
-<li>@SafeVarags</li>
-<li>@FunctionalInterface</li>
-</ul>
-<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
-<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
-<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
-</ul>
-<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
-<li>可以取消编译器警告。</li>
-<li>@SuppressWarnings（value=“unchecked”）</li>
-</ul>
-<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
-<ul>
-<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
-<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
-</ul>
-<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
-<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
-<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
-<li>value的成员变量：<ul>
-<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
-<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
-<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
-</ul>
-</li>
-<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
-<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
-</ul>
-<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
-<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
-</ul>
-<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
-<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
-<li>配置文件：<ul>
-<li>优点：可配置，不用改源码。</li>
-<li>缺点：不直观，开发效率低</li>
-</ul>
-</li>
-<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
-</ul>
-<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
-<li><ol>
-<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
-</ol>
-</li>
-</ul>]]></content>
-      <categories>
-        <category>java基础</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
       </tags>
   </entry>
 </search>
