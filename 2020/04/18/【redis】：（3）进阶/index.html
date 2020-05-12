@@ -1,0 +1,1544 @@
+
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【redis】：（3）进阶">
+<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;index.html">
+<meta property="og:site_name" content="潇雷的博客">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;876EC7F874BD48EAB3195A8D26865630">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;FFE9C6A0A11E4416A554DA09338BE0B0">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;5830CB7746B04B39AEFF4F44FAD0B9C0">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;8CCE00D197CC4804AA8BB57E7AF89F02">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;89DA5855E54C43EE95404450D30C3614">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;487B6EC08FA943029F7D9C1D84164635">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;41DC5F8B880E4B6199616072ED1C32B3">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;E2625A047D054811A15F051A6B323CEB">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;FDABB502B5C448F9A3A2293D43B1D686">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;E7459D92FA3E4338983E28D8FF2E0F82">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;11196C4729834A9AAE74CD1D11C882D0">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;73173BB20C4E4210877C003B1DC7E841">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;11F9195DA2C84BA38EA4F3F5AC45DB14">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;EFE8568EB5AE4F3DBD877FD65AD75DF3">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;B5EBC2ABFD9745CFB63C90DB1626C27C">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;113D4444F6C34A98BC2EB8F1E70DE38A">
+<meta property="og:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;729D391EC655497A8A464D8458BC86CE">
+<meta property="og:updated_time" content="2020-05-12T07:35:17.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6&#x2F;876EC7F874BD48EAB3195A8D26865630">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xulei1996.com/2020/04/18/【redis】：（3）进阶/"/>
+
+
+
+
+
+  <title>【redis】：（3）进阶 | 潇雷的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">潇雷的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">悟已往之不谏,知来者之可追。实迷途其未远,觉今是而昨非！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【redis】：（3）进阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T15:35:17+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/" class="leancloud_visitors" data-flag-title="【redis】：（3）进阶">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、Redis发布订阅"><a href="#1、Redis发布订阅" class="headerlink" title="1、Redis发布订阅"></a>1、Redis发布订阅</h2><ul>
+<li><p>Redis发布订阅是一种消息通信模式：发送者发送消息，订阅者接收消息。微信、微博、关注系统</p>
+</li>
+<li><p>Redis客户端可以订阅任意数量的频道<br><img src="876EC7F874BD48EAB3195A8D26865630" alt="image"></p>
+</li>
+<li><p>下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的<br>关系：<br><img src="FFE9C6A0A11E4416A554DA09338BE0B0" alt="image"></p>
+</li>
+<li><p>当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户<br>端：<br><img src="5830CB7746B04B39AEFF4F44FAD0B9C0" alt="image"></p>
+</li>
+<li><p>命令<br><img src="8CCE00D197CC4804AA8BB57E7AF89F02" alt="image"></p>
+</li>
+<li><p>测试</p>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">## 发布者</span><br><span class="line">127.0.0.1:6379&gt; publish kuangshengshuo &quot;hello ,kuangsheng&quot;</span><br><span class="line">(integer) 1</span><br><span class="line">## 订阅者</span><br><span class="line">127.0.0.1:6379&gt; SUBSCRIBE kuangshengshuo #订阅一个频道</span><br><span class="line">Reading messages... (press Ctrl-C to quit)</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;kuangshengshuo&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">#等待推送的信息</span><br><span class="line">1) &quot;message&quot;</span><br><span class="line">2) &quot;kuangshengshuo&quot;</span><br><span class="line">3) &quot;hello ,kuangsheng&quot;</span><br></pre></td></tr></table></figure>
+<p>使用场景：</p>
+</li>
+<li><p>1、实时消息系统！</p>
+</li>
+<li><p>2、事实聊天！（频道当做聊天室，将信息回显给所有人即可！）</p>
+</li>
+<li><p>3、订阅，关注系统都是可以的！</p>
+</li>
+</ul>
+<h2 id="2、主从复制"><a href="#2、主从复制" class="headerlink" title="2、主从复制"></a>2、主从复制</h2><ul>
+<li><p>主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务器。前者称为主节点<br>(master/leader)，后者称为从节点(slave/follower)；数据的复制是单向的，只能由主节点到从节点。<br>Master以写为主，Slave 以读为主。<br>默认情况下，每台Redis服务器都是主节点；<br>且一个主节点可以有多个从节点(或没有从节点)，但一个从节点只能有一个主节点。（）</p>
+</li>
+<li><p>主从复制的作用主要包括：</p>
+</li>
+</ul>
+<ol>
+<li>数据冗余：主从复制实现了数据的热备份，是持久化之外的一种数据冗余方式。</li>
+<li>故障恢复：当主节点出现问题时，可以由从节点提供服务，实现快速的故障恢复；实际上是一种服务的冗余。</li>
+<li>负载均衡：在主从复制的基础上，配合读写分离，可以由主节点提供写服务，由从节点提供读服务（即写Redis数据时应用连接主节点，读Redis数据时应用连接从节点），分担服务器负载；尤其是在写少读多的场景下，通过多个从节点分担读负载，可以大大提高Redis服务器的并发量。</li>
+<li>高可用（集群）基石：除了上述作用以外，主从复制还是哨兵和集群能够实施的基础，因此说主从复 制是Redis高可用的基础。</li>
+</ol>
+<ul>
+<li><p>一般来说，要将Redis运用于工程项目中，只使用一台Redis是万万不能的，原因如下：</p>
+<ul>
+<li>1、从结构上，单个Redis服务器会发生单点故障，并且一台服务器需要处理所有的请求负载，压力较大。</li>
+<li>2、从容量上，单个Redis服务器内容容量有限，就算一台Redis服务器内容容量为256G，也不能将所有内存用作Redis存储内存。一般来说，单台Redis最大使用内存不应该超过20G</li>
+</ul>
+</li>
+<li><p>电商网站上的商品，一般都是一次上传，无数次浏览的，说专业点就算多读少写<br><img src="89DA5855E54C43EE95404450D30C3614" alt="image"></p>
+</li>
+</ul>
+<h4 id="集群环境配置"><a href="#集群环境配置" class="headerlink" title="集群环境配置"></a>集群环境配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info replication # 查看当前库的信息</span><br><span class="line"># Replication</span><br><span class="line">role:master # 角色 master</span><br><span class="line">connected_slaves:0 # 没有从机</span><br><span class="line">master_replid:77e9a2dbb3fe8d80bce84d540a8f1d53cc4ec09f</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:0</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:0</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:0</span><br><span class="line">repl_backlog_histlen:0</span><br></pre></td></tr></table></figure>
+<p>1、端口<br>2、pid 名字<br>3、log文件名字<br>4、dump.rdb 名字<br><img src="487B6EC08FA943029F7D9C1D84164635" alt="image"><br><img src="41DC5F8B880E4B6199616072ED1C32B3" alt="image"><br><img src="E2625A047D054811A15F051A6B323CEB" alt="image"><br><img src="FDABB502B5C448F9A3A2293D43B1D686" alt="image"></p>
+<ul>
+<li>修改完成后，启动我们三个redis进程。此时这三台都是主机<br><img src="E7459D92FA3E4338983E28D8FF2E0F82" alt="image"></li>
+<li>一主二从。配置从机（slaveof）找谁当老大<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6380&gt; slaveof 127.0.0.1 6379</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6380&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:slave</span><br><span class="line">master_host:127.0.0.1</span><br><span class="line">master_port:6379</span><br><span class="line">master_link_status:up</span><br><span class="line">master_last_io_seconds_ago:4</span><br><span class="line">master_sync_in_progress:0</span><br><span class="line">slave_repl_offset:14</span><br><span class="line">slave_priority:100</span><br><span class="line">slave_read_only:1</span><br><span class="line">connected_slaves:0</span><br><span class="line">master_replid:4116b68ebe34cfd9140fc70c00a841bc3570003d</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:14</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:14</span><br></pre></td></tr></table></figure></li>
+<li>真实的主从配置应该在配置文件中配置，这样的话是永久的。主机复制写，从机负责读。</li>
+<li>测试：主机断开连接，从机依旧连接到主机的，但是没有写操作，这个时候，主机如果回来了，从机依旧可以直接获取主机的信息。</li>
+<li>如果是使用命令行来配置的主从，这个时候如果重启了，就会变成主机只要变成从机，立马就会从主机中获取值，</li>
+<li>复制原理：Slave 启动成功连接到 master 后会发送一个sync同步命令<br>Master 接到命令，启动后台的存盘进程，同时收集所有接收到的用于修改数据集命令，在后台进程执行<br>完毕之后，master将传送整个数据文件到slave，并完成一次完全同步。<br>全量复制：而slave服务在接收到数据库文件数据后，将其存盘并加载到内存中。<br>增量复制：Master 继续将新的所有收集到的修改命令依次传给slave，完成同步<br>但是只要是重新连接master，一次完全同步（全量复制）将被自动执行！ 我们的数据一定可以在从机中<br>看到！<blockquote>
+<p>如果没有老大了，这个时候能不能选择一个老大出来。</p>
+</blockquote>
+</li>
+<li>slaveof no one</li>
+</ul>
+<h2 id="3、哨兵模式"><a href="#3、哨兵模式" class="headerlink" title="3、哨兵模式"></a>3、哨兵模式</h2><h3 id="3-1概述"><a href="#3-1概述" class="headerlink" title="3.1概述"></a>3.1概述</h3><ul>
+<li><p>主从切换技术的方法是：当主服务器宕机后，需要手动把一台从服务器切换为主服务器，这就需要人工<br>干预，费事费力，还会造成一段时间内服务不可用。这不是一种推荐的方式，更多时候，我们优先考虑<br>哨兵模式。Redis从2.8开始正式提供了Sentinel（哨兵） 架构来解决这个问题。<br>谋朝篡位的自动版，能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库。<br>哨兵模式是一种特殊的模式，首先Redis提供了哨兵的命令，哨兵是一个独立的进程，作为进程，它会独<br>立运行。其原理是哨兵通过发送命令，等待Redis服务器响应，从而监控运行的多个Redis实例。<br><img src="11196C4729834A9AAE74CD1D11C882D0" alt="image"></p>
+</li>
+<li><p>这里的哨兵有两个作用：</p>
+<ul>
+<li>通过发送命令，让Redis服务器返回监控其运行状态，包括主服务器和从服务器</li>
+<li>当哨兵监测到master宕机，会自动切换slave成master，然后通过发布订阅模式，通知其他的从服务器。修改配置文件，让他们切换主机</li>
+</ul>
+</li>
+<li><p>然而一个哨兵进程对Redis服务器进行监控，可能会出现问题，为此，我们使用多个哨兵进行监控。多哨兵模式<br><img src="73173BB20C4E4210877C003B1DC7E841" alt="image"></p>
+</li>
+<li><p>假设主服务器宕机，哨兵1先检测到这个结果，系统并不会马上进行failover过程，仅仅是哨兵1主观的认<br>为主服务器不可用，这个现象成为主观下线。当后面的哨兵也检测到主服务器不可用，并且数量达到一<br>定值时，那么哨兵之间就会进行一次投票，投票的结果由一个哨兵发起，进行failover[故障转移]操作。<br>切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为<br>客观下线。</p>
+</li>
+</ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
+<li>1、配置哨兵配置文件 sentinel.conf</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># sentinel monitor 被监控的名称 host port 1 </span><br><span class="line">sentinel monitor myredis 127.0.0.1 6379 1</span><br><span class="line"># 后面这个数字1，代表主机挂了，slave投票看让谁接替成为主机，票数最多的，就会称为主机</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、启动哨兵</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@iz2ze7g9h65aj7hp4a1l9bz bin]# redis-sentinel xlconfig/sentinel.conf </span><br><span class="line">8541:X 26 Apr 2020 19:08:06.039 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.039 # Redis version=5.0.8, bits=64, commit=00000000, modified=0, pid=8541, just started</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.039 # Configuration loaded</span><br><span class="line">                _._                                                  </span><br><span class="line">           _.-``__ &apos;&apos;-._                                             </span><br><span class="line">      _.-``    `.  `_.  &apos;&apos;-._           Redis 5.0.8 (00000000/0) 64 bit</span><br><span class="line">  .-`` .-```.  ```\/    _.,_ &apos;&apos;-._                                   </span><br><span class="line"> (    &apos;      ,       .-`  | `,    )     Running in sentinel mode</span><br><span class="line"> |`-._`-...-` __...-.``-._|&apos;` _.-&apos;|     Port: 26379</span><br><span class="line"> |    `-._   `._    /     _.-&apos;    |     PID: 8541</span><br><span class="line">  `-._    `-._  `-./  _.-&apos;    _.-&apos;                                   </span><br><span class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|                                  </span><br><span class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |           http://redis.io        </span><br><span class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;                                   </span><br><span class="line"> |`-._`-._    `-.__.-&apos;    _.-&apos;_.-&apos;|                                  </span><br><span class="line"> |    `-._`-._        _.-&apos;_.-&apos;    |                                  </span><br><span class="line">  `-._    `-._`-.__.-&apos;_.-&apos;    _.-&apos;                                   </span><br><span class="line">      `-._    `-.__.-&apos;    _.-&apos;                                       </span><br><span class="line">          `-._        _.-&apos;                                           </span><br><span class="line">              `-.__.-&apos;                                               </span><br><span class="line"></span><br><span class="line">8541:X 26 Apr 2020 19:08:06.040 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.042 # Sentinel ID is 1231ff44204dd557619c339eb7628ff5cc9182d8</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.042 # +monitor master myredis 127.0.0.1 6379 quorum 1</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.043 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ myredis 127.0.0.1 6379</span><br><span class="line">8541:X 26 Apr 2020 19:08:06.045 * +slave slave 127.0.0.1:6381 127.0.0.1 6381 @ myredis 127.0.0.1 6379</span><br></pre></td></tr></table></figure>
+<ul>
+<li>发现6381变成了主机。如果原来的主机回来了，那只能当做从机。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6381&gt; info replication</span><br><span class="line"># Replication</span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=127.0.0.1,port=6380,state=online,offset=14249,lag=0</span><br><span class="line">master_replid:77a2ab0ed7454ba9efc54ae6ac73d1b6e5324e5d</span><br><span class="line">master_replid2:4116b68ebe34cfd9140fc70c00a841bc3570003d</span><br><span class="line">master_repl_offset:14249</span><br><span class="line">second_repl_offset:12615</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:169</span><br><span class="line">repl_backlog_histlen:14081</span><br></pre></td></tr></table></figure>
+<h4 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h4></li>
+<li>优点：<ul>
+<li>1、哨兵集群，基于主从复制模式，所有的主从配置优点，它全有</li>
+<li>2、主从可以切换，故障可以转移，系统的可用性就会更好</li>
+<li>3、哨兵模式就是主从模式的升级，手动变自动</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>1、Redis不好在线扩容，集群容量一旦到达上限，在线扩容就十分麻烦</li>
+<li>2、实现哨兵模式的配置其实是很麻烦的，里面有很多选择<h4 id="哨兵模式的全部配置"><a href="#哨兵模式的全部配置" class="headerlink" title="哨兵模式的全部配置"></a>哨兵模式的全部配置</h4></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Example sentinel.conf # 哨兵sentinel实例运行的端口 默认26379 port 26379 # 哨兵sentinel的工作目录 dir /tmp # 哨兵sentinel监控的redis主节点的 ip port # master-name 可以自己命名的主节点名字 只能由字母A-z、数字0-9 、这三个字符&quot;.-_&quot;组成。 # quorum 配置多少个sentinel哨兵统一认为master主节点失联 那么这时客观上认为主节点失联了 # sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt; sentinel monitor mymaster 127.0.0.1 6379 2 # 当在Redis实例中开启了requirepass foobared 授权密码 这样所有连接Redis实例的客户端都要提供 密码# 设置哨兵sentinel 连接主从的密码 注意必须为主从设置一样的验证密码 # sentinel auth-pass &lt;master-name&gt; &lt;password&gt; sentinel auth-pass mymaster MySUPER--secret-0123passw0rd # 指定多少毫秒之后 主节点没有应答哨兵sentinel 此时 哨兵主观上认为主节点下线 默认30秒 # sentinel down-after-milliseconds &lt;master-name&gt; &lt;milliseconds&gt; sentinel down-after-milliseconds mymaster 30000 # 这个配置项指定了在发生failover主备切换时最多可以有多少个slave同时对新的master进行 同步， 这个数字越小，完成failover所需的时间就越长， 但是如果这个数字越大，就意味着越 多的slave因为replication而不可用。 可以通过将这个值设为 1 来保证每次只有一个slave 处于不能处理命令请求的状态。 # sentinel parallel-syncs &lt;master-name&gt; &lt;numslaves&gt; sentinel parallel-syncs mymaster 1 # 故障转移的超时时间 failover-timeout 可以用在以下这些方面： #1. 同一个sentinel对同一个master两次failover之间的间隔时间。 #2. 当一个slave从一个错误的master那里同步数据开始计算时间。直到slave被纠正为向正确的master那 里同步数据时。 #3.当想要取消一个正在进行的failover所需要的时间。 #4.当进行failover时，配置所有slaves指向新的master所需的最大时间。不过，即使过了这个超时， slaves依然会被正确配置为指向master，但是就不按parallel-syncs所配置的规则来了 # 默认三分钟 # sentinel failover-timeout &lt;master-name&gt; &lt;milliseconds&gt; bilibili：狂神说Java</span><br><span class="line">社会目前程序员饱和（初级和中级）、高级程序员重金难求！（提升自己！）</span><br><span class="line">Redis缓存穿透和雪崩</span><br><span class="line">服务的高可用问题！</span><br><span class="line">在这里我们不会详细的区分析解决方案的底层！</span><br><span class="line">Redis缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。但同时，它也带来了一</span><br><span class="line">些问题。其中，最要害的问题，就是数据的一致性问题，从严格意义上讲，这个问题无解。如果对数据</span><br><span class="line">的一致性要求很高，那么就不能使用缓存。</span><br><span class="line">另外的一些典型问题就是，缓存穿透、缓存雪崩和缓存击穿。目前，业界也都有比较流行的解决方案。</span><br><span class="line">sentinel failover-timeout mymaster 180000 # SCRIPTS EXECUTION #配置当某一事件发生时所需要执行的脚本，可以通过脚本来通知管理员，例如当系统运行不正常时发邮件通知 相关人员。 #对于脚本的运行结果有以下规则： #若脚本执行后返回1，那么该脚本稍后将会被再次执行，重复次数目前默认为10 #若脚本执行后返回2，或者比2更高的一个返回值，脚本将不会重复执行。 #如果脚本在执行过程中由于收到系统中断信号被终止了，则同返回值为1时的行为相同。 #一个脚本的最大执行时间为60s，如果超过这个时间，脚本将会被一个SIGKILL信号终止，之后重新执行。 #通知型脚本:当sentinel有任何警告级别的事件发生时（比如说redis实例的主观失效和客观失效等等）， 将会去调用这个脚本，这时这个脚本应该通过邮件，SMS等方式去通知系统管理员关于系统不正常运行的信 息。调用该脚本时，将传给脚本两个参数，一个是事件的类型，一个是事件的描述。如果sentinel.conf配 置文件中配置了这个脚本路径，那么必须保证这个脚本存在于这个路径，并且是可执行的，否则sentinel无 法正常启动成功。 #通知脚本 # shell编程 # sentinel notification-script &lt;master-name&gt; &lt;script-path&gt; sentinel notification-script mymaster /var/redis/notify.sh # 客户端重新配置主节点参数脚本 # 当一个master由于failover而发生改变时，这个脚本将会被调用，通知相关的客户端关于master地址已 经发生改变的信息。 # 以下参数将会在调用脚本时传给脚本: # &lt;master-name&gt; &lt;role&gt; &lt;state&gt; &lt;from-ip&gt; &lt;from-port&gt; &lt;to-ip&gt; &lt;to-port&gt; # 目前&lt;state&gt;总是“failover”, # &lt;role&gt;是“leader”或者“observer”中的一个。 # 参数 from-ip, from-port, to-ip, to-port是用来和旧的master和新的master(即旧的slave)通 信的# 这个脚本应该是通用的，能被多次调用，不是针对性的。 # sentinel client-reconfig-script &lt;master-name&gt; &lt;script-path&gt; sentinel client-reconfig-script mymaster /var/redis/reconfig.sh # 一般都是由运维来配 置！</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、1Redis缓存穿透和雪崩"><a href="#4、1Redis缓存穿透和雪崩" class="headerlink" title="4、1Redis缓存穿透和雪崩"></a>4、1Redis缓存穿透和雪崩</h3><ul>
+<li>服务的高可用问题</li>
+<li>Redis缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。最要害的是数据一致性问题。从严格意义上讲，这个问题无解，数据要求很高，就不能使用。<br><img src="11F9195DA2C84BA38EA4F3F5AC45DB14" alt="image"><h4 id="4-1缓存穿透概念"><a href="#4-1缓存穿透概念" class="headerlink" title="4.1缓存穿透概念"></a>4.1缓存穿透概念</h4>缓存穿透的概念很简单，用户想要查询一个数据，发现redis内存数据库没有，于是想持久层数据库查询，发现也没有，并发高的时候，给数据库造成很大的压力，这时候就是缓存穿透。</li>
+</ul>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<li>布隆过滤器：是一种数据结构，对所有可能查询的参数以hash形式存储，在控制层先进行校验，不符合则丢弃，从而避免了对底层存储系统的查询压力。<br><img src="EFE8568EB5AE4F3DBD877FD65AD75DF3" alt="image"></li>
+<li>缓存空对象：当存储层不命中后，即使返回的空对象也将其缓存起来，同时会设置一个过期时间，之后再访问这个数据将会从缓存中存取，保护了后端数据源。<br><img src="B5EBC2ABFD9745CFB63C90DB1626C27C" alt="image"><br>但是这种方法会存在两个问题：<br>1、如果空值能够被缓存起来，这就意味着缓存需要更多的空间存储更多的键，因为这当中可能会有很多<br>的空值的键；<br>2、即使对空值设置了过期时间，还是会存在缓存层和存储层的数据会有一段时间窗口的不一致，这对于<br>需要保持一致性的业务会有影响。</li>
+</ul>
+<h4 id="4-2缓存击穿"><a href="#4-2缓存击穿" class="headerlink" title="4.2缓存击穿"></a>4.2缓存击穿</h4><ul>
+<li>概述：这里需要注意和缓存击穿的区别，缓存击穿，是指一个key非常热点，在不停的扛着大并发，大并发集中<br>对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一<br>个屏障上凿开了一个洞。<br>当某个key在过期的瞬间，有大量的请求并发访问，这类数据一般是热点数据，由于缓存过期，会同时访<br>问数据库来查询最新数据，并且回写缓存，会导使数据库瞬间压力过大。</li>
+</ul>
+<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<li>设置热点数据永不过期</li>
+<li>加互斥锁<br>分布式锁：使用分布式锁，保证对于每个key同时只有一个线程去查询后端服务，其他线程没有获得分布<br>式锁的权限，因此只需要等待即可。这种方式将高并发的压力转移到了分布式锁，因此对分布式锁的考<br>验很大。<br><img src="113D4444F6C34A98BC2EB8F1E70DE38A" alt="image"></li>
+</ul>
+<h4 id="4-3-缓存雪崩"><a href="#4-3-缓存雪崩" class="headerlink" title="4.3 缓存雪崩"></a>4.3 缓存雪崩</h4><ul>
+<li>概念：缓存雪崩，是指在某一个时间段，缓存集中过期失效。Redis 宕机！<br>产生雪崩的原因之一，比如在写本文的时候，马上就要到双十二零点，很快就会迎来一波抢购，这波商<br>品时间比较集中的放入了缓存，假设缓存一个小时。那么到了凌晨一点钟的时候，这批商品的缓存就都<br>过期了。而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压力波<br>峰。于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会挂掉的情况。<br><img src="729D391EC655497A8A464D8458BC86CE" alt="image"><br>其实集中过期，倒不是非常致命，比较致命的缓存雪崩，是缓存服务器某个节点宕机或断网。因为自然<br>形成的缓存雪崩，一定是在某个时间段集中创建缓存，这个时候，数据库也是可以顶住压力的。无非就<br>是对数据库产生周期性的压力而已。而缓存服务节点的宕机，对数据库服务器造成的压力是不可预知<br>的，很有可能瞬间就把数据库压垮。</li>
+</ul>
+<h4 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<li>redis高可用<br>这个思想的含义是，既然redis有可能挂掉，那我多增设几台redis，这样一台挂掉之后其他的还可以继续工作，其实就是搭建的集群。（异地多活！）</li>
+<li>限流降级（在SpringCloud讲解过！）<br>这个解决方案的思想是，在缓存失效后，通过加锁或者队列来控制读数据库写缓存的线程数量。比如对某个key只允许一个线程查询数据和写缓存，其他线程等待。</li>
+<li>数据预热<br>数据加热的含义就是在正式部署之前，我先把可能的数据先预先访问一遍，这样部分可能大量访问的数据就会加载到缓存中。在即将发生大并发访问前手动触发加载缓存不同的key，设置不同的过期时间，让缓存失效的时间点尽量均匀。</li>
+</ul>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/" rel="next" title="【java基础】：(2)注解">
+                <i class="fa fa-chevron-left"></i> 【java基础】：(2)注解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/" rel="prev" title="【redis】：（2）进阶">
+                【redis】：（2）进阶 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg"
+                alt="潇雷" />
+            
+              <p class="site-author-name" itemprop="name">潇雷</p>
+              <p class="site-description motion-element" itemprop="description">Java学习者，大数据爱好者，在读研究僧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolei19960829" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_42184068" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()"�� 1000);
+BirthDay=new Date("11/17/2019 15:13:14");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="������"+daysold+"��"+hrsold+"Сʱ"+minsold+"��"+seconds+"��";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、Redis发布订阅"><span class="nav-number">1.</span> <span class="nav-text">1、Redis发布订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、主从复制"><span class="nav-number">2.</span> <span class="nav-text">2、主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#集群环境配置"><span class="nav-number">2.0.1.</span> <span class="nav-text">集群环境配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、哨兵模式"><span class="nav-number">3.</span> <span class="nav-text">3、哨兵模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1概述"><span class="nav-number">3.1.</span> <span class="nav-text">3.1概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">3.2.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#面试"><span class="nav-number">3.2.1.</span> <span class="nav-text">面试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哨兵模式的全部配置"><span class="nav-number">3.2.2.</span> <span class="nav-text">哨兵模式的全部配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、1Redis缓存穿透和雪崩"><span class="nav-number">3.3.</span> <span class="nav-text">4、1Redis缓存穿透和雪崩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1缓存穿透概念"><span class="nav-number">3.3.1.</span> <span class="nav-text">4.1缓存穿透概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案"><span class="nav-number">3.3.2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2缓存击穿"><span class="nav-number">3.3.3.</span> <span class="nav-text">4.2缓存击穿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案-1"><span class="nav-number">3.3.4.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-缓存雪崩"><span class="nav-number">3.3.5.</span> <span class="nav-text">4.3 缓存雪崩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方案-2"><span class="nav-number">3.3.6.</span> <span class="nav-text">解决方案</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+	  
+	          
+        
+
+-        
+<div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()"�� 1000);
+BirthDay=new Date("11/17/2019 15:13:14");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="������"+daysold+"��"+hrsold+"Сʱ"+minsold+"��"+seconds+"��";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+	   
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">潇雷</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">39k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+ <div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_uv">
+    本站总访客数:<span id="busuanzi_value_site_uv"></span>&nbsp;&nbsp;| 
+  </span>
+  <span id="busuanzi_container_site_pv">
+      &nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  </div>
+  </div>
+
+  <script>
+      var now = new Date(); 
+      function createtime() { 
+          var grt= new Date("03/12/2019 12:00:00");//此处修改你的建站时间或者网站上线时间 
+          now.setTime(now.getTime()+250); 
+          days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+          hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+          if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+          mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+          seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+          snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+          document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+          document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+      } 
+  setInterval("createtime()",250);
+  </script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'JwQGto4XQG3FJaORJwuKPy0y-gzGzoHsz',
+        appKey: 'fb8hg4XEFdXdK7ma0MleMaD5',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("JwQGto4XQG3FJaORJwuKPy0y-gzGzoHsz", "fb8hg4XEFdXdK7ma0MleMaD5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+<script type="text/javascript" src="/js/src/dytitle.js"></script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

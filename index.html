@@ -295,6 +295,209 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" itemprop="url">【java基础】：（4）iterator迭代器遍历集合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T19:20:12+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T21:49:18+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" class="leancloud_visitors" data-flag-title="【java基础】：（4）iterator迭代器遍历集合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  825
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/base.jpg"/>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -444,6 +647,615 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/" itemprop="url">【redis】：（1）基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T15:34:11+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/" class="leancloud_visitors" data-flag-title="【redis】：（1）基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/base.jpg"/>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/" itemprop="url">【redis】：（2）进阶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T15:34:51+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/" class="leancloud_visitors" data-flag-title="【redis】：（2）进阶">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/base.jpg"/>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/" itemprop="url">【redis】：（3）进阶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T15:35:17+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/" class="leancloud_visitors" data-flag-title="【redis】：（3）进阶">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/base.jpg"/>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1906,818 +2718,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇雷">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇雷的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" itemprop="url">【spring】：（6）AOP</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T19:28:12+08:00">
-                2020-02-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T23:03:31+08:00">
-                2020-04-27
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/" class="leancloud_visitors" data-flag-title="【spring】：（6）AOP">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-                 <span>°C</span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1.5k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/ssm.jpg"/>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%886%EF%BC%89AOP/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-<div>
-  
-</div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇雷">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇雷的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" itemprop="url">【spring】：（5）Bean的自动装配</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T19:24:12+08:00">
-                2020-02-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T23:03:18+08:00">
-                2020-04-27
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/" class="leancloud_visitors" data-flag-title="【spring】：（5）Bean的自动装配">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-                 <span>°C</span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  715
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/ssm.jpg"/>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-<div>
-  
-</div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇雷">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇雷的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="url">【spring】：(4)spring Bean的生命周期</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T19:22:12+08:00">
-                2020-02-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T23:03:05+08:00">
-                2020-04-27
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="leancloud_visitors" data-flag-title="【spring】：(4)spring Bean的生命周期">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-                 <span>°C</span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  840
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/ssm.jpg"/>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-<div>
-  
-</div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇雷">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇雷的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" itemprop="url">【spring】：（3）依赖注入</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-27T19:20:12+08:00">
-                2020-02-27
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T23:02:53+08:00">
-                2020-04-27
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" class="leancloud_visitors" data-flag-title="【spring】：（3）依赖注入">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-                 <span>°C</span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1.3k
-                </span>
-              
-
-              
-
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img width="769px" height="369px" src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/ssm.jpg"/>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-<div>
-  
-</div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2772,7 +2772,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2783,7 +2783,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2794,7 +2794,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2927,7 +2927,7 @@ show_date_time();
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">25.7k</span>
+    <span title="Site words total count">39k</span>
   
 </div>
 

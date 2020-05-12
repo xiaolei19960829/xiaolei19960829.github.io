@@ -1,0 +1,1517 @@
+
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【redis】：（1）基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;04&#x2F;18&#x2F;%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:site_name" content="潇雷的博客">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-12T07:34:11.482Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xulei1996.com/2020/04/18/【redis】：（1）基础/"/>
+
+
+
+
+
+  <title>【redis】：（1）基础 | 潇雷的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">潇雷的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">悟已往之不谏,知来者之可追。实迷途其未远,觉今是而昨非！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【redis】：（1）基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-18T19:20:12+08:00">
+                2020-04-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T15:34:11+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%9F%BA%E7%A1%80/" class="leancloud_visitors" data-flag-title="【redis】：（1）基础">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4.3k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>Redis是一个开源（BSD许可），内存存储的数据结构服务器，可用作<strong>数据库，高速缓存和消息队列代理</strong>。它支持字符串、哈希表、列表、集合、有序集合，位图，hyperloglogs等数据类型。内置复制、Lua脚本、LRU收回、事务以及不同级别磁盘持久化功能，同时通过Redis Sentinel提供高可用，通过Redis Cluster提供自动分区。</li>
+</ul>
+<h3 id="一、五大数据类型"><a href="#一、五大数据类型" class="headerlink" title="一、五大数据类型"></a>一、五大数据类型</h3><h4 id="Redis-key"><a href="#Redis-key" class="headerlink" title="Redis-key"></a>Redis-key</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;age&quot;</span><br><span class="line">2) &quot;name&quot;</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">&quot;xulei&quot;</span><br><span class="line">127.0.0.1:6379&gt; expire name 3</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ttl name # 剩余时间</span><br><span class="line">(integer) -2</span><br><span class="line">127.0.0.1:6379&gt; get name</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; exists name</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; type age</span><br><span class="line">string</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-String"><a href="#1-1-String" class="headerlink" title="1.1 String"></a>1.1 String</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">#######  append，strlen</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; set key1 v1</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;key1&quot;</span><br><span class="line">2) &quot;age&quot;</span><br><span class="line">127.0.0.1:6379&gt; APPEND key1 hello</span><br><span class="line">(integer) 7</span><br><span class="line">127.0.0.1:6379&gt; get key1</span><br><span class="line">&quot;v1hello&quot;</span><br><span class="line">127.0.0.1:6379&gt; strlen key1</span><br><span class="line">(integer) 7</span><br><span class="line"></span><br><span class="line">######## 加减操作，可以设置步长</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; get views</span><br><span class="line">&quot;0&quot;</span><br><span class="line">127.0.0.1:6379&gt; incr views</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; incr views</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; get views</span><br><span class="line">&quot;2&quot;</span><br><span class="line">127.0.0.1:6379&gt; decr views</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; incrby views 10</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; decrby views 2</span><br><span class="line">(integer) 9</span><br><span class="line"></span><br><span class="line">########## 字符串范围</span><br><span class="line">127.0.0.1:6379&gt; set key1 &quot;hello,xulei&quot;</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; getrange key1 0 4</span><br><span class="line">&quot;hello&quot;</span><br><span class="line">127.0.0.1:6379&gt; getrange key1 0 -1 # 获取所有的字符串</span><br><span class="line">&quot;hello,xulei&quot;</span><br><span class="line"></span><br><span class="line">############ 替换</span><br><span class="line">127.0.0.1:6379&gt; set key2 abcd</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get key2</span><br><span class="line">&quot;abcd&quot;</span><br><span class="line">127.0.0.1:6379&gt; setrange key2 1 xx</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; get key2</span><br><span class="line">&quot;axxd&quot;</span><br><span class="line"></span><br><span class="line">############## setex，setnx</span><br><span class="line">#setex（set with expire） 设置过期时间</span><br><span class="line">#setnx（set if not exist） 不存在设置</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; setex key3 20 hualin</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get key3</span><br><span class="line">&quot;hualin&quot;</span><br><span class="line">127.0.0.1:6379&gt; ttl key3</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; setnx mykey redis # 如果mykey不存在，创建成功</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;key1&quot;</span><br><span class="line">2) &quot;mykey&quot;</span><br><span class="line">3) &quot;key2&quot;</span><br><span class="line">127.0.0.1:6379&gt; ttl key3</span><br><span class="line">(integer) -2</span><br><span class="line">127.0.0.1:6379&gt; setnx mykey 1 # 如果mykey存在，创建失败</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; get mykey</span><br><span class="line">&quot;redis&quot;</span><br><span class="line"></span><br><span class="line">####################### 批量获取和设置</span><br><span class="line"># mset </span><br><span class="line"># mget</span><br><span class="line"># msetnx 是一个原子性的操作，要么一起成功，要么一起失败</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; mset k1 v1 k2 v2 k3 v3</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get k1</span><br><span class="line">&quot;v1&quot;</span><br><span class="line">127.0.0.1:6379&gt; get k2</span><br><span class="line">&quot;v2&quot;</span><br><span class="line">127.0.0.1:6379&gt; get k3</span><br><span class="line">&quot;v3&quot;</span><br><span class="line">127.0.0.1:6379&gt; mget k1 k2 k3</span><br><span class="line">1) &quot;v1&quot;</span><br><span class="line">2) &quot;v2&quot;</span><br><span class="line">3) &quot;v3&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; msetnx k1 v1 k4 v4</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; get k4</span><br><span class="line">(nil)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">################# 对象</span><br><span class="line"></span><br><span class="line">set user:1 &#123;name:zhangson,age:29&#125;</span><br><span class="line"># 设置一个user：1对象，值为json字符来保存一个对象</span><br><span class="line">127.0.0.1:6379&gt; mset user:2:name xulei user:2:age 26 </span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">########## </span><br><span class="line"># getset 先get然后set，更新的操作，并返回value</span><br><span class="line">127.0.0.1:6379&gt; getset db redis</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; get db</span><br><span class="line">&quot;redis&quot;</span><br><span class="line">127.0.0.1:6379&gt; getset db mongodb</span><br><span class="line">&quot;redis&quot;</span><br><span class="line">127.0.0.1:6379&gt; get db</span><br><span class="line">&quot;mongodb&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>String类似的使用场景：value 除了是我们的字符串还可以是我们的数字<ul>
+<li>计数器</li>
+<li>统计多单位的数量 uid：2015101367 ：flow 0 incr</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-4-List"><a href="#1-4-List" class="headerlink" title="1.4 List"></a>1.4 List</h4><ul>
+<li>基本的数据类型、列表</li>
+<li>在redis里面，我们可以把list玩成栈、队列、阻塞队列。看成队列比较好</li>
+<li><strong>所有的list命令都是用l开头的</strong></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">########### </span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lpush list one</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; lpush list tow</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; lpush list three</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;three&quot;</span><br><span class="line">2) &quot;tow&quot;</span><br><span class="line">3) &quot;one&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 2</span><br><span class="line">1) &quot;three&quot;</span><br><span class="line">2) &quot;tow&quot;</span><br><span class="line">3) &quot;one&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 1 #通过区间获取 从尾部依次往前获取</span><br><span class="line">1) &quot;three&quot;</span><br><span class="line">2) &quot;tow&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list 1 2 </span><br><span class="line">1) &quot;tow&quot;</span><br><span class="line">2) &quot;one&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; rpush list zero</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1 # 插入到头部</span><br><span class="line">1) &quot;three&quot;</span><br><span class="line">2) &quot;tow&quot;</span><br><span class="line">3) &quot;one&quot;</span><br><span class="line">4) &quot;zero&quot;</span><br><span class="line"></span><br><span class="line">############# </span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lpop list # 移除尾部元素</span><br><span class="line">&quot;three&quot;</span><br><span class="line">127.0.0.1:6379&gt; rpop list # 移除头部元素</span><br><span class="line">&quot;zero&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;tow&quot;</span><br><span class="line">2) &quot;one&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###################</span><br><span class="line"></span><br><span class="line"># 通过下标获取某个值 lindex</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;tow&quot;</span><br><span class="line">2) &quot;one&quot;</span><br><span class="line">127.0.0.1:6379&gt; Lindex list 1</span><br><span class="line">&quot;one&quot;</span><br><span class="line">127.0.0.1:6379&gt; Lindex list 0</span><br><span class="line">&quot;tow&quot;</span><br><span class="line">127.0.0.1:6379&gt; Lindex list 2</span><br><span class="line">(nil)</span><br><span class="line"></span><br><span class="line">#######################</span><br><span class="line">Llen: 返回列表的长度</span><br><span class="line">127.0.0.1:6379&gt; llen list </span><br><span class="line">(integer) 3</span><br><span class="line"></span><br><span class="line">#####################</span><br><span class="line"># lrem 移除指定的值，移除是从头部开始移除的</span><br><span class="line">取关：uid</span><br><span class="line">127.0.0.1:6379&gt; lrem list 1 1</span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -2</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;1&quot;</span><br><span class="line">4) &quot;2&quot;</span><br><span class="line">5) &quot;2&quot;</span><br><span class="line">6) &quot;3&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrem list 2 2</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -2</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;2&quot;</span><br><span class="line">4) &quot;3&quot;</span><br><span class="line"></span><br><span class="line">###############################</span><br><span class="line"># ltrim 截取list的元素，只剩下剪短后的元素，</span><br><span class="line"># ltrim 1 0 # 是清空整个列表的意思，因为区间长度为负</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lrange list2 0 -1</span><br><span class="line">1) &quot;hello5&quot;</span><br><span class="line">2) &quot;hello4&quot;</span><br><span class="line">3) &quot;hello3&quot;</span><br><span class="line">4) &quot;hello2&quot;</span><br><span class="line">5) &quot;hello&quot;</span><br><span class="line">127.0.0.1:6379&gt; ltrim list2 2 3</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; lrange list2 0 -1</span><br><span class="line">1) &quot;hello3&quot;</span><br><span class="line">2) &quot;hello2&quot;</span><br><span class="line">127.0.0.1:6379&gt; </span><br><span class="line"></span><br><span class="line">#################</span><br><span class="line">rpoplpush # 移除列表的最后一个元素</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; rpush mylist hello1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; rpush mylist hello2</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; rpush mylist hello3</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; rpush mylist hello4</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; rpush mylist hello5</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; rpoplpush mylist othorlist</span><br><span class="line">&quot;hello5&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange mylist 0 -1</span><br><span class="line">1) &quot;hello1&quot;</span><br><span class="line">2) &quot;hello2&quot;</span><br><span class="line">3) &quot;hello3&quot;</span><br><span class="line">4) &quot;hello4&quot;</span><br><span class="line">127.0.0.1:6379&gt; lrange othorlist 0 -1</span><br><span class="line">1) &quot;hello5&quot;</span><br><span class="line"></span><br><span class="line">#################</span><br><span class="line"># lset 将列表中指定的下标的值替换为另外一个值 更新操作</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lset list 0 item # 判断这个列表是否存在，</span><br><span class="line">(error) ERR no such key</span><br><span class="line">127.0.0.1:6379&gt; lpush list value1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; lset list 0 item</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 0</span><br><span class="line">1) &quot;item&quot;</span><br><span class="line"></span><br><span class="line">####################</span><br><span class="line"># linsert 在before和after插入 具体的值</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;intem3&quot;</span><br><span class="line">2) &quot;intem2&quot;</span><br><span class="line">3) &quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; linsert list before &quot;item&quot; nimabi </span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;intem3&quot;</span><br><span class="line">2) &quot;intem2&quot;</span><br><span class="line">3) &quot;nimabi&quot;</span><br><span class="line">4) &quot;item&quot;</span><br><span class="line">127.0.0.1:6379&gt; linsert list after item hahahhahah</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; lrange list 0 -1</span><br><span class="line">1) &quot;intem3&quot;</span><br><span class="line">2) &quot;intem2&quot;</span><br><span class="line">3) &quot;nimabi&quot;</span><br><span class="line">4) &quot;item&quot;</span><br><span class="line">5) &quot;hahahhahah&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>它实际上是一个链表，before Node after，left right都可以插入值</li>
+<li>如果key不存在，创建新的链表</li>
+<li>如果key存在，新增内容</li>
+<li>如果移除了所有值，空链表</li>
+<li>在两边插入或者改动值，效率高，中间元素，相对来说效率会低点</li>
+</ul>
+<p>消息队列（Lpush Rpop） 栈（Lpush Lpop）</p>
+<h4 id="1-3-set（集合）"><a href="#1-3-set（集合）" class="headerlink" title="1.3 set（集合）"></a>1.3 set（集合）</h4><ul>
+<li>set的值是不能重复的，无序不重复。可以用来存储在某个活动中中奖的用户ID，因为有去重作用。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">##################################</span><br><span class="line"># sadd 添加元素</span><br><span class="line"># smembers ：所有的set集合</span><br><span class="line"># sismember ：判断是否有该元素</span><br><span class="line"># scard ：获取当前的元素</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; sadd myset hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset xiaolei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset xulei love hualin</span><br><span class="line">(integer) 3</span><br><span class="line">127.0.0.1:6379&gt; smembers myset</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;hello&quot;</span><br><span class="line">3) &quot;love&quot;</span><br><span class="line">4) &quot;xiaolei&quot;</span><br><span class="line">5) &quot;hualin&quot;</span><br><span class="line">127.0.0.1:6379&gt; sismember myset hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; scard myset</span><br><span class="line">(integer) 5</span><br><span class="line">########################################</span><br><span class="line"># srem : 移除set集合元素</span><br><span class="line"># SRANDMEMBER：随机抽选出一个元素</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; srem myset hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; SRANDMEMBER myset </span><br><span class="line">&quot;xulei&quot;</span><br><span class="line">127.0.0.1:6379&gt; SRANDMEMBER myset </span><br><span class="line">&quot;hualin&quot;</span><br><span class="line">127.0.0.1:6379&gt; SRANDMEMBER myset </span><br><span class="line">&quot;love&quot;</span><br><span class="line"></span><br><span class="line">########################################</span><br><span class="line"># spop ：随机删除key</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; spop myset</span><br><span class="line">&quot;hualin&quot;</span><br><span class="line">127.0.0.1:6379&gt; SMEMBERS myset</span><br><span class="line">1) &quot;love&quot;</span><br><span class="line">2) &quot;xulei&quot;</span><br><span class="line">3) &quot;xiaolei&quot;</span><br><span class="line">127.0.0.1:6379&gt; spop myset</span><br><span class="line">&quot;love&quot;</span><br><span class="line"></span><br><span class="line">########################################</span><br><span class="line"># 将一个指定的值，移动到另外一个集合中</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; sadd myset hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset world</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset2 hualin</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd myset2 xiangni</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; smove myset myset2 xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; SMEMBERS myset2</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;xiangni&quot;</span><br><span class="line">3) &quot;hualin&quot;</span><br><span class="line"></span><br><span class="line">########################################</span><br><span class="line">应用：微博，b站 把所有关注的人放在一个set集合中，将它的粉丝也放在一个集合中。</span><br><span class="line">数字集合类：</span><br><span class="line">    差集：SDIFF</span><br><span class="line">    交集：SINTER</span><br><span class="line">    并集：SUNION</span><br><span class="line">127.0.0.1:6379&gt; sadd key1 a</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd key1 b</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd key1 c</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd key2 c</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd key2 d</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd key2 e</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; SDIFF key1 key2</span><br><span class="line">1) &quot;b&quot;</span><br><span class="line">2) &quot;a&quot;</span><br><span class="line">127.0.0.1:6379&gt; SINTER key1 key2</span><br><span class="line">1) &quot;c&quot;</span><br><span class="line">127.0.0.1:6379&gt; SUNION key1 key2</span><br><span class="line">1) &quot;d&quot;</span><br><span class="line">2) &quot;c&quot;</span><br><span class="line">3) &quot;a&quot;</span><br><span class="line">4) &quot;b&quot;</span><br><span class="line">5) &quot;e&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-Hash（哈希）"><a href="#1-4-Hash（哈希）" class="headerlink" title="1.4 Hash（哈希）"></a>1.4 Hash（哈希）</h4><ul>
+<li>Map集合 key-<key-value> 这时候这个值是一个map集合，本质和String类型没有太大的区别，还是一个简单的key-value</li>
+<li>hash变更的数据 user name age 尤其是用户信息之类的，经常变更过的信息！hash 更适合存储对象，String更适合字符串存储</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#################################</span><br><span class="line"># hset：存值</span><br><span class="line"># hget: 取值</span><br><span class="line"># hmset: 存多个值</span><br><span class="line"># hmget： 取多个值</span><br><span class="line"># hgetall： 获取所有的key value</span><br><span class="line"># hdel: 删除指定的key</span><br><span class="line">127.0.0.1:6379&gt; hset myhash field1 xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hget myhash field1</span><br><span class="line">&quot;xulei&quot;</span><br><span class="line">127.0.0.1:6379&gt; hset myhash field1 xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hget myhash field1</span><br><span class="line">&quot;xulei&quot;</span><br><span class="line">127.0.0.1:6379&gt; hmset myhash field2 2 field3 3</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; hmget myhash field1 field2 field3</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;2&quot;</span><br><span class="line">3) &quot;3&quot;</span><br><span class="line">127.0.0.1:6379&gt; hgetall myhash</span><br><span class="line">1) &quot;field1&quot;</span><br><span class="line">2) &quot;xulei&quot;</span><br><span class="line">3) &quot;field2&quot;</span><br><span class="line">4) &quot;2&quot;</span><br><span class="line">5) &quot;field3&quot;</span><br><span class="line">6) &quot;3&quot;</span><br><span class="line">127.0.0.1:6379&gt; hdel myhash field2</span><br><span class="line">(integer) 1</span><br><span class="line"></span><br><span class="line">#################################</span><br><span class="line"># hlen:查看hash表的字段数量</span><br><span class="line"># hexists： 判断指定hash是否存在</span><br><span class="line"># hkeys: 查看当前所有的key</span><br><span class="line"># hvals：只获得所有的value</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; hlen myhash</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; hgetall myhash</span><br><span class="line">1) &quot;field1&quot;</span><br><span class="line">2) &quot;xulei&quot;</span><br><span class="line">3) &quot;field3&quot;</span><br><span class="line">4) &quot;3&quot;</span><br><span class="line">127.0.0.1:6379&gt; hexists myhash field1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hkeys myhash</span><br><span class="line">1) &quot;field1&quot;</span><br><span class="line">2) &quot;field3&quot;</span><br><span class="line">127.0.0.1:6379&gt; hvals myhash</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;3&quot;</span><br><span class="line"></span><br><span class="line">################################</span><br><span class="line"># hincryby ：指定增量</span><br><span class="line"># hsetnx : 如果存在则不能设置</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; hset myhash field4 4</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; hincrby myhash field4 2</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; hincrby myhash field4 -4</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-5-zset（有序集合）"><a href="#1-5-zset（有序集合）" class="headerlink" title="1.5 zset（有序集合）"></a>1.5 zset（有序集合）</h4><ul>
+<li>在set的基础上，增加了一个值，分组。set k1 v1 zset k1 score1 v1</li>
+<li>它类似于SortedSet和HashMap的结合体，一方面它是一个set，保证内部value的唯一性，另一方面它可以给每个value赋予一个score，代表这个value的排序权重，它的内部实现用的是跳转列表的数据结构</li>
+<li>zset可以用来存储粉丝列表，value值是粉丝的用户id，score是关注时间。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">##########################</span><br><span class="line"># ZRANGEBYSCORE 排序 min max</span><br><span class="line"># ZREVRANGE ：从大到小排序</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zadd myset 1 one</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd myset 2 two 3 three</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zrange myset 0 -1</span><br><span class="line">1) &quot;one&quot;</span><br><span class="line">2) &quot;two&quot;</span><br><span class="line">3) &quot;three&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zadd salary 2500 xiaohon</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd salary 9000 zhansan</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd salary 200 xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE salary -inf +inf</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;xiaohon&quot;</span><br><span class="line">3) &quot;zhansan&quot;</span><br><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE salary -inf +inf withscores</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;200&quot;</span><br><span class="line">3) &quot;xiaohon&quot;</span><br><span class="line">4) &quot;2500&quot;</span><br><span class="line">5) &quot;zhansan&quot;</span><br><span class="line">6) &quot;9000&quot;</span><br><span class="line">127.0.0.1:6379&gt; ZRANGEBYSCORE salary -inf 2500 withscores</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;200&quot;</span><br><span class="line">3) &quot;xiaohon&quot;</span><br><span class="line">4) &quot;2500&quot;</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; ZREVRANGE salary 0 -1</span><br><span class="line">1) &quot;zhansan&quot;</span><br><span class="line">2) &quot;xiaohon&quot;</span><br><span class="line"></span><br><span class="line">##########################</span><br><span class="line"># rem：移除rem中的元素：移除有序集合中的元素</span><br><span class="line"># zcard：查看里面的元素个树</span><br><span class="line"># zcount：计算区间内的个树</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zrange salary 0 -1</span><br><span class="line">1) &quot;xulei&quot;</span><br><span class="line">2) &quot;xiaohon&quot;</span><br><span class="line">3) &quot;zhansan&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrem salary xulei</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrange salary 0 -1</span><br><span class="line">1) &quot;xiaohon&quot;</span><br><span class="line">2) &quot;zhansan&quot;</span><br><span class="line">127.0.0.1:6379&gt; zcard salary</span><br><span class="line">(integer) 2</span><br><span class="line"></span><br><span class="line">127.0.0.1:6379&gt; zadd myset 1 hello</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd myset 2 world 3 xulei</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; zcount myset 1 3</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+<ul>
+<li>案例思路：set 排序， 存储班级成绩表，工资表排序，带权重执行，排行榜实现。</li>
+</ul>
+<h3 id="二、三种特殊数据类型"><a href="#二、三种特殊数据类型" class="headerlink" title="二、三种特殊数据类型"></a>二、三种特殊数据类型</h3><h4 id="2-1-geospatial-地理位置"><a href="#2-1-geospatial-地理位置" class="headerlink" title="2.1 geospatial 地理位置"></a>2.1 geospatial 地理位置</h4><ul>
+<li>朋友的定位，附近的人，打车距离计算</li>
+<li>只有6个命令：GEOADD，GEODIST，GEOHASH，GEOPOS，GEORADIUS，GEOGEORADIUSBYMEMBER</li>
+<li><a href="http://redis.cn/commands/geoadd.html" target="_blank" rel="noopener">http://redis.cn/commands/geoadd.html</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; GEOADD Sicily 13.361389 38.115556 &quot;Palermo&quot; 15.087269 37.502669 &quot;Catania&quot;</span><br><span class="line">(integer) 2</span><br><span class="line">redis&gt; GEODIST Sicily Palermo Catania</span><br><span class="line">&quot;166274.15156960039&quot;</span><br><span class="line">redis&gt; GEORADIUS Sicily 15 37 100 km</span><br><span class="line">1) &quot;Catania&quot;</span><br><span class="line">redis&gt; GEORADIUS Sicily 15 37 200 km</span><br><span class="line">1) &quot;Palermo&quot;</span><br><span class="line">2) &quot;Catania&quot;</span><br><span class="line">redis&gt;</span><br></pre></td></tr></table></figure>
+<p>GEOADD：添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; geoadd china:city 121.47 31.23 shanghai</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; geoadd china:city 120.16 30.24 hangzhou</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+<p>GEOPOS：获取当前定位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; geopos china:city shanghai hangzhou</span><br><span class="line">1) 1) &quot;121.47000163793563843&quot;</span><br><span class="line">   2) &quot;31.22999903975783553&quot;</span><br><span class="line">2) 1) &quot;120.1600000262260437&quot;</span><br><span class="line">   2) &quot;30.2400003229490224&quot;</span><br></pre></td></tr></table></figure>
+<p>GEODIST：两个位置间距离<br>单位：m，km mt，ft</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; geodist china:city shanghai hangzhou</span><br><span class="line">&quot;166761.2770&quot;</span><br><span class="line">127.0.0.1:6379&gt; geodist china:city shanghai hangzhou km</span><br><span class="line">&quot;166.7613&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>georadius附近的人？通过半径来找</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; georadius china:city 120 30 1000 km</span><br><span class="line">1) &quot;hangzhou&quot;</span><br><span class="line">2) &quot;shanghai&quot;</span><br><span class="line"></span><br><span class="line"># 限制一个</span><br><span class="line">127.0.0.1:6379&gt; georadius china:city 120 30 1000 km withdist withcoord count 1</span><br><span class="line">1) 1) &quot;hangzhou&quot;</span><br><span class="line">   2) &quot;30.8146&quot;</span><br><span class="line">   3) 1) &quot;120.1600000262260437&quot;</span><br><span class="line">      2) &quot;30.2400003229490224&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-Hyperloglog"><a href="#2-2-Hyperloglog" class="headerlink" title="2.2 Hyperloglog"></a>2.2 Hyperloglog</h4><ul>
+<li>简介</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">网页的UV （一个人访问一个网站多次，但是还是算做一个人），传统的方式，set保存用户的id，然后就可以统计set中的元素数量作为标准判断。这个方式如果保存大量的用户id，就会比较麻烦。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; pfadd mykey 1 2 3 4 5</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; pfcount mykey</span><br><span class="line">(integer) 5</span><br><span class="line">127.0.0.1:6379&gt; pfadd mykey2 2 3 4 5 6</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; PFMERGE mykey3 mykey mykey2</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; pfcount mykey3</span><br><span class="line">(integer) 6</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-Bigmaps"><a href="#2-3-Bigmaps" class="headerlink" title="2.3 Bigmaps"></a>2.3 Bigmaps</h4><h3 id="3-redis事务"><a href="#3-redis事务" class="headerlink" title="3.redis事务"></a>3.redis事务</h3><ul>
+<li>redis单条命令是保存原子性的，但是<strong>事务不保证原子性。</strong></li>
+<li><strong>Redis事务本质</strong>：一组命令的集合！一个事务中的所有命令都会被序列化，在事务执行过程中，会按照顺序执行。==一次性、顺序性、排他性==。</li>
+<li>Redis事务没有隔离级别的概念。</li>
+<li>所有的命令在事务中，并没有直接被执行！只有发起执行命令的时候才会执行。</li>
+<li>redis的事务：<ul>
+<li>开启事务（multi）</li>
+<li>命令入队（）</li>
+<li>执行事务（exec）</li>
+<li>放弃命令 （discard）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi ## 开启事务</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; get k2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k3 v3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec ## 执行事务</span><br><span class="line">1) OK</span><br><span class="line">2) OK</span><br><span class="line">3) &quot;v2&quot;</span><br><span class="line">4) OK</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1 set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k4 v4</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; discard  ## 事务队列中命令都不会被执行</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; get k4</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>编译期异常（代码有问题！命令有错），事务中的所有命令都不会被执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k3 v3</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; getset k3</span><br><span class="line">(error) ERR wrong number of arguments for &apos;getset&apos; command</span><br><span class="line">127.0.0.1:6379&gt; set k4 v4</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec ##错误的命令，执行事务报错，所有命令都不会执行</span><br><span class="line">(error) EXECABORT Transaction discarded because of previous errors.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>运行期异常（1/0)，如果事务队列中存在语法性，那么执行命令的时候，其他命令是可以正常执行的，错误命令抛出异常。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; multi </span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; incr k1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k1 v1</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; set k2 v2</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec ## 单条有原子性，整体没有</span><br><span class="line">1) (error) ERR value is not an integer or out of range</span><br><span class="line">2) OK</span><br><span class="line">3) OK</span><br><span class="line">127.0.0.1:6379&gt; get k1</span><br><span class="line">&quot;v1&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、Redis实现乐观锁"><a href="#4、Redis实现乐观锁" class="headerlink" title="4、Redis实现乐观锁"></a>4、Redis实现乐观锁</h3><blockquote>
+<p>监控</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; set money 100</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; set out 0</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; watch money # 监视money对象</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi #事务正常结束，数据期间没有发生变动，这个时候就正常执行。</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; decrby money 20</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; incrby out 20</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec</span><br><span class="line">1) (integer) 80</span><br><span class="line">2) (integer) 20</span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试多线程修改完值，执行失败。watch监控，可以当做乐观锁操作。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; get money</span><br><span class="line">&quot;80&quot;</span><br><span class="line">127.0.0.1:6379&gt; set money 1000</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; watch money</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; multi</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; decrby money 10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; incrby out 10</span><br><span class="line">QUEUED</span><br><span class="line">127.0.0.1:6379&gt; exec #执行之前，另外一个线程，修改了值，这个时候，事务失败。</span><br><span class="line">(nil)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果发现事务执行失败，就先解锁，获取最新的值，再次监视。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; unwatch </span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; watch money</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/" rel="next" title="【redis】：（2）进阶">
+                <i class="fa fa-chevron-left"></i> 【redis】：（2）进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" rel="prev" title="【java基础】：（3）Integer等包装类的缓存机制">
+                【java基础】：（3）Integer等包装类的缓存机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg"
+                alt="潇雷" />
+            
+              <p class="site-author-name" itemprop="name">潇雷</p>
+              <p class="site-description motion-element" itemprop="description">Java学习者，大数据爱好者，在读研究僧</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolei19960829" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/qq_42184068" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+<div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()"�� 1000);
+BirthDay=new Date("11/17/2019 15:13:14");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="������"+daysold+"��"+hrsold+"Сʱ"+minsold+"��"+seconds+"��";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、五大数据类型"><span class="nav-number">1.</span> <span class="nav-text">一、五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis-key"><span class="nav-number">1.1.</span> <span class="nav-text">Redis-key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-String"><span class="nav-number">1.2.</span> <span class="nav-text">1.1 String</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-List"><span class="nav-number">1.3.</span> <span class="nav-text">1.4 List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-set（集合）"><span class="nav-number">1.4.</span> <span class="nav-text">1.3 set（集合）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-Hash（哈希）"><span class="nav-number">1.5.</span> <span class="nav-text">1.4 Hash（哈希）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-zset（有序集合）"><span class="nav-number">1.6.</span> <span class="nav-text">1.5 zset（有序集合）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、三种特殊数据类型"><span class="nav-number">2.</span> <span class="nav-text">二、三种特殊数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-geospatial-地理位置"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 geospatial 地理位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Hyperloglog"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Hyperloglog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Bigmaps"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Bigmaps</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-redis事务"><span class="nav-number">3.</span> <span class="nav-text">3.redis事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Redis实现乐观锁"><span class="nav-number">4.</span> <span class="nav-text">4、Redis实现乐观锁</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+	  
+	          
+        
+
+-        
+<div id="days"></div>
+<script>
+function show_date_time(){
+window.setTimeout("show_date_time()"�� 1000);
+BirthDay=new Date("11/17/2019 15:13:14");
+today=new Date();
+timeold=(today.getTime()-BirthDay.getTime());
+sectimeold=timeold/1000
+secondsold=Math.floor(sectimeold);
+msPerDay=24*60*60*1000
+e_daysold=timeold/msPerDay
+daysold=Math.floor(e_daysold);
+e_hrsold=(e_daysold-daysold)*24;
+hrsold=setzero(Math.floor(e_hrsold));
+e_minsold=(e_hrsold-hrsold)*60;
+minsold=setzero(Math.floor((e_hrsold-hrsold)*60));
+seconds=setzero(Math.floor((e_minsold-minsold)*60));
+document.getElementById('days').innerHTML="������"+daysold+"��"+hrsold+"Сʱ"+minsold+"��"+seconds+"��";
+}
+function setzero(i){
+if (i<10)
+{i="0" + i};
+return i;
+}
+show_date_time();
+</script>
+
+	   
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">潇雷</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">39k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+ <div class="powered-by">
+  <i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_uv">
+    本站总访客数:<span id="busuanzi_value_site_uv"></span>&nbsp;&nbsp;| 
+  </span>
+  <span id="busuanzi_container_site_pv">
+      &nbsp;本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </span>
+  </div>
+  </div>
+
+  <script>
+      var now = new Date(); 
+      function createtime() { 
+          var grt= new Date("03/12/2019 12:00:00");//此处修改你的建站时间或者网站上线时间 
+          now.setTime(now.getTime()+250); 
+          days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+          hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+          if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+          mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+          seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+          snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+          document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+          document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+      } 
+  setInterval("createtime()",250);
+  </script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'JwQGto4XQG3FJaORJwuKPy0y-gzGzoHsz',
+        appKey: 'fb8hg4XEFdXdK7ma0MleMaD5',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("JwQGto4XQG3FJaORJwuKPy0y-gzGzoHsz", "fb8hg4XEFdXdK7ma0MleMaD5");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+ 
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
+<script type="text/javascript" src="/js/src/dytitle.js"></script>
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

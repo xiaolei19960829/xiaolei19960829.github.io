@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="集合," />
 
 
 
@@ -80,14 +80,13 @@
 
 
 
-<meta name="description" content="Java学习者，大数据爱好者，在读研究僧">
-<meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;tags&#x2F;index.html">
+<meta name="keywords" content="集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【java基础】：（4）iterator迭代器遍历集合">
+<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;05&#x2F;12&#x2F;%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
-<meta property="og:description" content="Java学习者，大数据爱好者，在读研究僧">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-13T04:26:08.464Z">
+<meta property="og:updated_time" content="2020-05-12T13:49:18.996Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://xulei1996.com/tags/"/>
+  <link rel="canonical" href="http://xulei1996.com/2020/05/12/【java基础】：（4）Iterator迭代器遍历集合/"/>
 
 
 
 
 
-  <title>标签 | 潇雷的博客</title>
+  <title>【java基础】：（4）iterator迭代器遍历集合 | 潇雷的博客</title>
   
 
 
@@ -283,40 +282,255 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇雷">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/title/my/IMG_20191114_211531.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇雷的博客">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">标签</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 10 个标签
+          <h1 class="post-title" itemprop="name headline">【java基础】：（4）iterator迭代器遍历集合</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-12T19:20:12+08:00">
+                2020-05-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T21:49:18+08:00">
+                2020-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" class="leancloud_visitors" data-flag-title="【java基础】：（4）iterator迭代器遍历集合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>°C</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  825
+                </span>
+              
+
+              
+
+              
             </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/mybatis/" style="font-size: 24px; color: #4f4f4f">mybatis</a> <a href="/tags/redis/" style="font-size: 24px; color: #4f4f4f">redis</a> <a href="/tags/spring/" style="font-size: 30px; color: #111">spring</a> <a href="/tags/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">代理模式</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 18px; color: #8e8e8e">反射</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18px; color: #8e8e8e">并发编程</a> <a href="/tags/%E6%97%A5%E5%BF%97/" style="font-size: 12px; color: #ccc">日志</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 12px; color: #ccc">注解</a> <a href="/tags/%E8%A7%84%E5%88%92/" style="font-size: 12px; color: #ccc">规划</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 12px; color: #ccc">集合</a>
-            </div>
-          </div>
-        
-      </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><ul>
+<li>对collection进行迭代的迭代器，依赖于集合而存在。该接口隐藏了Collection实现类的底层细节，向应用程序提供了遍历Collection集合元素的统一编程接口。</li>
+<li>格式：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Iterator &lt;T&gt; iterator  =  集合名. iterator() ,获取的元素都是T类型，T只能是引用类型</span><br></pre></td></tr></table></figure>
+<ul>
+<li>四个方法：<ul>
+<li>boolean hasNext()：如果没遍历完，返回true</li>
+<li>Object next（）：返回下一个元素</li>
+<li>void remove（）：从迭代器指向Collection中移除迭代器返回的最后一个元素。（上一次next方法返回的元素）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2、案例"><a href="#2、案例" class="headerlink" title="2、案例"></a>2、案例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 需求：存储自定义对象并遍历Student(name,age)</span><br><span class="line"> *</span><br><span class="line"> * 分析：</span><br><span class="line"> * 		A:创建学生类</span><br><span class="line"> * 		B:创建集合对象</span><br><span class="line"> * 		C:创建学生对象</span><br><span class="line"> * 		D:把学生对象添加到集合对象中</span><br><span class="line"> * 		E:遍历集合</span><br><span class="line"> */</span><br><span class="line">public class CollectionTest2 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// 创建集合对象</span><br><span class="line">		Collection c = new ArrayList();</span><br><span class="line"></span><br><span class="line">		// 创建学生对象</span><br><span class="line">		Student s1 = new Student(&quot;貂蝉&quot;, 25);</span><br><span class="line">		Student s2 = new Student(&quot;小乔&quot;, 16);</span><br><span class="line">		Student s3 = new Student(&quot;黄月英&quot;, 20);</span><br><span class="line">		Student s4 = new Student();</span><br><span class="line">		s4.setName(&quot;大乔&quot;);</span><br><span class="line">		s4.setAge(26);</span><br><span class="line"></span><br><span class="line">		// 把学生对象添加到集合对象中</span><br><span class="line">		c.add(s1);</span><br><span class="line">		c.add(s2);</span><br><span class="line">		c.add(s3);</span><br><span class="line">		c.add(s4);</span><br><span class="line">		c.add(new Student(&quot;孙尚香&quot;, 18)); // 匿名对象</span><br><span class="line"></span><br><span class="line">		// 遍历集合</span><br><span class="line">		Iterator it = c.iterator();</span><br><span class="line">		while (it.hasNext()) &#123;</span><br><span class="line">			Student s = (Student) it.next();</span><br><span class="line">			System.out.println(s.getName() + &quot;---&quot; + s.getAge());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Iterator必须依赖于Collection对象，它仅用来遍历集合，本身并不提供盛装对象的能力。但是它只能通过remove方法删除上一次next方法返回的集合元素，否则会发生并发修改异常。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//报错</span><br><span class="line">Iterator iterator =c.iterator();</span><br><span class="line">while(iterator.hasNext())&#123;</span><br><span class="line">    String s=(String) iterator.next();</span><br><span class="line">    if(&quot;java&quot;.equals(s))&#123;</span><br><span class="line">        //c.remove(s);  //并发修改异常</span><br><span class="line">        //集合删除元素后，迭代器并不知道，禁止迭代器在迭代时用集合来进行修改</span><br><span class="line">        //怎么解决？1.迭代器遍历，迭代器修改  2.集合遍历，集合修改</span><br><span class="line">        iterator.remove(s)//迭代器遍历，用迭代器来调用</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原因分析：Iterator迭代器采用的是快速失败（fail-fast）机制，一旦在迭代过程中监测到该集合已经被修改，程序立即引发并发修改异常，而不是显示修改后的结果，这样可以避免共享资源而引发的潜在问题。</li>
+</ul>
+<h3 id="4、几个小问题"><a href="#4、几个小问题" class="headerlink" title="4、几个小问题"></a>4、几个小问题</h3><h5 id="4-1-为什么Iterator设计成一个接口，而不是设计成一个类？"><a href="#4-1-为什么Iterator设计成一个接口，而不是设计成一个类？" class="headerlink" title="4.1 为什么Iterator设计成一个接口，而不是设计成一个类？"></a>4.1 为什么Iterator设计成一个接口，而不是设计成一个类？</h5><ul>
+<li>有些集合允许有重复的元素，有些集合不允许有重复的元素。有些集合是有序的，有些集合是无序的，原因是具体集合的数据结构不一样。集合的遍历依赖于集合的数据结构，所以我们不能写一个类去遍历所有的集合。所以迭代器只能设计成接口或抽象类，他们吧判断和获取功能提取出来，放在接口里面去实现。</li>
+</ul>
+<h5 id="4-2-为什么不设计成抽象类"><a href="#4-2-为什么不设计成抽象类" class="headerlink" title="4.2 为什么不设计成抽象类"></a>4.2 为什么不设计成抽象类</h5><ul>
+<li>因为有些集合可能会继承其他类，由于java的单继承，所以迭代器设计成了一个接口。iterator对象可以遍历对应的集合，说明他知道集合的数据结果，这个类的成员内部类。</li>
+</ul>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+  
+</div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%9B%86%E5%90%88/" rel="tag"># 集合</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89Integer%E7%AD%89%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" rel="next" title="【java基础】：（3）Integer等包装类的缓存机制">
+                <i class="fa fa-chevron-left"></i> 【java基础】：（3）Integer等包装类的缓存机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -352,8 +566,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -459,6 +682,22 @@ show_date_time();
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、概述"><span class="nav-number">1.</span> <span class="nav-text">1、概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、案例"><span class="nav-number">2.</span> <span class="nav-text">2、案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、几个小问题"><span class="nav-number">3.</span> <span class="nav-text">4、几个小问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-为什么Iterator设计成一个接口，而不是设计成一个类？"><span class="nav-number">3.0.1.</span> <span class="nav-text">4.1 为什么Iterator设计成一个接口，而不是设计成一个类？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-为什么不设计成抽象类"><span class="nav-number">3.0.2.</span> <span class="nav-text">4.2 为什么不设计成抽象类</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
