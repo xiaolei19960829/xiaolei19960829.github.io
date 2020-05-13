@@ -652,6 +652,94 @@
       </tags>
   </entry>
   <entry>
+    <title>【spring】：（3）依赖注入</title>
+    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h3 id="1、依赖注入"><a href="#1、依赖注入" class="headerlink" title="1、依赖注入"></a>1、依赖注入</h3><ul>
+<li>依赖：指Bean对象的创建依赖于容器，Bean对象的依赖资源。</li>
+<li>注入：指Bean对象所依赖的资源，由容器来设置和装配。</li>
+<li>依赖注入分为：构造器注入、setter注入（重点）、拓展注入实现。</li>
+</ul>
+<h3 id="2、构造器注入"><a href="#2、构造器注入" class="headerlink" title="2、构造器注入"></a>2、构造器注入</h3><ul>
+<li>有参构造和无参构造。</li>
+</ul>
+<h3 id="3、setter注入"><a href="#3、setter注入" class="headerlink" title="3、setter注入"></a>3、setter注入</h3><p>【环境搭建】：</p>
+<ul>
+<li>两个pojo类：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Student &#123;</span><br><span class="line"></span><br><span class="line">    //1、基本类型</span><br><span class="line">    private String name;</span><br><span class="line">    //2、引用类型</span><br><span class="line">    private Address address;</span><br><span class="line">    private String[] books;</span><br><span class="line">    private List&lt;String&gt; hobbies;</span><br><span class="line">    private Map&lt;String,String&gt; card;</span><br><span class="line">    private Set&lt;String&gt; games;</span><br><span class="line">    private String wife;</span><br><span class="line">    private Properties info;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Address getAddress() &#123;</span><br><span class="line">        return address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAddress(Address address) &#123;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String[] getBooks() &#123;</span><br><span class="line">        return books;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setBooks(String[] books) &#123;</span><br><span class="line">        this.books = books;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;String&gt; getHobbies() &#123;</span><br><span class="line">        return hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setHobbies(List&lt;String&gt; hobbies) &#123;</span><br><span class="line">        this.hobbies = hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, String&gt; getCard() &#123;</span><br><span class="line">        return card;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCard(Map&lt;String, String&gt; card) &#123;</span><br><span class="line">        this.card = card;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Set&lt;String&gt; getGames() &#123;</span><br><span class="line">        return games;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setGames(Set&lt;String&gt; games) &#123;</span><br><span class="line">        this.games = games;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getWife() &#123;</span><br><span class="line">        return wife;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setWife(String wife) &#123;</span><br><span class="line">        this.wife = wife;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Properties getInfo() &#123;</span><br><span class="line">        return info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setInfo(Properties info) &#123;</span><br><span class="line">        this.info = info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Student&#123;&quot; +</span><br><span class="line">                &quot;name=&apos;&quot; + name + &apos;\&apos;&apos; +</span><br><span class="line">                &quot;, address=&quot; + address.toString() +</span><br><span class="line">                &quot;, books=&quot; + Arrays.toString(books) +</span><br><span class="line">                &quot;, hobbies=&quot; + hobbies +</span><br><span class="line">                &quot;, card=&quot; + card +</span><br><span class="line">                &quot;, games=&quot; + games +</span><br><span class="line">                &quot;, wife=&apos;&quot; + wife + &apos;\&apos;&apos; +</span><br><span class="line">                &quot;, info=&quot; + info +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>引用类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Address &#123;</span><br><span class="line">    private String address;</span><br><span class="line"></span><br><span class="line">    public String getAddress() &#123;</span><br><span class="line">        return address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAddress(String address) &#123;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Address&#123;&quot; +</span><br><span class="line">                &quot;address=&apos;&quot; + address + &apos;\&apos;&apos; +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>beans.xml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;address&quot; class=&quot;xiaolei.pojo.Address&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;address&quot; value=&quot;上海&quot;/&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;student&quot; class=&quot;xiaolei.pojo.Student&quot;&gt;</span><br><span class="line">        &lt;!--第一种：普通值注入，value--&gt;</span><br><span class="line">        &lt;property name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">        &lt;!--第二种：Bean注入，ref注入--&gt;</span><br><span class="line">        &lt;property name=&quot;address&quot; ref=&quot;address&quot;/&gt;</span><br><span class="line">        &lt;!--第三种：数组注入--&gt;</span><br><span class="line">        &lt;property name=&quot;books&quot;&gt;</span><br><span class="line">            &lt;array&gt;</span><br><span class="line">                &lt;value&gt;《Java编程思想》&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;《Java多线程并发》&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;《深入学习Mysql》&lt;/value&gt;</span><br><span class="line">            &lt;/array&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第四种：List集合数组--&gt;</span><br><span class="line">        &lt;property name=&quot;hobbies&quot;&gt;</span><br><span class="line">            &lt;list&gt;</span><br><span class="line">                &lt;value&gt;喝奶茶&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;吃火锅&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;写代码&lt;/value&gt;</span><br><span class="line">            &lt;/list&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第五种：Map集合--&gt;</span><br><span class="line">        &lt;property name=&quot;card&quot;&gt;</span><br><span class="line">            &lt;map&gt;</span><br><span class="line">                &lt;entry key=&quot;身份证&quot; value=&quot;121212&quot;/&gt;</span><br><span class="line">                &lt;entry key=&quot;银行卡&quot; value=&quot;212121&quot;/&gt;</span><br><span class="line">            &lt;/map&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第六种：Set集合--&gt;</span><br><span class="line">        &lt;property name=&quot;games&quot;&gt;</span><br><span class="line">            &lt;set&gt;</span><br><span class="line">                &lt;value&gt;LOL&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;CF&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;DNF&lt;/value&gt;</span><br><span class="line">            &lt;/set&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!--第七种：空值注入--&gt;</span><br><span class="line">        &lt;property name=&quot;wife&quot;&gt;</span><br><span class="line">            &lt;null/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第八种：properties--&gt;</span><br><span class="line">        &lt;property name=&quot;info&quot;&gt;</span><br><span class="line">            &lt;props&gt;</span><br><span class="line">                &lt;prop key=&quot;driver&quot;&gt;20192020&lt;/prop&gt;</span><br><span class="line">                &lt;prop key=&quot;url&quot;&gt;男&lt;/prop&gt;</span><br><span class="line">                &lt;prop key=&quot;username&quot;&gt;20192020&lt;/prop&gt;</span><br><span class="line">            &lt;/props&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<p>测试类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        Student student = (Student) context.getBean(&quot;student&quot;);</span><br><span class="line">        System.out.println(student.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Student&#123;name=&apos;潇雷&apos;, address=Address&#123;address=&apos;上海&apos;&#125;, books=[《Java编程思想》, 《Java多线程并发》, 《深入学习Mysql》], hobbies=[喝奶茶, 吃火锅, 写代码], card=&#123;身份证=121212, 银行卡=212121&#125;, games=[LOL, CF, DNF], wife=&apos;null&apos;, info=&#123;url=男, driver=20192020, username=20192020&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4、拓展方式注入"><a href="#4、拓展方式注入" class="headerlink" title="4、拓展方式注入"></a>4、拓展方式注入</h3><ul>
+<li>1、P命名空间注入：需要在头文件加入约束。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">导入约束 : xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line"></span><br><span class="line">&lt;!--P(属性: properties)命名空间 , 属性依然要设置set方法--&gt;</span><br><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; p:name=&quot;潇雷&quot; p:age=&quot;18&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2、C命名空间注入：需要在头文件加入约束文件。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">导入约束 : xmlns:c=&quot;http://www.springframework.org/schema/c&quot;</span><br><span class="line">&lt;!--C(构造: Constructor)命名空间 , 属性依然要设置set方法--&gt;</span><br><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; c:name=&quot;潇雷&quot; p:age=&quot;18&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="5、Bean的作用域"><a href="#5、Bean的作用域" class="headerlink" title="5、Bean的作用域"></a>5、Bean的作用域</h3><ul>
+<li>在Spring中，那些组成应用程序的主体及由Spring ioc容器所管理的对象，被称为bean。简单的说，bean就是由ioc容器初始化、装配及管理的对象。</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/852070927.png" alt="image"></p>
+<ul>
+<li><p>几种作用域中，request，session作用域仅在基于web的应用中使用（不必关心你所采用的是什么web应用框架）只能用在基于web的spring ApplicationContext环境。</p>
+</li>
+<li><p>1、单例模式（Spring默认机制）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; scope=&quot;singleton&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>2、原型模式：每次从容器中get的时候，都会产生一个新对象。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; scope=&quot;prototype&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【spring】：(4)spring Bean的生命周期</title>
+    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[<h3 id="1、Bean的完整生命周期"><a href="#1、Bean的完整生命周期" class="headerlink" title="1、Bean的完整生命周期"></a>1、Bean的完整生命周期</h3><ul>
+<li>在传统的Java应用中，bean的生命周期很简单，使用Java关键字 new 进行Bean 的实例化，然后该Bean 就能够使用了。一旦bean不再被使用，则由Java自动进行垃圾回收。</li>
+<li>相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程</li>
+</ul>
+<p><img src="https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg" alt="image"></p>
+<p>如上图所示，Bean 的生命周期还是比较复杂的，下面来对上图每一个步骤做文字描述:</p>
+<p> 1、实例化一个Bean－－也就是我们常说的new；</p>
+<p> 2、按照Spring上下文对实例化的Bean进行配置－－也就是IOC注入；</p>
+<p> 3、如果这个Bean已经实现了BeanNameAware接口，会调用它实现的setBeanName(String)方法，此处传递的就是Spring配置文件中Bean的id值</p>
+<p> 4、如果这个Bean已经实现了BeanFactoryAware接口，会调用它实现的setBeanFactory(setBeanFactory(BeanFactory)传递的是Spring工厂自身（可以用这个方式来获取其它Bean，只需在Spring配置文件中配置一个普通的Bean就可以）；</p>
+<p> 5、如果这个Bean已经实现了ApplicationContextAware接口，会调用setApplicationContext(ApplicationContext)方法，传入Spring上下文（同样这个方式也可以实现步骤4的内容，但比4更好，因为ApplicationContext是BeanFactory的子接口，有更多的实现方法）；</p>
+<p> 6、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessBeforeInitialization(Object obj, String s)方法，BeanPostProcessor经常被用作是Bean内容的更改，并且由于这个是在Bean初始化结束时调用那个的方法，也可以被应用于内存或缓存技术；</p>
+<p> 7、如果Bean在Spring配置文件中配置了init-method属性会自动调用其配置的初始化方法。</p>
+<p> 8、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessAfterInitialization(Object obj, String s)方法、；</p>
+<p>  注：以上工作完成以后就可以应用这个Bean了，那这个Bean是一个Singleton的，所以一般情况下我们调用同一个id的Bean会是在内容地址相同的实例，当然在Spring配置文件中也可以配置非Singleton，这里我们不做赘述。</p>
+<p> 9、当Bean不再需要时，会经过清理阶段，如果Bean实现了DisposableBean这个接口，会调用那个其实现的destroy()方法；</p>
+<p> 10、最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。</p>
+<h3 id="2、各种接口方法分类"><a href="#2、各种接口方法分类" class="headerlink" title="2、各种接口方法分类"></a>2、各种接口方法分类</h3><ul>
+<li>Bean的完整生命周期经历了各种方法调用，这些方法可以划分为以下几类：<ul>
+<li>Bean自身的方法：这个包括了Bean本身调用的方法和通过配置文件中<bean>的init-method和destroy-method指定的方法</li>
+<li>Bean级生命周期接口方法：这个包括了BeanNameAware、BeanFactoryAware、InitializingBean和DiposableBean这些接口的方法</li>
+<li>容器级生命周期接口方法：这个包括了InstantiationAwareBeanPostProcessor 和 BeanPostProcessor 这两个接口实现，一般称它们的实现类为“后处理器”。</li>
+<li>工厂后处理器接口方法：这个包括了AspectJWeavingEnabler, ConfigurationClassPostProcessor, CustomAutowireConfigurer等等非常有用的工厂后处理器　　接口的方法。工厂后处理器也是容器级的。在应用上下文装配配置文件之后立即调用。</li>
+</ul>
+</li>
+</ul>]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【spring】：（5）Bean的自动装配</title>
     <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%885%EF%BC%89Bean%E7%9A%84%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8D/</url>
     <content><![CDATA[<h3 id="1、Bean的自动装配"><a href="#1、Bean的自动装配" class="headerlink" title="1、Bean的自动装配"></a>1、Bean的自动装配</h3><ul>
@@ -702,94 +790,6 @@
 <li>其次再进行默认的byName方式进行装配；</li>
 <li>如果以上都不成功，则按byType的方式自动装配。</li>
 <li>都不成功，则报异常。</li>
-</ul>]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【spring】：(4)spring Bean的生命周期</title>
-    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Spring%20Bean%20%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
-    <content><![CDATA[<h3 id="1、Bean的完整生命周期"><a href="#1、Bean的完整生命周期" class="headerlink" title="1、Bean的完整生命周期"></a>1、Bean的完整生命周期</h3><ul>
-<li>在传统的Java应用中，bean的生命周期很简单，使用Java关键字 new 进行Bean 的实例化，然后该Bean 就能够使用了。一旦bean不再被使用，则由Java自动进行垃圾回收。</li>
-<li>相比之下，Spring管理Bean的生命周期就复杂多了，正确理解Bean 的生命周期非常重要，因为Spring对Bean的管理可扩展性非常强，下面展示了一个Bean的构造过程</li>
-</ul>
-<p><img src="https://www.javazhiyin.com/wp-content/uploads/2019/05/java0-1558500658.jpg" alt="image"></p>
-<p>如上图所示，Bean 的生命周期还是比较复杂的，下面来对上图每一个步骤做文字描述:</p>
-<p> 1、实例化一个Bean－－也就是我们常说的new；</p>
-<p> 2、按照Spring上下文对实例化的Bean进行配置－－也就是IOC注入；</p>
-<p> 3、如果这个Bean已经实现了BeanNameAware接口，会调用它实现的setBeanName(String)方法，此处传递的就是Spring配置文件中Bean的id值</p>
-<p> 4、如果这个Bean已经实现了BeanFactoryAware接口，会调用它实现的setBeanFactory(setBeanFactory(BeanFactory)传递的是Spring工厂自身（可以用这个方式来获取其它Bean，只需在Spring配置文件中配置一个普通的Bean就可以）；</p>
-<p> 5、如果这个Bean已经实现了ApplicationContextAware接口，会调用setApplicationContext(ApplicationContext)方法，传入Spring上下文（同样这个方式也可以实现步骤4的内容，但比4更好，因为ApplicationContext是BeanFactory的子接口，有更多的实现方法）；</p>
-<p> 6、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessBeforeInitialization(Object obj, String s)方法，BeanPostProcessor经常被用作是Bean内容的更改，并且由于这个是在Bean初始化结束时调用那个的方法，也可以被应用于内存或缓存技术；</p>
-<p> 7、如果Bean在Spring配置文件中配置了init-method属性会自动调用其配置的初始化方法。</p>
-<p> 8、如果这个Bean关联了BeanPostProcessor接口，将会调用postProcessAfterInitialization(Object obj, String s)方法、；</p>
-<p>  注：以上工作完成以后就可以应用这个Bean了，那这个Bean是一个Singleton的，所以一般情况下我们调用同一个id的Bean会是在内容地址相同的实例，当然在Spring配置文件中也可以配置非Singleton，这里我们不做赘述。</p>
-<p> 9、当Bean不再需要时，会经过清理阶段，如果Bean实现了DisposableBean这个接口，会调用那个其实现的destroy()方法；</p>
-<p> 10、最后，如果这个Bean的Spring配置中配置了destroy-method属性，会自动调用其配置的销毁方法。</p>
-<h3 id="2、各种接口方法分类"><a href="#2、各种接口方法分类" class="headerlink" title="2、各种接口方法分类"></a>2、各种接口方法分类</h3><ul>
-<li>Bean的完整生命周期经历了各种方法调用，这些方法可以划分为以下几类：<ul>
-<li>Bean自身的方法：这个包括了Bean本身调用的方法和通过配置文件中<bean>的init-method和destroy-method指定的方法</li>
-<li>Bean级生命周期接口方法：这个包括了BeanNameAware、BeanFactoryAware、InitializingBean和DiposableBean这些接口的方法</li>
-<li>容器级生命周期接口方法：这个包括了InstantiationAwareBeanPostProcessor 和 BeanPostProcessor 这两个接口实现，一般称它们的实现类为“后处理器”。</li>
-<li>工厂后处理器接口方法：这个包括了AspectJWeavingEnabler, ConfigurationClassPostProcessor, CustomAutowireConfigurer等等非常有用的工厂后处理器　　接口的方法。工厂后处理器也是容器级的。在应用上下文装配配置文件之后立即调用。</li>
-</ul>
-</li>
-</ul>]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【spring】：（3）依赖注入</title>
-    <url>/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>
-    <content><![CDATA[<h3 id="1、依赖注入"><a href="#1、依赖注入" class="headerlink" title="1、依赖注入"></a>1、依赖注入</h3><ul>
-<li>依赖：指Bean对象的创建依赖于容器，Bean对象的依赖资源。</li>
-<li>注入：指Bean对象所依赖的资源，由容器来设置和装配。</li>
-<li>依赖注入分为：构造器注入、setter注入（重点）、拓展注入实现。</li>
-</ul>
-<h3 id="2、构造器注入"><a href="#2、构造器注入" class="headerlink" title="2、构造器注入"></a>2、构造器注入</h3><ul>
-<li>有参构造和无参构造。</li>
-</ul>
-<h3 id="3、setter注入"><a href="#3、setter注入" class="headerlink" title="3、setter注入"></a>3、setter注入</h3><p>【环境搭建】：</p>
-<ul>
-<li>两个pojo类：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Student &#123;</span><br><span class="line"></span><br><span class="line">    //1、基本类型</span><br><span class="line">    private String name;</span><br><span class="line">    //2、引用类型</span><br><span class="line">    private Address address;</span><br><span class="line">    private String[] books;</span><br><span class="line">    private List&lt;String&gt; hobbies;</span><br><span class="line">    private Map&lt;String,String&gt; card;</span><br><span class="line">    private Set&lt;String&gt; games;</span><br><span class="line">    private String wife;</span><br><span class="line">    private Properties info;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Address getAddress() &#123;</span><br><span class="line">        return address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAddress(Address address) &#123;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String[] getBooks() &#123;</span><br><span class="line">        return books;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setBooks(String[] books) &#123;</span><br><span class="line">        this.books = books;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public List&lt;String&gt; getHobbies() &#123;</span><br><span class="line">        return hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setHobbies(List&lt;String&gt; hobbies) &#123;</span><br><span class="line">        this.hobbies = hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Map&lt;String, String&gt; getCard() &#123;</span><br><span class="line">        return card;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setCard(Map&lt;String, String&gt; card) &#123;</span><br><span class="line">        this.card = card;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Set&lt;String&gt; getGames() &#123;</span><br><span class="line">        return games;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setGames(Set&lt;String&gt; games) &#123;</span><br><span class="line">        this.games = games;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getWife() &#123;</span><br><span class="line">        return wife;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setWife(String wife) &#123;</span><br><span class="line">        this.wife = wife;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Properties getInfo() &#123;</span><br><span class="line">        return info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setInfo(Properties info) &#123;</span><br><span class="line">        this.info = info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Student&#123;&quot; +</span><br><span class="line">                &quot;name=&apos;&quot; + name + &apos;\&apos;&apos; +</span><br><span class="line">                &quot;, address=&quot; + address.toString() +</span><br><span class="line">                &quot;, books=&quot; + Arrays.toString(books) +</span><br><span class="line">                &quot;, hobbies=&quot; + hobbies +</span><br><span class="line">                &quot;, card=&quot; + card +</span><br><span class="line">                &quot;, games=&quot; + games +</span><br><span class="line">                &quot;, wife=&apos;&quot; + wife + &apos;\&apos;&apos; +</span><br><span class="line">                &quot;, info=&quot; + info +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>引用类：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Address &#123;</span><br><span class="line">    private String address;</span><br><span class="line"></span><br><span class="line">    public String getAddress() &#123;</span><br><span class="line">        return address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAddress(String address) &#123;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Address&#123;&quot; +</span><br><span class="line">                &quot;address=&apos;&quot; + address + &apos;\&apos;&apos; +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>beans.xml</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;address&quot; class=&quot;xiaolei.pojo.Address&quot;&gt;</span><br><span class="line">        &lt;property name=&quot;address&quot; value=&quot;上海&quot;/&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;bean id=&quot;student&quot; class=&quot;xiaolei.pojo.Student&quot;&gt;</span><br><span class="line">        &lt;!--第一种：普通值注入，value--&gt;</span><br><span class="line">        &lt;property name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">        &lt;!--第二种：Bean注入，ref注入--&gt;</span><br><span class="line">        &lt;property name=&quot;address&quot; ref=&quot;address&quot;/&gt;</span><br><span class="line">        &lt;!--第三种：数组注入--&gt;</span><br><span class="line">        &lt;property name=&quot;books&quot;&gt;</span><br><span class="line">            &lt;array&gt;</span><br><span class="line">                &lt;value&gt;《Java编程思想》&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;《Java多线程并发》&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;《深入学习Mysql》&lt;/value&gt;</span><br><span class="line">            &lt;/array&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第四种：List集合数组--&gt;</span><br><span class="line">        &lt;property name=&quot;hobbies&quot;&gt;</span><br><span class="line">            &lt;list&gt;</span><br><span class="line">                &lt;value&gt;喝奶茶&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;吃火锅&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;写代码&lt;/value&gt;</span><br><span class="line">            &lt;/list&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第五种：Map集合--&gt;</span><br><span class="line">        &lt;property name=&quot;card&quot;&gt;</span><br><span class="line">            &lt;map&gt;</span><br><span class="line">                &lt;entry key=&quot;身份证&quot; value=&quot;121212&quot;/&gt;</span><br><span class="line">                &lt;entry key=&quot;银行卡&quot; value=&quot;212121&quot;/&gt;</span><br><span class="line">            &lt;/map&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第六种：Set集合--&gt;</span><br><span class="line">        &lt;property name=&quot;games&quot;&gt;</span><br><span class="line">            &lt;set&gt;</span><br><span class="line">                &lt;value&gt;LOL&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;CF&lt;/value&gt;</span><br><span class="line">                &lt;value&gt;DNF&lt;/value&gt;</span><br><span class="line">            &lt;/set&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;!--第七种：空值注入--&gt;</span><br><span class="line">        &lt;property name=&quot;wife&quot;&gt;</span><br><span class="line">            &lt;null/&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--第八种：properties--&gt;</span><br><span class="line">        &lt;property name=&quot;info&quot;&gt;</span><br><span class="line">            &lt;props&gt;</span><br><span class="line">                &lt;prop key=&quot;driver&quot;&gt;20192020&lt;/prop&gt;</span><br><span class="line">                &lt;prop key=&quot;url&quot;&gt;男&lt;/prop&gt;</span><br><span class="line">                &lt;prop key=&quot;username&quot;&gt;20192020&lt;/prop&gt;</span><br><span class="line">            &lt;/props&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
-<p>测试类：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        Student student = (Student) context.getBean(&quot;student&quot;);</span><br><span class="line">        System.out.println(student.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Student&#123;name=&apos;潇雷&apos;, address=Address&#123;address=&apos;上海&apos;&#125;, books=[《Java编程思想》, 《Java多线程并发》, 《深入学习Mysql》], hobbies=[喝奶茶, 吃火锅, 写代码], card=&#123;身份证=121212, 银行卡=212121&#125;, games=[LOL, CF, DNF], wife=&apos;null&apos;, info=&#123;url=男, driver=20192020, username=20192020&#125;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="4、拓展方式注入"><a href="#4、拓展方式注入" class="headerlink" title="4、拓展方式注入"></a>4、拓展方式注入</h3><ul>
-<li>1、P命名空间注入：需要在头文件加入约束。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">导入约束 : xmlns:p=&quot;http://www.springframework.org/schema/p&quot;</span><br><span class="line"></span><br><span class="line">&lt;!--P(属性: properties)命名空间 , 属性依然要设置set方法--&gt;</span><br><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; p:name=&quot;潇雷&quot; p:age=&quot;18&quot;/&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>2、C命名空间注入：需要在头文件加入约束文件。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">导入约束 : xmlns:c=&quot;http://www.springframework.org/schema/c&quot;</span><br><span class="line">&lt;!--C(构造: Constructor)命名空间 , 属性依然要设置set方法--&gt;</span><br><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; c:name=&quot;潇雷&quot; p:age=&quot;18&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="5、Bean的作用域"><a href="#5、Bean的作用域" class="headerlink" title="5、Bean的作用域"></a>5、Bean的作用域</h3><ul>
-<li>在Spring中，那些组成应用程序的主体及由Spring ioc容器所管理的对象，被称为bean。简单的说，bean就是由ioc容器初始化、装配及管理的对象。</li>
-</ul>
-<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/852070927.png" alt="image"></p>
-<ul>
-<li><p>几种作用域中，request，session作用域仅在基于web的应用中使用（不必关心你所采用的是什么web应用框架）只能用在基于web的spring ApplicationContext环境。</p>
-</li>
-<li><p>1、单例模式（Spring默认机制）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; scope=&quot;singleton&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>2、原型模式：每次从容器中get的时候，都会产生一个新对象。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot; scope=&quot;prototype&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
 </ul>]]></content>
       <categories>
         <category>spring</category>
@@ -865,6 +865,44 @@
       </categories>
       <tags>
         <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【java基础】：（4）iterator迭代器遍历集合</title>
+    <url>/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/</url>
+    <content><![CDATA[<h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><ul>
+<li>对collection进行迭代的迭代器，依赖于集合而存在。该接口隐藏了Collection实现类的底层细节，向应用程序提供了遍历Collection集合元素的统一编程接口。</li>
+<li>格式：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Iterator &lt;T&gt; iterator  =  集合名. iterator() ,获取的元素都是T类型，T只能是引用类型</span><br></pre></td></tr></table></figure>
+<ul>
+<li>四个方法：<ul>
+<li>boolean hasNext()：如果没遍历完，返回true</li>
+<li>Object next（）：返回下一个元素</li>
+<li>void remove（）：从迭代器指向Collection中移除迭代器返回的最后一个元素。（上一次next方法返回的元素）</li>
+</ul>
+</li>
+</ul>
+<h3 id="2、案例"><a href="#2、案例" class="headerlink" title="2、案例"></a>2、案例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 需求：存储自定义对象并遍历Student(name,age)</span><br><span class="line"> *</span><br><span class="line"> * 分析：</span><br><span class="line"> * 		A:创建学生类</span><br><span class="line"> * 		B:创建集合对象</span><br><span class="line"> * 		C:创建学生对象</span><br><span class="line"> * 		D:把学生对象添加到集合对象中</span><br><span class="line"> * 		E:遍历集合</span><br><span class="line"> */</span><br><span class="line">public class CollectionTest2 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// 创建集合对象</span><br><span class="line">		Collection c = new ArrayList();</span><br><span class="line"></span><br><span class="line">		// 创建学生对象</span><br><span class="line">		Student s1 = new Student(&quot;貂蝉&quot;, 25);</span><br><span class="line">		Student s2 = new Student(&quot;小乔&quot;, 16);</span><br><span class="line">		Student s3 = new Student(&quot;黄月英&quot;, 20);</span><br><span class="line">		Student s4 = new Student();</span><br><span class="line">		s4.setName(&quot;大乔&quot;);</span><br><span class="line">		s4.setAge(26);</span><br><span class="line"></span><br><span class="line">		// 把学生对象添加到集合对象中</span><br><span class="line">		c.add(s1);</span><br><span class="line">		c.add(s2);</span><br><span class="line">		c.add(s3);</span><br><span class="line">		c.add(s4);</span><br><span class="line">		c.add(new Student(&quot;孙尚香&quot;, 18)); // 匿名对象</span><br><span class="line"></span><br><span class="line">		// 遍历集合</span><br><span class="line">		Iterator it = c.iterator();</span><br><span class="line">		while (it.hasNext()) &#123;</span><br><span class="line">			Student s = (Student) it.next();</span><br><span class="line">			System.out.println(s.getName() + &quot;---&quot; + s.getAge());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Iterator必须依赖于Collection对象，它仅用来遍历集合，本身并不提供盛装对象的能力。但是它只能通过remove方法删除上一次next方法返回的集合元素，否则会发生并发修改异常。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//报错</span><br><span class="line">Iterator iterator =c.iterator();</span><br><span class="line">while(iterator.hasNext())&#123;</span><br><span class="line">    String s=(String) iterator.next();</span><br><span class="line">    if(&quot;java&quot;.equals(s))&#123;</span><br><span class="line">        //c.remove(s);  //并发修改异常</span><br><span class="line">        //集合删除元素后，迭代器并不知道，禁止迭代器在迭代时用集合来进行修改</span><br><span class="line">        //怎么解决？1.迭代器遍历，迭代器修改  2.集合遍历，集合修改</span><br><span class="line">        iterator.remove(s)//迭代器遍历，用迭代器来调用</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原因分析：Iterator迭代器采用的是快速失败（fail-fast）机制，一旦在迭代过程中监测到该集合已经被修改，程序立即引发并发修改异常，而不是显示修改后的结果，这样可以避免共享资源而引发的潜在问题。</li>
+</ul>
+<h3 id="4、几个小问题"><a href="#4、几个小问题" class="headerlink" title="4、几个小问题"></a>4、几个小问题</h3><h5 id="4-1-为什么Iterator设计成一个接口，而不是设计成一个类？"><a href="#4-1-为什么Iterator设计成一个接口，而不是设计成一个类？" class="headerlink" title="4.1 为什么Iterator设计成一个接口，而不是设计成一个类？"></a>4.1 为什么Iterator设计成一个接口，而不是设计成一个类？</h5><ul>
+<li>有些集合允许有重复的元素，有些集合不允许有重复的元素。有些集合是有序的，有些集合是无序的，原因是具体集合的数据结构不一样。集合的遍历依赖于集合的数据结构，所以我们不能写一个类去遍历所有的集合。所以迭代器只能设计成接口或抽象类，他们吧判断和获取功能提取出来，放在接口里面去实现。</li>
+</ul>
+<h5 id="4-2-为什么不设计成抽象类"><a href="#4-2-为什么不设计成抽象类" class="headerlink" title="4.2 为什么不设计成抽象类"></a>4.2 为什么不设计成抽象类</h5><ul>
+<li>因为有些集合可能会继承其他类，由于java的单继承，所以迭代器设计成了一个接口。iterator对象可以遍历对应的集合，说明他知道集合的数据结果，这个类的成员内部类。</li>
+</ul>]]></content>
+      <categories>
+        <category>java基础</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
       </tags>
   </entry>
   <entry>
@@ -1037,177 +1075,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【java基础】：（4）iterator迭代器遍历集合</title>
-    <url>/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/</url>
-    <content><![CDATA[<h3 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h3><ul>
-<li>对collection进行迭代的迭代器，依赖于集合而存在。该接口隐藏了Collection实现类的底层细节，向应用程序提供了遍历Collection集合元素的统一编程接口。</li>
-<li>格式：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Iterator &lt;T&gt; iterator  =  集合名. iterator() ,获取的元素都是T类型，T只能是引用类型</span><br></pre></td></tr></table></figure>
-<ul>
-<li>四个方法：<ul>
-<li>boolean hasNext()：如果没遍历完，返回true</li>
-<li>Object next（）：返回下一个元素</li>
-<li>void remove（）：从迭代器指向Collection中移除迭代器返回的最后一个元素。（上一次next方法返回的元素）</li>
-</ul>
-</li>
-</ul>
-<h3 id="2、案例"><a href="#2、案例" class="headerlink" title="2、案例"></a>2、案例</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 需求：存储自定义对象并遍历Student(name,age)</span><br><span class="line"> *</span><br><span class="line"> * 分析：</span><br><span class="line"> * 		A:创建学生类</span><br><span class="line"> * 		B:创建集合对象</span><br><span class="line"> * 		C:创建学生对象</span><br><span class="line"> * 		D:把学生对象添加到集合对象中</span><br><span class="line"> * 		E:遍历集合</span><br><span class="line"> */</span><br><span class="line">public class CollectionTest2 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// 创建集合对象</span><br><span class="line">		Collection c = new ArrayList();</span><br><span class="line"></span><br><span class="line">		// 创建学生对象</span><br><span class="line">		Student s1 = new Student(&quot;貂蝉&quot;, 25);</span><br><span class="line">		Student s2 = new Student(&quot;小乔&quot;, 16);</span><br><span class="line">		Student s3 = new Student(&quot;黄月英&quot;, 20);</span><br><span class="line">		Student s4 = new Student();</span><br><span class="line">		s4.setName(&quot;大乔&quot;);</span><br><span class="line">		s4.setAge(26);</span><br><span class="line"></span><br><span class="line">		// 把学生对象添加到集合对象中</span><br><span class="line">		c.add(s1);</span><br><span class="line">		c.add(s2);</span><br><span class="line">		c.add(s3);</span><br><span class="line">		c.add(s4);</span><br><span class="line">		c.add(new Student(&quot;孙尚香&quot;, 18)); // 匿名对象</span><br><span class="line"></span><br><span class="line">		// 遍历集合</span><br><span class="line">		Iterator it = c.iterator();</span><br><span class="line">		while (it.hasNext()) &#123;</span><br><span class="line">			Student s = (Student) it.next();</span><br><span class="line">			System.out.println(s.getName() + &quot;---&quot; + s.getAge());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Iterator必须依赖于Collection对象，它仅用来遍历集合，本身并不提供盛装对象的能力。但是它只能通过remove方法删除上一次next方法返回的集合元素，否则会发生并发修改异常。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//报错</span><br><span class="line">Iterator iterator =c.iterator();</span><br><span class="line">while(iterator.hasNext())&#123;</span><br><span class="line">    String s=(String) iterator.next();</span><br><span class="line">    if(&quot;java&quot;.equals(s))&#123;</span><br><span class="line">        //c.remove(s);  //并发修改异常</span><br><span class="line">        //集合删除元素后，迭代器并不知道，禁止迭代器在迭代时用集合来进行修改</span><br><span class="line">        //怎么解决？1.迭代器遍历，迭代器修改  2.集合遍历，集合修改</span><br><span class="line">        iterator.remove(s)//迭代器遍历，用迭代器来调用</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>原因分析：Iterator迭代器采用的是快速失败（fail-fast）机制，一旦在迭代过程中监测到该集合已经被修改，程序立即引发并发修改异常，而不是显示修改后的结果，这样可以避免共享资源而引发的潜在问题。</li>
-</ul>
-<h3 id="4、几个小问题"><a href="#4、几个小问题" class="headerlink" title="4、几个小问题"></a>4、几个小问题</h3><h5 id="4-1-为什么Iterator设计成一个接口，而不是设计成一个类？"><a href="#4-1-为什么Iterator设计成一个接口，而不是设计成一个类？" class="headerlink" title="4.1 为什么Iterator设计成一个接口，而不是设计成一个类？"></a>4.1 为什么Iterator设计成一个接口，而不是设计成一个类？</h5><ul>
-<li>有些集合允许有重复的元素，有些集合不允许有重复的元素。有些集合是有序的，有些集合是无序的，原因是具体集合的数据结构不一样。集合的遍历依赖于集合的数据结构，所以我们不能写一个类去遍历所有的集合。所以迭代器只能设计成接口或抽象类，他们吧判断和获取功能提取出来，放在接口里面去实现。</li>
-</ul>
-<h5 id="4-2-为什么不设计成抽象类"><a href="#4-2-为什么不设计成抽象类" class="headerlink" title="4.2 为什么不设计成抽象类"></a>4.2 为什么不设计成抽象类</h5><ul>
-<li>因为有些集合可能会继承其他类，由于java的单继承，所以迭代器设计成了一个接口。iterator对象可以遍历对应的集合，说明他知道集合的数据结果，这个类的成员内部类。</li>
-</ul>]]></content>
-      <categories>
-        <category>java基础</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【redis】：（2）进阶</title>
-    <url>/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/</url>
-    <content><![CDATA[<h4 id="1、Jedis"><a href="#1、Jedis" class="headerlink" title="1、Jedis"></a>1、Jedis</h4><ul>
-<li>我们要用Java来操作Redis。什么是Jedis， 是redis官方推荐的java连接开发工具！使用java操作Redis中间件，如果你要使用java操作redis，那么一定要对jedis十分熟悉。</li>
-</ul>
-<blockquote>
-<p>测试：</p>
-</blockquote>
-<ul>
-<li>1、导入依赖<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;2.9.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.2.54&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
-<li>2、编码测试：<ul>
-<li>连接数据库</li>
-<li>操作命令</li>
-<li>断开连接</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class TestPing &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1、导入redis对象</span><br><span class="line">        Jedis jedis = new Jedis(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line">        //jedis 所有的命令就是我们之前学习的所有指令</span><br><span class="line">        System.out.println(jedis.ping());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="常用的API"><a href="#常用的API" class="headerlink" title="常用的API"></a>常用的API</h4><ul>
-<li>String</li>
-<li>List</li>
-<li>Set</li>
-<li>Hash</li>
-<li>Zset</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class TestPing &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Jedis jedis = new Jedis(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line">        jedis.flushDB();</span><br><span class="line">        JSONObject jsonObject = new JSONObject();</span><br><span class="line">        jsonObject.put(&quot;hello&quot;, &quot;world&quot;);</span><br><span class="line">        jsonObject.put(&quot;name&quot;, &quot;xiaolei&quot;);</span><br><span class="line">        // 开启事务</span><br><span class="line">        Transaction multi = jedis.multi();</span><br><span class="line">        String result = jsonObject.toJSONString();</span><br><span class="line">        //jedis.watch(result)</span><br><span class="line">        try&#123;</span><br><span class="line">            multi.set(&quot;user1&quot;,result);</span><br><span class="line">            multi.set(&quot;user2&quot;,result);</span><br><span class="line">            multi.exec();</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            multi.discard();//代码出错抛出异常事务，执行失败</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            System.out.println(jedis.get(&quot;user1&quot;));</span><br><span class="line">            System.out.println(jedis.get(&quot;user2&quot;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-springboot整合redis"><a href="#2-springboot整合redis" class="headerlink" title="2.springboot整合redis"></a>2.springboot整合redis</h3><ul>
-<li>SpringBoot操作数据：spring-data jpa jdbc monggggodb</li>
-<li>在springboot2.x之后，原来使用的jedis被替换为了   lettuce<ul>
-<li>jedis：采用的直连，多个线程操作不安全</li>
-<li>lettuce：采用netty，实例可以在多个线程中共享，不存在线程不安全的情况 ，像（nio）</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Bean @ConditionalOnMissingBean(name = &quot;redisTemplate&quot;) </span><br><span class="line">// 我们可以自己定义一个redisTemplate来替换这个默认的！ </span><br><span class="line">public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException &#123; </span><br><span class="line">// 默认的 RedisTemplate 没有过多的设置，redis 对象都是需要序列化！ </span><br><span class="line">// 两个泛型都是 Object, Object 的类型，我们后使用需要强制转换 </span><br><span class="line"></span><br><span class="line">&lt;String, Object&gt; RedisTemplate&lt;Object, Object&gt; template = new RedisTemplate&lt;&gt;(); template.setConnectionFactory(redisConnectionFactory); return template; &#125;@Bean @ConditionalOnMissingBean </span><br><span class="line">// 由于String 是redis中最常使用的类型，所以说单独提出来了一 个bean！ </span><br><span class="line">public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException &#123; StringRedisTemplate template = new StringRedisTemplate(); template.setConnectionFactory(redisConnectionFactory); </span><br><span class="line">return template;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>整合测试：</p>
-</blockquote>
-<ul>
-<li>1、导入依赖</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>2、配置连接</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spring.redis.host=127.0.0.1</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
-<ul>
-<li>3、测试</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@SpringBootTest</span><br><span class="line">class Redis02SpringbootApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    void contextLoads() &#123;</span><br><span class="line">        //redisTemplate 操作不同的数据类型 api和我们的指令是一样的。</span><br><span class="line">        //opsForValue 操作字符串 类似String</span><br><span class="line">        //opsForList 操作List 类似List</span><br><span class="line">        //opsForSet</span><br><span class="line">        //opsForHash</span><br><span class="line">        //opsForZset</span><br><span class="line">        //opsForGeo</span><br><span class="line">        //opsForHyperLogLog</span><br><span class="line">        //获取redis的连接对象</span><br><span class="line">        //RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();</span><br><span class="line">        //connection.flushDb();</span><br><span class="line">        //connection.flushAll();</span><br><span class="line">        redisTemplate.opsForValue().set(&quot;mykey&quot;,&quot;kuangshen&quot;);</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(&quot;mykey&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>注意：所有的对象都要可序列化，如果没有可序列化的话，输出会报错。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void test() throws JsonProcessingException &#123;</span><br><span class="line">    //真实开发一般都会使用json来传递对象</span><br><span class="line">    User user = new User(&quot;xiaolei1996&quot;, 3);</span><br><span class="line">    //转为字符串格式</span><br><span class="line">    String jsonUser = new ObjectMapper().writeValueAsString(user);</span><br><span class="line">    redisTemplate.opsForValue().set(&quot;user&quot;,jsonUser);</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().get(&quot;user&quot;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RedisConfig &#123;</span><br><span class="line">    //编写我们自己的redisTemplate</span><br><span class="line">    @Bean</span><br><span class="line">    @SuppressWarnings(&quot;all&quot;)</span><br><span class="line">    public RedisTemplate&lt;String,Object&gt; redisTemplate(RedisConnectionFactory factory)</span><br><span class="line">            throws UnknownHostException&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = new RedisTemplate&lt;String, Object&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line">        // Json序列化配置</span><br><span class="line">        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);</span><br><span class="line">        ObjectMapper om = new ObjectMapper();</span><br><span class="line">        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line">        // String 的序列化</span><br><span class="line">        StringRedisSerializer stringRedisSerializer = new</span><br><span class="line">                StringRedisSerializer();</span><br><span class="line">        // key采用String的序列化方式</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line">        // hash的key也采用String的序列化方式</span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line">        // value序列化方式采用jackson</span><br><span class="line">        template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        // hash的value序列化方式采用jackson</span><br><span class="line">        template.setHashValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        return template;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3、redis-conf理解"><a href="#3、redis-conf理解" class="headerlink" title="3、redis.conf理解"></a>3、redis.conf理解</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">网络</span><br><span class="line">通用 GENERAL</span><br><span class="line">bind 127.0.0.1 # 绑定的ip</span><br><span class="line">protected-mode yes # 保护模式</span><br><span class="line">port 6379 # 端口设置</span><br><span class="line">daemonize yes # 以守护进程的方式运行，默认是 no，我们需要自己开启为yes！</span><br><span class="line">pidfile /var/run/redis_6379.pid # 如果以后台的方式运行，我们就需要指定一个 pid 文件！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 日志</span><br><span class="line"># Specify the server verbosity level.</span><br><span class="line"># This can be one of:</span><br><span class="line">快照</span><br><span class="line">持久化， 在规定的时间内，执行了多少次操作，则会持久化到文件 .rdb. aof</span><br><span class="line">redis 是内存数据库，如果没有持久化，那么数据断电及失！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">REPLICATION 复制，我们后面讲解主从复制的，时候再进行讲解</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SECURITY 安全</span><br><span class="line">可以在这里设置redis的密码，默认是没有密码！</span><br><span class="line"># debug (a lot of information, useful for development/testing)</span><br><span class="line"># verbose (many rarely useful info, but not a mess like the debug level)</span><br><span class="line"># notice (moderately verbose, what you want in production probably) 生产环境</span><br><span class="line"># warning (only very important / critical messages are logged)</span><br><span class="line">loglevel notice</span><br><span class="line">logfile &quot;&quot; # 日志的文件位置名</span><br><span class="line">databases 16 # 数据库的数量，默认是 16 个数据库</span><br><span class="line">always-show-logo yes # 是否总是显示LOGO</span><br><span class="line"># 如果900s内，如果至少有一个1 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 900 1</span><br><span class="line"># 如果300s内，如果至少10 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 300 10</span><br><span class="line"># 如果60s内，如果至少10000 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 60 10000</span><br><span class="line"># 我们之后学习持久化，会自己定义这个测试！</span><br><span class="line">stop-writes-on-bgsave-error yes # 持久化如果出错，是否还需要继续工作！</span><br><span class="line">rdbcompression yes # 是否压缩 rdb 文件，需要消耗一些cpu资源！</span><br><span class="line">rdbchecksum yes # 保存rdb文件的时候，进行错误的检查校验！</span><br><span class="line">dir ./ # rdb 文件保存的目录！</span><br><span class="line">127.0.0.1:6379&gt; ping</span><br><span class="line">PONG</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass # 获取redis的密码</span><br><span class="line">1) &quot;requirepass&quot;</span><br><span class="line">2) &quot;&quot;</span><br><span class="line">127.0.0.1:6379&gt; config set requirepass &quot;123456&quot; # 设置redis的密码</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass # 发现所有的命令都没有权限了</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; ping</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456 # 使用密码进行登录！</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass</span><br><span class="line">1) &quot;requirepass&quot;</span><br><span class="line">2) &quot;123456&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">限制 CLIENTS</span><br><span class="line">APPEND ONLY 模式 aof配置</span><br><span class="line">具体的配置，我们在 Redis持久化 中去给大家详细详解！</span><br><span class="line">Redis持久化</span><br><span class="line">面试和工作，持久化都是重点！</span><br><span class="line">Redis 是内存数据库，如果不将内存中的数据库状态保存到磁盘，那么一旦服务器进程退出，服务器中</span><br><span class="line">的数据库状态也会消失。所以 Redis 提供了持久化功能！</span><br><span class="line">RDB（Redis DataBase）</span><br><span class="line">什么是RDB</span><br><span class="line">在主从复制中，rdb就是备用了！从机上面！</span><br><span class="line">maxclients 10000 # 设置能连接上redis的最大客户端的数量</span><br><span class="line">maxmemory &lt;bytes&gt; # redis 配置最大的内存容量</span><br><span class="line">maxmemory-policy noeviction # 内存到达上限之后的处理策略</span><br><span class="line">1、volatile-lru：只对设置了过期时间的key进行LRU（默认值）</span><br><span class="line">2、allkeys-lru ： 删除lru算法的key</span><br><span class="line">3、volatile-random：随机删除即将过期key</span><br><span class="line">4、allkeys-random：随机删除</span><br><span class="line">5、volatile-ttl ： 删除即将过期的</span><br><span class="line">6、noeviction ： 永不过期，返回错误</span><br><span class="line">appendonly no # 默认是不开启aof模式的，默认是使用rdb方式持久化的，在大部分所有的情况下，</span><br><span class="line">rdb完全够用！</span><br><span class="line">appendfilename &quot;appendonly.aof&quot; # 持久化的文件的名字</span><br><span class="line"># appendfsync always # 每次修改都会 sync。消耗性能</span><br><span class="line">appendfsync everysec # 每秒执行一次 sync，可能会丢失这1s的数据！</span><br><span class="line"># appendfsync no</span><br></pre></td></tr></table></figure>
-
-<h2 id="4、Redis持久化"><a href="#4、Redis持久化" class="headerlink" title="4、Redis持久化"></a>4、Redis持久化</h2><ul>
-<li>Redis是内存数据库，如果不将内存中的数据库状态保存在磁盘中，那么一旦服务器进程退出，服务器中的数据库状态也会消失，所以redis提供了持久化功能。</li>
-</ul>
-<h3 id="4-1-RDB"><a href="#4-1-RDB" class="headerlink" title="4.1 RDB"></a>4.1 RDB</h3><ul>
-<li><p>在主从复制中，rdb就是备用了从机上面。<br><img src="67C1395F743D4BADA2FDE20A2E821459" alt="image"></p>
-</li>
-<li><p>在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的Snapshot快照，它恢复时是将快照文件直接读到内存里。Redis会单独创建（fork）一个子进程来进行持久化，会先将数据写入到一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化的文件。整个过程中，主进程是不进行任何IO操作的，这就确保了极高的性能。如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效，RDB的缺点就是最好一次持久化后的数据可能丢失。我们默认是RDB。</p>
-</li>
-<li><p><strong>rdb保存的文件是dump.rdb</strong> 都是自自在在我们的配置文件中快照进行配置的<br><img src="5FEB729496FF4212B1FE1F0257132D36" alt="image"><br><img src="E20C800A466045AE818F8FF95A00A51F" alt="image"></p>
-</li>
-<li><p>触发机制：备份就会自动生成dump.rdb</p>
-</li>
-</ul>
-<ol>
-<li>save的规则满足的情况下，会自动触发rdb规则</li>
-<li>执行flushall命令，也会触发我们的rdb规则</li>
-<li>退出redis，也会产生rdb文件 。<br><img src="24E248A05D034439BC3BBD1D6AFB6224" alt="image"><blockquote>
-<p>如何恢复rdb文件</p>
-</blockquote>
-</li>
-<li>只需将rdb文件放在我们redis启动目录就可以，redis启动的时候会自动检查dump.rdb文件的数据</li>
-<li>查看需要存在的位置</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">127.0.0.1:6379&gt; config get dir </span><br><span class="line">1) &quot;dir&quot; </span><br><span class="line">2) &quot;/usr/local/bin&quot; </span><br><span class="line"># 如果在这个目录下存在 dump.rdb文件，启动就会自动恢复其中的数据</span><br></pre></td></tr></table></figure>
-
-<h4 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h4><ul>
-<li>优点：<ul>
-<li>适合大规模的数据恢复</li>
-<li>对数据的完整性要求不高</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>需要一定的时间间隔进程操作！如果redis意外怠机了，这个最后一次修改数据就会来不及保存</li>
-<li>fork进程的时候，会占用一定的内容空间。</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-2-AOF（Append-only-File）"><a href="#4-2-AOF（Append-only-File）" class="headerlink" title="4.2 AOF（Append only File）"></a>4.2 AOF（Append only File）</h3><ul>
-<li>以日志的形式来记录每个写的操作，将redis执行过的所有指令记录下来（读操作不记录），只追加文件但是不可退改写文件，redis启动之初会读取文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将指令从前往后执行一次以完成数据的恢复工作。</li>
-<li><strong>Aof 保存的是appendonly.aof文件</strong><br><img src="BD56619E296B4418895CF1C966F31AE5" alt="image"></li>
-</ul>
-<blockquote>
-<p>append 默认是不开启的，把no改成yes即可<br><img src="A5465B12849F486C9E261780B7E60069" alt="image"></p>
-</blockquote>
-<ul>
-<li>如果aof文件出现问题，是不能启动redis的，只能修复这个aof文件。redis给我们提供了一个工具 redis-check-aof<br><img src="13CBE42336B14322B19D786881F8A2B4" alt="image"></li>
-</ul>
-<h4 id="面试-1"><a href="#面试-1" class="headerlink" title="面试"></a>面试</h4><ul>
-<li>优点：<ul>
-<li>1、每次修改都同步，文件的完整会更加好</li>
-<li>2、每秒同步一次，可能会丢失一秒的数据</li>
-<li>3、从不同步，效率最高的</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>1、相对于数据文件来说，aof远远大于rdb，修复速度也比rdb慢</li>
-<li>2、aof运行效率较慢</li>
-</ul>
-</li>
-<li>RDB 持久化方式能够在指定的时间间隔内对你的数据进行快照存储</li>
-<li>AOF 持久化方式记录每次对服务器写的操作，当服务器重启的时候会重新执行这些命令来恢复原始<br>的数据，AOF命令以Redis协议追加保存每次写的操作到文件末尾，Redis还能对AOF文件进行后台重写，使得AOF文件的体积不至于过大。</li>
-<li>只做缓存，如果你只希望你的数据在服务器运行的时候存在，你也可以不使用任何持久化</li>
-<li>同时开启两种持久化方式在这种情况下，当redis重启的时候会优先载入AOF文件来恢复原始的数据，因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整。RDB的数据不实时，同时使用两者时服务器重启也只会找AOF文件，那要不要只使用AOF呢？作者建议不要，因为RDB更适合用于备份数据库（AOF在不断变化不好备份），快速重启，而且不会有<br>AOF可能潜在的Bug，留着作为一个万一的手段。</li>
-<li>性能建议因为RDB文件只用作后备用途，建议只在Slave上持久化RDB文件，而且只要15分钟备份一次就够<br>了，只保留 save 900 1 这条规则。如果Enable AOF ，好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了，代价一是带来了持续的IO，二是AOF rewrite 的最后将 rewrite 过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上，默认超过原大小100%大小重<br>写可以改到适当的数值。如果不Enable AOF ，仅靠 Master-Slave Repllcation实现高可用性也可以，能省掉一大笔IO，也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时倒掉，会丢失十几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个，微博就是这种架构。</li>
-</ul>]]></content>
-      <categories>
-        <category>redis</category>
-      </categories>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【redis】：（3）进阶</title>
     <url>/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/</url>
     <content><![CDATA[<h2 id="1、Redis发布订阅"><a href="#1、Redis发布订阅" class="headerlink" title="1、Redis发布订阅"></a>1、Redis发布订阅</h2><ul>
@@ -1365,6 +1232,235 @@
       </categories>
       <tags>
         <tag>规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【redis】：（2）高阶</title>
+    <url>/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%AB%98%E7%BA%A7/</url>
+    <content><![CDATA[<h4 id="1、Jedis"><a href="#1、Jedis" class="headerlink" title="1、Jedis"></a>1、Jedis</h4><ul>
+<li>我们要用Java来操作Redis。什么是Jedis， 是redis官方推荐的java连接开发工具！使用java操作Redis中间件，如果你要使用java操作redis，那么一定要对jedis十分熟悉。</li>
+</ul>
+<blockquote>
+<p>测试：</p>
+</blockquote>
+<ul>
+<li>1、导入依赖<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;2.9.3&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br><span class="line">       &lt;dependency&gt;</span><br><span class="line">           &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">           &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">           &lt;version&gt;1.2.54&lt;/version&gt;</span><br><span class="line">       &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></li>
+<li>2、编码测试：<ul>
+<li>连接数据库</li>
+<li>操作命令</li>
+<li>断开连接</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class TestPing &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //1、导入redis对象</span><br><span class="line">        Jedis jedis = new Jedis(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line">        //jedis 所有的命令就是我们之前学习的所有指令</span><br><span class="line">        System.out.println(jedis.ping());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="常用的API"><a href="#常用的API" class="headerlink" title="常用的API"></a>常用的API</h4><ul>
+<li>String</li>
+<li>List</li>
+<li>Set</li>
+<li>Hash</li>
+<li>Zset</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class TestPing &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Jedis jedis = new Jedis(&quot;127.0.0.1&quot;, 6379);</span><br><span class="line">        jedis.flushDB();</span><br><span class="line">        JSONObject jsonObject = new JSONObject();</span><br><span class="line">        jsonObject.put(&quot;hello&quot;, &quot;world&quot;);</span><br><span class="line">        jsonObject.put(&quot;name&quot;, &quot;xiaolei&quot;);</span><br><span class="line">        // 开启事务</span><br><span class="line">        Transaction multi = jedis.multi();</span><br><span class="line">        String result = jsonObject.toJSONString();</span><br><span class="line">        //jedis.watch(result)</span><br><span class="line">        try&#123;</span><br><span class="line">            multi.set(&quot;user1&quot;,result);</span><br><span class="line">            multi.set(&quot;user2&quot;,result);</span><br><span class="line">            multi.exec();</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            multi.discard();//代码出错抛出异常事务，执行失败</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;finally &#123;</span><br><span class="line">            System.out.println(jedis.get(&quot;user1&quot;));</span><br><span class="line">            System.out.println(jedis.get(&quot;user2&quot;));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-springboot整合redis"><a href="#2-springboot整合redis" class="headerlink" title="2.springboot整合redis"></a>2.springboot整合redis</h3><ul>
+<li>SpringBoot操作数据：spring-data jpa jdbc monggggodb</li>
+<li>在springboot2.x之后，原来使用的jedis被替换为了   lettuce<ul>
+<li>jedis：采用的直连，多个线程操作不安全</li>
+<li>lettuce：采用netty，实例可以在多个线程中共享，不存在线程不安全的情况 ，像（nio）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Bean @ConditionalOnMissingBean(name = &quot;redisTemplate&quot;) </span><br><span class="line">// 我们可以自己定义一个redisTemplate来替换这个默认的！ </span><br><span class="line">public RedisTemplate&lt;Object, Object&gt; redisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException &#123; </span><br><span class="line">// 默认的 RedisTemplate 没有过多的设置，redis 对象都是需要序列化！ </span><br><span class="line">// 两个泛型都是 Object, Object 的类型，我们后使用需要强制转换 </span><br><span class="line"></span><br><span class="line">&lt;String, Object&gt; RedisTemplate&lt;Object, Object&gt; template = new RedisTemplate&lt;&gt;(); template.setConnectionFactory(redisConnectionFactory); return template; &#125;@Bean @ConditionalOnMissingBean </span><br><span class="line">// 由于String 是redis中最常使用的类型，所以说单独提出来了一 个bean！ </span><br><span class="line">public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException &#123; StringRedisTemplate template = new StringRedisTemplate(); template.setConnectionFactory(redisConnectionFactory); </span><br><span class="line">return template;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>整合测试：</p>
+</blockquote>
+<ul>
+<li>1、导入依赖</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、配置连接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spring.redis.host=127.0.0.1</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、测试</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@SpringBootTest</span><br><span class="line">class Redis02SpringbootApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    void contextLoads() &#123;</span><br><span class="line">        //redisTemplate 操作不同的数据类型 api和我们的指令是一样的。</span><br><span class="line">        //opsForValue 操作字符串 类似String</span><br><span class="line">        //opsForList 操作List 类似List</span><br><span class="line">        //opsForSet</span><br><span class="line">        //opsForHash</span><br><span class="line">        //opsForZset</span><br><span class="line">        //opsForGeo</span><br><span class="line">        //opsForHyperLogLog</span><br><span class="line">        //获取redis的连接对象</span><br><span class="line">        //RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();</span><br><span class="line">        //connection.flushDb();</span><br><span class="line">        //connection.flushAll();</span><br><span class="line">        redisTemplate.opsForValue().set(&quot;mykey&quot;,&quot;kuangshen&quot;);</span><br><span class="line">        System.out.println(redisTemplate.opsForValue().get(&quot;mykey&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：所有的对象都要可序列化，如果没有可序列化的话，输出会报错。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void test() throws JsonProcessingException &#123;</span><br><span class="line">    //真实开发一般都会使用json来传递对象</span><br><span class="line">    User user = new User(&quot;xiaolei1996&quot;, 3);</span><br><span class="line">    //转为字符串格式</span><br><span class="line">    String jsonUser = new ObjectMapper().writeValueAsString(user);</span><br><span class="line">    redisTemplate.opsForValue().set(&quot;user&quot;,jsonUser);</span><br><span class="line">    System.out.println(redisTemplate.opsForValue().get(&quot;user&quot;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class RedisConfig &#123;</span><br><span class="line">    //编写我们自己的redisTemplate</span><br><span class="line">    @Bean</span><br><span class="line">    @SuppressWarnings(&quot;all&quot;)</span><br><span class="line">    public RedisTemplate&lt;String,Object&gt; redisTemplate(RedisConnectionFactory factory)</span><br><span class="line">            throws UnknownHostException&#123;</span><br><span class="line">        RedisTemplate&lt;String, Object&gt; template = new RedisTemplate&lt;String, Object&gt;();</span><br><span class="line">        template.setConnectionFactory(factory);</span><br><span class="line">        // Json序列化配置</span><br><span class="line">        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);</span><br><span class="line">        ObjectMapper om = new ObjectMapper();</span><br><span class="line">        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line">        // String 的序列化</span><br><span class="line">        StringRedisSerializer stringRedisSerializer = new</span><br><span class="line">                StringRedisSerializer();</span><br><span class="line">        // key采用String的序列化方式</span><br><span class="line">        template.setKeySerializer(stringRedisSerializer);</span><br><span class="line">        // hash的key也采用String的序列化方式</span><br><span class="line">        template.setHashKeySerializer(stringRedisSerializer);</span><br><span class="line">        // value序列化方式采用jackson</span><br><span class="line">        template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        // hash的value序列化方式采用jackson</span><br><span class="line">        template.setHashValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        return template;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3、redis-conf理解"><a href="#3、redis-conf理解" class="headerlink" title="3、redis.conf理解"></a>3、redis.conf理解</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">网络</span><br><span class="line">通用 GENERAL</span><br><span class="line">bind 127.0.0.1 # 绑定的ip</span><br><span class="line">protected-mode yes # 保护模式</span><br><span class="line">port 6379 # 端口设置</span><br><span class="line">daemonize yes # 以守护进程的方式运行，默认是 no，我们需要自己开启为yes！</span><br><span class="line">pidfile /var/run/redis_6379.pid # 如果以后台的方式运行，我们就需要指定一个 pid 文件！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 日志</span><br><span class="line"># Specify the server verbosity level.</span><br><span class="line"># This can be one of:</span><br><span class="line">快照</span><br><span class="line">持久化， 在规定的时间内，执行了多少次操作，则会持久化到文件 .rdb. aof</span><br><span class="line">redis 是内存数据库，如果没有持久化，那么数据断电及失！</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">REPLICATION 复制，我们后面讲解主从复制的，时候再进行讲解</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SECURITY 安全</span><br><span class="line">可以在这里设置redis的密码，默认是没有密码！</span><br><span class="line"># debug (a lot of information, useful for development/testing)</span><br><span class="line"># verbose (many rarely useful info, but not a mess like the debug level)</span><br><span class="line"># notice (moderately verbose, what you want in production probably) 生产环境</span><br><span class="line"># warning (only very important / critical messages are logged)</span><br><span class="line">loglevel notice</span><br><span class="line">logfile &quot;&quot; # 日志的文件位置名</span><br><span class="line">databases 16 # 数据库的数量，默认是 16 个数据库</span><br><span class="line">always-show-logo yes # 是否总是显示LOGO</span><br><span class="line"># 如果900s内，如果至少有一个1 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 900 1</span><br><span class="line"># 如果300s内，如果至少10 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 300 10</span><br><span class="line"># 如果60s内，如果至少10000 key进行了修改，我们及进行持久化操作</span><br><span class="line">save 60 10000</span><br><span class="line"># 我们之后学习持久化，会自己定义这个测试！</span><br><span class="line">stop-writes-on-bgsave-error yes # 持久化如果出错，是否还需要继续工作！</span><br><span class="line">rdbcompression yes # 是否压缩 rdb 文件，需要消耗一些cpu资源！</span><br><span class="line">rdbchecksum yes # 保存rdb文件的时候，进行错误的检查校验！</span><br><span class="line">dir ./ # rdb 文件保存的目录！</span><br><span class="line">127.0.0.1:6379&gt; ping</span><br><span class="line">PONG</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass # 获取redis的密码</span><br><span class="line">1) &quot;requirepass&quot;</span><br><span class="line">2) &quot;&quot;</span><br><span class="line">127.0.0.1:6379&gt; config set requirepass &quot;123456&quot; # 设置redis的密码</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass # 发现所有的命令都没有权限了</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; ping</span><br><span class="line">(error) NOAUTH Authentication required.</span><br><span class="line">127.0.0.1:6379&gt; auth 123456 # 使用密码进行登录！</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; config get requirepass</span><br><span class="line">1) &quot;requirepass&quot;</span><br><span class="line">2) &quot;123456&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">限制 CLIENTS</span><br><span class="line">APPEND ONLY 模式 aof配置</span><br><span class="line">具体的配置，我们在 Redis持久化 中去给大家详细详解！</span><br><span class="line">Redis持久化</span><br><span class="line">面试和工作，持久化都是重点！</span><br><span class="line">Redis 是内存数据库，如果不将内存中的数据库状态保存到磁盘，那么一旦服务器进程退出，服务器中</span><br><span class="line">的数据库状态也会消失。所以 Redis 提供了持久化功能！</span><br><span class="line">RDB（Redis DataBase）</span><br><span class="line">什么是RDB</span><br><span class="line">在主从复制中，rdb就是备用了！从机上面！</span><br><span class="line">maxclients 10000 # 设置能连接上redis的最大客户端的数量</span><br><span class="line">maxmemory &lt;bytes&gt; # redis 配置最大的内存容量</span><br><span class="line">maxmemory-policy noeviction # 内存到达上限之后的处理策略</span><br><span class="line">1、volatile-lru：只对设置了过期时间的key进行LRU（默认值）</span><br><span class="line">2、allkeys-lru ： 删除lru算法的key</span><br><span class="line">3、volatile-random：随机删除即将过期key</span><br><span class="line">4、allkeys-random：随机删除</span><br><span class="line">5、volatile-ttl ： 删除即将过期的</span><br><span class="line">6、noeviction ： 永不过期，返回错误</span><br><span class="line">appendonly no # 默认是不开启aof模式的，默认是使用rdb方式持久化的，在大部分所有的情况下，</span><br><span class="line">rdb完全够用！</span><br><span class="line">appendfilename &quot;appendonly.aof&quot; # 持久化的文件的名字</span><br><span class="line"># appendfsync always # 每次修改都会 sync。消耗性能</span><br><span class="line">appendfsync everysec # 每秒执行一次 sync，可能会丢失这1s的数据！</span><br><span class="line"># appendfsync no</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、Redis持久化"><a href="#4、Redis持久化" class="headerlink" title="4、Redis持久化"></a>4、Redis持久化</h2><ul>
+<li>Redis是内存数据库，如果不将内存中的数据库状态保存在磁盘中，那么一旦服务器进程退出，服务器中的数据库状态也会消失，所以redis提供了持久化功能。</li>
+</ul>
+<h3 id="4-1-RDB"><a href="#4-1-RDB" class="headerlink" title="4.1 RDB"></a>4.1 RDB</h3><ul>
+<li><p>在主从复制中，rdb就是备用了从机上面。<br><img src="67C1395F743D4BADA2FDE20A2E821459" alt="image"></p>
+</li>
+<li><p>在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的Snapshot快照，它恢复时是将快照文件直接读到内存里。Redis会单独创建（fork）一个子进程来进行持久化，会先将数据写入到一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化的文件。整个过程中，主进程是不进行任何IO操作的，这就确保了极高的性能。如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效，RDB的缺点就是最好一次持久化后的数据可能丢失。我们默认是RDB。</p>
+</li>
+<li><p><strong>rdb保存的文件是dump.rdb</strong> 都是自自在在我们的配置文件中快照进行配置的<br><img src="5FEB729496FF4212B1FE1F0257132D36" alt="image"><br><img src="E20C800A466045AE818F8FF95A00A51F" alt="image"></p>
+</li>
+<li><p>触发机制：备份就会自动生成dump.rdb</p>
+</li>
+</ul>
+<ol>
+<li>save的规则满足的情况下，会自动触发rdb规则</li>
+<li>执行flushall命令，也会触发我们的rdb规则</li>
+<li>退出redis，也会产生rdb文件 。<br><img src="24E248A05D034439BC3BBD1D6AFB6224" alt="image"><blockquote>
+<p>如何恢复rdb文件</p>
+</blockquote>
+</li>
+<li>只需将rdb文件放在我们redis启动目录就可以，redis启动的时候会自动检查dump.rdb文件的数据</li>
+<li>查看需要存在的位置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">127.0.0.1:6379&gt; config get dir </span><br><span class="line">1) &quot;dir&quot; </span><br><span class="line">2) &quot;/usr/local/bin&quot; </span><br><span class="line"># 如果在这个目录下存在 dump.rdb文件，启动就会自动恢复其中的数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h4><ul>
+<li>优点：<ul>
+<li>适合大规模的数据恢复</li>
+<li>对数据的完整性要求不高</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>需要一定的时间间隔进程操作！如果redis意外怠机了，这个最后一次修改数据就会来不及保存</li>
+<li>fork进程的时候，会占用一定的内容空间。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-AOF（Append-only-File）"><a href="#4-2-AOF（Append-only-File）" class="headerlink" title="4.2 AOF（Append only File）"></a>4.2 AOF（Append only File）</h3><ul>
+<li>以日志的形式来记录每个写的操作，将redis执行过的所有指令记录下来（读操作不记录），只追加文件但是不可退改写文件，redis启动之初会读取文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将指令从前往后执行一次以完成数据的恢复工作。</li>
+<li><strong>Aof 保存的是appendonly.aof文件</strong><br><img src="BD56619E296B4418895CF1C966F31AE5" alt="image"></li>
+</ul>
+<blockquote>
+<p>append 默认是不开启的，把no改成yes即可<br><img src="A5465B12849F486C9E261780B7E60069" alt="image"></p>
+</blockquote>
+<ul>
+<li>如果aof文件出现问题，是不能启动redis的，只能修复这个aof文件。redis给我们提供了一个工具 redis-check-aof<br><img src="13CBE42336B14322B19D786881F8A2B4" alt="image"></li>
+</ul>
+<h4 id="面试-1"><a href="#面试-1" class="headerlink" title="面试"></a>面试</h4><ul>
+<li>优点：<ul>
+<li>1、每次修改都同步，文件的完整会更加好</li>
+<li>2、每秒同步一次，可能会丢失一秒的数据</li>
+<li>3、从不同步，效率最高的</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>1、相对于数据文件来说，aof远远大于rdb，修复速度也比rdb慢</li>
+<li>2、aof运行效率较慢</li>
+</ul>
+</li>
+<li>RDB 持久化方式能够在指定的时间间隔内对你的数据进行快照存储</li>
+<li>AOF 持久化方式记录每次对服务器写的操作，当服务器重启的时候会重新执行这些命令来恢复原始<br>的数据，AOF命令以Redis协议追加保存每次写的操作到文件末尾，Redis还能对AOF文件进行后台重写，使得AOF文件的体积不至于过大。</li>
+<li>只做缓存，如果你只希望你的数据在服务器运行的时候存在，你也可以不使用任何持久化</li>
+<li>同时开启两种持久化方式在这种情况下，当redis重启的时候会优先载入AOF文件来恢复原始的数据，因为在通常情况下AOF文件保存的数据集要比RDB文件保存的数据集要完整。RDB的数据不实时，同时使用两者时服务器重启也只会找AOF文件，那要不要只使用AOF呢？作者建议不要，因为RDB更适合用于备份数据库（AOF在不断变化不好备份），快速重启，而且不会有<br>AOF可能潜在的Bug，留着作为一个万一的手段。</li>
+<li>性能建议因为RDB文件只用作后备用途，建议只在Slave上持久化RDB文件，而且只要15分钟备份一次就够<br>了，只保留 save 900 1 这条规则。如果Enable AOF ，好处是在最恶劣情况下也只会丢失不超过两秒数据，启动脚本较简单只load自己的AOF文件就可以了，代价一是带来了持续的IO，二是AOF rewrite 的最后将 rewrite 过程中产生的新数据写到新文件造成的阻塞几乎是不可避免的。只要硬盘许可，应该尽量减少AOF rewrite的频率，AOF重写的基础大小默认值64M太小了，可以设到5G以上，默认超过原大小100%大小重<br>写可以改到适当的数值。如果不Enable AOF ，仅靠 Master-Slave Repllcation实现高可用性也可以，能省掉一大笔IO，也减少了rewrite时带来的系统波动。代价是如果Master/Slave同时倒掉，会丢失十几分钟的数据，启动脚本也要比较两个Master/Slave中的RDB文件，载入较新的那个，微博就是这种架构。</li>
+</ul>]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【java基础】：(2)注解</title>
+    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
+<li>概念</li>
+<li>5个基本注解</li>
+<li>jdk元注解</li>
+<li>自定义注解</li>
+</ol>
+<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
+<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
+<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
+<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
+<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
+</ul>
+<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
+<li>@Override</li>
+<li>@Deprecated</li>
+<li>@SuppressWarnings</li>
+<li>@SafeVarags</li>
+<li>@FunctionalInterface</li>
+</ul>
+<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
+<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
+<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
+</ul>
+<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
+<li>可以取消编译器警告。</li>
+<li>@SuppressWarnings（value=“unchecked”）</li>
+</ul>
+<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
+<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
+</ul>
+<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
+<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
+<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
+<li>value的成员变量：<ul>
+<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
+<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
+<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
+</ul>
+</li>
+<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
+<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
+</ul>
+<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
+<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
+</ul>
+<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
+<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
+<li>配置文件：<ul>
+<li>优点：可配置，不用改源码。</li>
+<li>缺点：不直观，开发效率低</li>
+</ul>
+</li>
+<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
+</ul>
+<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
+<li><ol>
+<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
+</ol>
+</li>
+</ul>]]></content>
+      <categories>
+        <category>java基础</category>
+      </categories>
+      <tags>
+        <tag>注解</tag>
       </tags>
   </entry>
   <entry>
@@ -1568,102 +1664,6 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>日志</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【java基础】：(2)注解</title>
-    <url>/2020/03/14/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="注解："><a href="#注解：" class="headerlink" title="注解："></a>注解：</h2><ol>
-<li>概念</li>
-<li>5个基本注解</li>
-<li>jdk元注解</li>
-<li>自定义注解</li>
-</ol>
-<h3 id="一、注解"><a href="#一、注解" class="headerlink" title="一、注解"></a>一、注解</h3><ul>
-<li>Annotation：其实是代码里的特殊标记，这些标记可以在编译、类加载、运行时被读取，并执行相应的处理。通过使用注解，开发人员可以在不改变原有逻辑的情况下，在源文件中嵌入一些补充的信息。</li>
-<li><strong>注解本质</strong>：是一个接口，程序可以通过反射来获取指定程序元素的java.lang.annotation.Annotation对象，然后通过java.lang.annotation.Annotation对象来获取注解里的元数据。</li>
-<li>注解是在jdk5后引入的<h5 id="注解的作用："><a href="#注解的作用：" class="headerlink" title="注解的作用："></a>注解的作用：</h5></li>
-<li>不是程序本身，可以对程序作出解析。可以被其他程序(比如编译器等)读取。<h5 id="注解的格式："><a href="#注解的格式：" class="headerlink" title="注解的格式："></a>注解的格式：</h5>注解是以“@注释名”在代码中存在的，还可以添加一些参数值，例如：@SuppressWarnings（value=“unchecked”）。</li>
-</ul>
-<h3 id="二、基本注解"><a href="#二、基本注解" class="headerlink" title="二、基本注解"></a>二、基本注解</h3><ul>
-<li>@Override</li>
-<li>@Deprecated</li>
-<li>@SuppressWarnings</li>
-<li>@SafeVarags</li>
-<li>@FunctionalInterface</li>
-</ul>
-<h4 id="2-1-Override-限定重写父类方法"><a href="#2-1-Override-限定重写父类方法" class="headerlink" title="2.1 @Override:限定重写父类方法"></a>2.1 @Override:限定重写父类方法</h4><ul>
-<li>存在意义：避免犯低级错误，方法名写错等<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class People &#123;</span><br><span class="line">    public void info()&#123;</span><br><span class="line">        System.out.println(&quot;吃饭，睡觉&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Teacher extends People&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void info() &#123;</span><br><span class="line">        System.out.println(&quot;教书&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-Deprecated"><a href="#2-2-Deprecated" class="headerlink" title="2.2 @Deprecated"></a>2.2 @Deprecated</h4></li>
-<li>表示程序元素（类、方法）等已过时，当其他程序使用已知的类、方法时，编译器将会发出警告。警告方式为将该方法名划掉</li>
-</ul>
-<h4 id="2-3-SuppressWarnings：镇压警告"><a href="#2-3-SuppressWarnings：镇压警告" class="headerlink" title="2.3 @SuppressWarnings：镇压警告"></a>2.3 @SuppressWarnings：镇压警告</h4><ul>
-<li>可以取消编译器警告。</li>
-<li>@SuppressWarnings（value=“unchecked”）</li>
-</ul>
-<h4 id="2-4-SafeVarags与堆污染？"><a href="#2-4-SafeVarags与堆污染？" class="headerlink" title="2.4 @SafeVarags与堆污染？"></a>2.4 @SafeVarags与堆污染？</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">List list = new ArrayList&lt;&gt;();</span><br><span class="line">       list.add(20);//添加元素时引发unchecked异常</span><br><span class="line">       //未经检查的转换的警告，编译，运行时完全正常</span><br><span class="line">       List&lt;String&gt; ls=list;</span><br><span class="line">       //只要访问ls里面的元素，如下面代码就会引发运行时异常</span><br><span class="line">       System.out.println(ls.get(0));</span><br></pre></td></tr></table></figure>
-<ul>
-<li>引发这种错误的原因称为“堆污染”，<strong>当把一个不带泛型的对象赋给一个带泛型的变量时</strong>，往往会发生这种“堆污染”，</li>
-<li>此时，虽然可以使用镇压警告，但还是建议在处理堆污染的时候使用@SafeVarags，Java7出现，专门抑制堆污染警告。Java9增强了该注解，允许使用该注解修饰私有实例方法。</li>
-</ul>
-<h4 id="Java8的函数式接口"><a href="#Java8的函数式接口" class="headerlink" title="Java8的函数式接口"></a>Java8的函数式接口</h4><ul>
-<li>如果接口中只有一个抽象方法，该接口就是函数式接口，@FunctionalInterface就是用来指定某个接口必须是函数式接口。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface FunInterface &#123;</span><br><span class="line">    void test();</span><br><span class="line">    void test2();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在上述接口中存在两个函数式接口，编译会爆出下面错误。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Error:(7, 1) java: 意外的 @FunctionalInterface 注释</span><br><span class="line">  com.example.demo.FunInterface 不是函数接口</span><br><span class="line">    在 接口 com.example.demo.FunInterface 中找到多个非覆盖抽象方法</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="三、JDK元注解"><a href="#三、JDK元注解" class="headerlink" title="三、JDK元注解"></a>三、JDK元注解</h3><h4 id="3-1-使用-Retention"><a href="#3-1-使用-Retention" class="headerlink" title="3.1 使用@Retention"></a>3.1 使用@Retention</h4><ul>
-<li>@Retention只能用于修饰注解定义，<strong>用于指定被修饰的注解可以保留多长时间</strong>，@Retention包含一个RetentionPolicy类型的value成员变量，所以使用2Retention时必须为该value衡阳变量指定值。</li>
-<li>value的成员变量：<ul>
-<li>RetentionPolicy.CLASS:编译器将把注解记录在class文件中。当运行程序时，JVM不可获取注解信息，这是默认值。</li>
-<li>RetentionPolicy.RUNTIME:编译器把注解记录在class文件中，当运行时，JVM可获取注解信息，程序可以通过反射来获取注解信息。</li>
-<li>RetentionPolicy.SOURCE:保留在源代码中，编译器直接丢弃该注解</li>
-</ul>
-</li>
-<li>总结：如果需要通过反射获取注解信息，就需要使用value属性值为 RetentionPolicy.RUNTIME的。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface a();</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-使用Target"><a href="#3-2-使用Target" class="headerlink" title="3.2 使用Target"></a>3.2 使用Target</h4><ul>
-<li>@Target也只能修饰注解定义，它用于指定被修饰的注解能用于修饰哪些程序单元。@Target元注解也包含一个名为value的成员变量，该成员变量的值只能是如下几个。<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/code/java%E5%9F%BA%E7%A1%80/%E6%B3%A8%E8%A7%A3.png" alt="image"></li>
-</ul>
-<h4 id="3-3-使用Documented"><a href="#3-3-使用Documented" class="headerlink" title="3.3 使用Documented"></a>3.3 使用Documented</h4><ul>
-<li>@Documented用于指定被该元注解修饰的注解类将被javadoc工具提取成文档，如果定义注解类时使用了@Documented修饰，则所有使用该注解修饰的程序元素的api文档中将会包含该注解说明。</li>
-</ul>
-<h4 id="3-4-使用-Inherited"><a href="#3-4-使用-Inherited" class="headerlink" title="3.4 使用@Inherited"></a>3.4 使用@Inherited</h4><ul>
-<li>@Inherited元注解指定被它修饰的注解将具有继承性，如果某个类使用了@Xxx注解，则其子类时将自动被@Xxx修饰。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">public @interface Inheritable &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Inheritable</span><br><span class="line">public class Base &#123;</span><br><span class="line">&#125;</span><br><span class="line">class BaseSon extends Base&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        System.out.println(Base.class.isAnnotationPresent(Inheritable.class));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、自定义注解"><a href="#四、自定义注解" class="headerlink" title="四、自定义注解"></a>四、自定义注解</h3><h4 id="4-1-自定义元注解"><a href="#4-1-自定义元注解" class="headerlink" title="4.1 自定义元注解"></a>4.1 自定义元注解</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test2 &#123;</span><br><span class="line">    @MyAnnotation</span><br><span class="line">    public void test()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义一个注解</span><br><span class="line"> * Target:表示我们的注解可以用在哪些地方</span><br><span class="line"> * Retention：表示我们的注解可以用在哪些地方</span><br><span class="line"> * Documented:表示是否将我们的注解生成在java文档中</span><br><span class="line"> * Inherited:子类可以继承父类的注解</span><br><span class="line"> * runtime&gt;class&gt;source</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">@Target(value = &#123;ElementType.METHOD,ElementType.TYPE&#125;)//约束，在方法层使用</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Inherited</span><br><span class="line">@interface MyAnnotation</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-2-自定义注解使用"><a href="#4-2-自定义注解使用" class="headerlink" title="4.2 自定义注解使用"></a>4.2 自定义注解使用</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import java.lang.annotation.ElementType;</span><br><span class="line">import java.lang.annotation.Retention;</span><br><span class="line">import java.lang.annotation.RetentionPolicy;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: XiaoLei</span><br><span class="line"> * @Date Created in 14:14 2020/2/7</span><br><span class="line"> * 自定义注解</span><br><span class="line"> */</span><br><span class="line">public class Test3 &#123;</span><br><span class="line">    @MyAnnotation2(name = &quot;潇雷&quot;,schools = &quot;华东师范大学&quot;)</span><br><span class="line">    public void test()&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    @MyAnnotation3(&quot;潇雷&quot;)</span><br><span class="line">    public void test2()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation2&#123;</span><br><span class="line">    //注解的参数：参数类型+参数名（）；</span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">    int age() default 0;</span><br><span class="line">    int id() default -1;//如果默认值为-1代表不存在</span><br><span class="line">    String[] schools();</span><br><span class="line">//  String name() ; 没有默认值就要自己重写</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(value = RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotation3&#123;</span><br><span class="line">    String value();//只有一个属性的时候，建议用value，然后在备注注解时可以直接使用内容，而不需要写value=多少</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-3-注解与配置文件"><a href="#4-3-注解与配置文件" class="headerlink" title="4.3 注解与配置文件"></a>4.3 注解与配置文件</h4><ul>
-<li>配置文件：<ul>
-<li>优点：可配置，不用改源码。</li>
-<li>缺点：不直观，开发效率低</li>
-</ul>
-</li>
-<li>注解：<br>  -优点：直观，开发效率高<br>  -缺点：硬编码，修改之后需要重新编译运行</li>
-</ul>
-<h4 id="4-4-注解使用注意事项"><a href="#4-4-注解使用注意事项" class="headerlink" title="4.4 注解使用注意事项"></a>4.4 注解使用注意事项</h4><ul>
-<li><ol>
-<li>要用好注解，必须熟悉Java 的反射机制，从上面的例子可以看出，注解的解析完全依赖于反射。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>不要滥用注解。平常我们编程过程很少接触和使用注解，只有做设计，且不想让设计有过多的配置时，才需要考虑注解。</li>
-</ol>
-</li>
-</ul>]]></content>
-      <categories>
-        <category>java基础</category>
-      </categories>
-      <tags>
-        <tag>注解</tag>
       </tags>
   </entry>
   <entry>
