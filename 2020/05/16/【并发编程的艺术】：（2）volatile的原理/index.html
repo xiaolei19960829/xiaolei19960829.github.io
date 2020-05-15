@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="spring," />
+  <meta name="keywords" content="并发编程," />
 
 
 
@@ -80,14 +80,16 @@
 
 
 
-<meta name="keywords" content="spring">
+<meta name="keywords" content="并发编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【spring】：（2）第一个程序、ioc创建对象方式、spring配置">
-<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;02&#x2F;25&#x2F;%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE&#x2F;index.html">
+<meta property="og:title" content="【并发编程的艺术】：(2)volatile的原理">
+<meta property="og:url" content="http:&#x2F;&#x2F;xulei1996.com&#x2F;2020&#x2F;05&#x2F;16&#x2F;%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89volatile%E7%9A%84%E5%8E%9F%E7%90%86&#x2F;index.html">
 <meta property="og:site_name" content="潇雷的博客">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-27T15:02:40.206Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;detail&#x2F;thread&#x2F;QQ%E6%88%AA%E5%9B%BE20200516003207.png">
+<meta property="og:updated_time" content="2020-05-15T17:05:20.657Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;xiaolei1996.oss-cn-shanghai.aliyuncs.com&#x2F;blog&#x2F;detail&#x2F;thread&#x2F;QQ%E6%88%AA%E5%9B%BE20200516003207.png">
 
 
 
@@ -117,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://xulei1996.com/2020/02/25/【Spring】：（2）第一个程序、ioc创建对象方式、spring配置/"/>
+  <link rel="canonical" href="http://xulei1996.com/2020/05/16/【并发编程的艺术】：（2）volatile的原理/"/>
 
 
 
 
 
-  <title>【spring】：（2）第一个程序、ioc创建对象方式、spring配置 | 潇雷的博客</title>
+  <title>【并发编程的艺术】：(2)volatile的原理 | 潇雷的博客</title>
   
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/">
+    <link itemprop="mainEntityOfPage" href="http://xulei1996.com/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89volatile%E7%9A%84%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="潇雷">
@@ -311,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【spring】：（2）第一个程序、ioc创建对象方式、spring配置</h1>
+          <h1 class="post-title" itemprop="name headline">【并发编程的艺术】：(2)volatile的原理</h1>
         
 
         <div class="post-meta">
@@ -323,8 +325,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-25T19:22:12+08:00">
-                2020-02-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-16T00:20:12+08:00">
+                2020-05-16
               </time>
             
 
@@ -339,8 +341,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-27T23:02:40+08:00">
-                2020-04-27
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-16T01:05:20+08:00">
+                2020-05-16
               </time>
             
           </span>
@@ -358,8 +360,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/spring/" itemprop="url" rel="index">
-                    <span itemprop="name">spring</span>
+                  <a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">并发编程的艺术</span>
                   </a>
                 </span>
 
@@ -376,8 +378,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
+                <a href="/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89volatile%E7%9A%84%E5%8E%9F%E7%90%86/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89volatile%E7%9A%84%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,7 +387,7 @@
 
           
           
-             <span id="/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/" class="leancloud_visitors" data-flag-title="【spring】：（2）第一个程序、ioc创建对象方式、spring配置">
+             <span id="/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89volatile%E7%9A%84%E5%8E%9F%E7%90%86/" class="leancloud_visitors" data-flag-title="【并发编程的艺术】：(2)volatile的原理">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,7 +413,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  852
+                  860
                 </span>
               
 
@@ -436,62 +438,38 @@
       
 
       
-        <h2 id="1、第一个Spring程序"><a href="#1、第一个Spring程序" class="headerlink" title="1、第一个Spring程序"></a>1、第一个Spring程序</h2><ul>
-<li>spring的xml配置：</li>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>以前学完多线程后还是没听过这个词，就在面试题里看到过，后来学了JUC后，发现这个是和Synchronized一样强大的存在，而这次就借着这个机会再次学习下这个东东。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;</span><br></pre></td></tr></table></figure>
-
+<h4 id="一、Jmm引入"><a href="#一、Jmm引入" class="headerlink" title="一、Jmm引入"></a>一、Jmm引入</h4><ul>
+<li><p>说道volatile 就得提及jmm。jmm是java内存模型，是一种约定，实际并不存在。</p>
+</li>
+<li><p>约定：</p>
 <ul>
-<li>先写一个简单的pojo类：</li>
+<li>1、线程解锁前，必须把共享变量立刻刷回主存</li>
+<li>2、线程加锁前，必须读取主存的最新值到工作内存</li>
+<li>3、加锁和解锁是同一把锁<br><img src="https://xiaolei1996.oss-cn-shanghai.aliyuncs.com/blog/detail/thread/QQ%E6%88%AA%E5%9B%BE20200516003207.png" alt="image"></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Hello &#123;</span><br><span class="line">    private String str;</span><br><span class="line"></span><br><span class="line">    public String getStr() &#123;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setStr(String str) &#123;</span><br><span class="line">        this.str = str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Hello&#123;&quot; +</span><br><span class="line">                &quot;str=&apos;&quot; + str + &apos;\&apos;&apos; +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>出现的问题：一个线程改变了主存的值，另一个线程不知道它发生了概念。内存不可见。所以引出了volatile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lock     （锁定）：作用于主内存的变量，把一个变量标识为线程独占状态</span><br><span class="line">   unlock （解锁）：作用于主内存的变量，它把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定</span><br><span class="line">   read    （读取）：作用于主内存变量，它把一个变量的值从主内存传输到线程的工作内存中，以便随后的load动作使用</span><br><span class="line">   load     （载入）：作用于工作内存的变量，它把read操作从主存中变量放入工作内存中</span><br><span class="line">   use      （使用）：作用于工作内存中的变量，它把工作内存中的变量传输给执行引擎，每当虚拟机遇到一个需要使用到变量的值，就会使用到这个指令</span><br><span class="line">   assign  （赋值）：作用于工作内存中的变量，它把一个从执行引擎中接受到的值放入工作内存的变量副本中</span><br><span class="line">   store    （存储）：作用于主内存中的变量，它把一个从工作内存中一个变量的值传送到主内存中，以便后续的write使用</span><br><span class="line">   write 　（写入）：作用于主内存中的变量，它把store操作从工作内存中得到的变量的值放入主内存的变量中</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
+<h4 id="二、volatile的原理"><a href="#二、volatile的原理" class="headerlink" title="二、volatile的原理"></a>二、volatile的原理</h4><ul>
+<li>它在多处理器开发中保证了共享变量的可见性。如果volatile变量修饰符使用恰当的话，它比synchronized的使用和执行成本更低，因为它不会引起线程上下文的切换和调度。</li>
+</ul>
+<h5 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">instance =new Singleton（）  //instance是volatile变量</span><br><span class="line"></span><br><span class="line"># 转为汇编代码后：会多出第二行，是以lock开头的</span><br><span class="line">0x01a3deld: movb &amp;0x0 .....;</span><br><span class="line">lock addl $0x0... ;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>再在xml中配置bean：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--使用spring来创建对象，在spring这些都称为bean--&gt;</span><br><span class="line">&lt;bean id=&quot;hello&quot; class=&quot;xiaolei.pojo.Hello&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;str&quot; value=&quot;Spring&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-
+<li><p>Lock前缀的指令会引发两件事：</p>
 <ul>
-<li>在测试类中，不需要创建Hello对象就获得：</li>
+<li>1、将当前处理器缓存行的数据写回到系统内存</li>
+<li>2、这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //获取Spring的上下文对象！</span><br><span class="line">        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        //我们的对象现在都在spring中的管理了，我们要使用，直接去里面取出来就可以了</span><br><span class="line">        Hello hello = (Hello) context.getBean(&quot;hello&quot;);</span><br><span class="line">        System.out.println(hello.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>思考：</strong></p>
-<ul>
-<li>hello对象是谁创建的？答：hello对象是由spring创建的。</li>
-<li>hello对象的属性是怎么设置的？答：hello对象的属性是由spring容器设置的。</li>
+</li>
+<li><p>为了提高处理速度，处理器不直接和内存进行通信，而是将系统内存的数据读到内部缓存后再操作。如果没加volatile的话，它不知道何时会写入内存。而对声明了volatile的变量，jvm会向处理器发送一条Lock前缀的指令，将这变量的缓存值写入内存；利用多处理下的缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，如果发现这个值被修改了，就会把当前缓存值设为无效，重新去主存获取新的数据。</p>
+</li>
 </ul>
-<h2 id="2、ioc创建对象常见方式"><a href="#2、ioc创建对象常见方式" class="headerlink" title="2、ioc创建对象常见方式"></a>2、ioc创建对象常见方式</h2><h4 id="2-1-无参构造"><a href="#2-1-无参构造" class="headerlink" title="2.1 无参构造"></a>2.1 无参构造</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    String username;</span><br><span class="line">    String password;</span><br><span class="line">    public User() &#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--注册无参构造--&gt;</span><br><span class="line">&lt;bean id=&quot;user2&quot; class=&quot;Bean.User&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;hahaha&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>通过<property>标签给构造出来的无参对象赋值</li>
-<li>这个便签内的name的值必须是类中存在的setter方法。</li>
-<li>至于后面的ref，指向其他类型的bean，如果该bean已经被注册，则ref值指向该bean的id，如果该bean没有被注册，则写该bean的全类限定名。</li>
-<li>当然，value也可以写在bean标签的外部，单独写一个标签。</li>
-</ul>
-<h4 id="2-2-有参构造"><a href="#2-2-有参构造" class="headerlink" title="2.2 有参构造"></a>2.2 有参构造</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public User(String username,String password)&#123;</span><br><span class="line">    this.password=password;</span><br><span class="line">    this.username=username;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;bean.User&quot;&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;password&quot; value=&quot;123&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过<constructor-arg>标签构造方法的参数</li>
-<li>当是有参构造时，name的参数就是构造方法的形参名</li>
-<li>如果这个参数变量是javabean，写ref</li>
-<li>如果是基本类型，写value</li>
-</ul>
-<h2 id="3-spring配置"><a href="#3-spring配置" class="headerlink" title="3.spring配置"></a>3.spring配置</h2><h5 id="3-1-别名"><a href="#3-1-别名" class="headerlink" title="3.1 别名"></a>3.1 别名</h5><ul>
-<li>alias 设置别名 , 为bean设置别名 , 可以设置多个别名</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot;&gt;</span><br><span class="line">   &lt;constructor-arg name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;alias name=&quot;user&quot; alias=&quot;user2&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="3-2-Bean的配置"><a href="#3-2-Bean的配置" class="headerlink" title="3.2 Bean的配置"></a>3.2 Bean的配置</h5><ul>
-<li>id:bean的唯一标识符，也就是java对象名。如果没有配置id，name就是默认标识符；如果配置了id，又配置了name，那么name是别名，name可以设置多个别名，可以用逗号，分号，空格隔开。</li>
-<li>如果不配置id和name，可以根据applicationContext.getBean(.class)获取对象;</li>
-<li>class:bean对象所对应的全限定名</li>
-</ul>
-<h5 id="3-3-import"><a href="#3-3-import" class="headerlink" title="3.3 import"></a>3.3 import</h5><ul>
-<li>一般用于团队开发使用，它可以将多个配置文件，导入合并为一个</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;import resource=&quot;&#123;path&#125;/beans.xml&quot;/&gt;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -518,7 +496,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/spring/" rel="tag"># spring</a>
+            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag"># 并发编程</a>
           
         </div>
       
@@ -531,8 +509,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/" rel="next" title="【spring】：（1）概述、ioc理论">
-                <i class="fa fa-chevron-left"></i> 【spring】：（1）概述、ioc理论
+              <a href="/2020/05/12/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89Iterator%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88/" rel="next" title="【java基础】：（4）iterator迭代器遍历集合">
+                <i class="fa fa-chevron-left"></i> 【java基础】：（4）iterator迭代器遍历集合
               </a>
             
           </div>
@@ -541,8 +519,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/02/27/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" rel="prev" title="【spring】：（3）依赖注入">
-                【spring】：（3）依赖注入 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E6%8C%91%E6%88%98/" rel="prev" title="【并发编程的艺术】：(1)并发编程的挑战">
+                【并发编程的艺术】：(1)并发编程的挑战 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -724,7 +702,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、第一个Spring程序"><span class="nav-number">1.</span> <span class="nav-text">1、第一个Spring程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、ioc创建对象常见方式"><span class="nav-number">2.</span> <span class="nav-text">2、ioc创建对象常见方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-无参构造"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.1 无参构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-有参构造"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.2 有参构造</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-spring配置"><span class="nav-number">3.</span> <span class="nav-text">3.spring配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-别名"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">3.1 别名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-Bean的配置"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">3.2 Bean的配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-import"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">3.3 import</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Jmm引入"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、Jmm引入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、volatile的原理"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、volatile的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分析："><span class="nav-number">1.0.2.1.</span> <span class="nav-text">分析：</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
