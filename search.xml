@@ -113,6 +113,196 @@
       </tags>
   </entry>
   <entry>
+    <title>【spring】：（1）概述、ioc理论</title>
+    <url>/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/</url>
+    <content><![CDATA[<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><ul>
+<li>Spring：春天-&gt;给软件行业带来了春天</li>
+<li>2002年，首先推出Spring框架的雏形：interface21</li>
+<li>2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本</li>
+<li>Rod Johnson：Spring Framework创始人,音乐学博士</li>
+<li>Spring理念：本身就是大杂烩，整合现有的框架技术。</li>
+</ul>
+<p>官网：<a href="https://spring.io/projects/spring-framework" target="_blank" rel="noopener">https://spring.io/projects/spring-framework</a></p>
+<p>官方下载地址：<a href="https://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="noopener">https://repo.spring.io/release/org/springframework/spring/</a></p>
+<p>Github：<a href="https://github.com/spring-projects/spring-framework" target="_blank" rel="noopener">https://github.com/spring-projects/spring-framework</a></p>
+<h2 id="1-2-优点"><a href="#1-2-优点" class="headerlink" title="1.2 优点"></a>1.2 优点</h2><ol>
+<li>方便解耦，简化开发（高内聚，低耦合）</li>
+<li>Spring是一个轻量级的、非侵入式的框架！非侵入式就是对原来的东西没有影响</li>
+<li><strong>控制反转（ioc）、面向切面编程（AOP）</strong></li>
+<li>支持事务的处理，对框架整合的支持</li>
+</ol>
+<p><strong>==总结一句话：Spring就是一个轻量级的控制反转（ioc）和面向切面编程的框架==</strong></p>
+<h2 id="1-3-组成"><a href="#1-3-组成" class="headerlink" title="1.3 组成"></a>1.3 组成</h2><ul>
+<li>spring框架是一个分层架构，由7个定义良好的模块组成，Spring模块构建在核心容器之上，核心容器定义了创建、配置和管理bean的方式。</li>
+</ul>
+<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3294472123.png" alt="image"></p>
+<ul>
+<li>组成Sping框架的每个模块都可以单独存在，或者与其他一个或多个模块联合实现，每个模块的功能如下：<ul>
+<li>核心容器：核心容器提供 Spring 框架的基本功能。核心容器的主要组件是 BeanFactory，它是工厂模式的实现。BeanFactory 使用控制反转（IOC） 模式将应用程序的配置和依赖性规范与实际的应用程序代码分开。</li>
+<li>Spring 上下文：Spring 上下文是一个配置文件，向 Spring 框架提供上下文信息。Spring 上下文包括企业服务，例如 JNDI、EJB、电子邮件、国际化、校验和调度功能。</li>
+<li>Spring AOP：通过配置管理特性，Spring AOP 模块直接将面向切面的编程功能 , 集成到了 Spring 框架中。所以，可以很容易地使 Spring 框架管理任何支持 AOP的对象。Spring AOP 模块为基于 Spring 的应用程序中的对象提供了事务管理服务。通过使用 Spring AOP，不用依赖组件，就可以将声明性事务管理集成到应用程序中。</li>
+<li>Spring DAO：JDBC DAO 抽象层提供了有意义的异常层次结构，可用该结构来管理异常处理和不同数据库供应商抛出的错误消息。异常层次结构简化了错误处理，并且极大地降低了需要编写的异常代码数量（例如打开和关闭连接）。Spring DAO 的面向 JDBC 的异常遵从通用的 DAO 异常层次结构。</li>
+<li>Spring ORM：Spring 框架插入了若干个 ORM 框架，从而提供了 ORM 的对象关系工具，其中包括 JDO、Hibernate 和 iBatis SQL Map。所有这些都遵从 Spring 的通用事务和 DAO 异常层次结构。</li>
+<li>Spring Web 模块：Web 上下文模块建立在应用程序上下文模块之上，为基于 Web 的应用程序提供了上下文。所以，Spring 框架支持与 Jakarta Struts 的集成。Web 模块还简化了处理多部分请求以及将请求参数绑定到域对象的工作。</li>
+<li>Spring MVC 框架：MVC 框架是一个全功能的构建 Web 应用程序的 MVC 实现。通过策略接口，MVC 框架变成为高度可配置的，MVC 容纳了大量视图技术，其中包括 JSP、Velocity、Tiles、iText 和 POI。</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-4-ioc理论推导"><a href="#1-4-ioc理论推导" class="headerlink" title="1.4 ioc理论推导"></a>1.4 ioc理论推导</h2><h4 id="1-4-1-过去我们写代码："><a href="#1-4-1-过去我们写代码：" class="headerlink" title="1.4.1 过去我们写代码："></a>1.4.1 过去我们写代码：</h4><ul>
+<li>1、先一个UserDao接口<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>2、再去写Dao的实现类<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserDaoImpl implements UserDao &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        System.out.println(&quot;获取用户数据&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>3、然后去写UserService的接口<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>4、最后写UserService的实现类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao = new UserDaoImpl();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>5、测试一下<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    UserService service = new UserServiceImpl();</span><br><span class="line">    service.getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>这是我们原来的方式，如果在dao层在增加一个实现类，则需要更改service实现类的代码。如果大量增加实现类，大量更改service代码的话，这种方法也就不适用了。耦合性太高，牵一发而动全身！</p>
+<h4 id="1-4-2-如何解决？"><a href="#1-4-2-如何解决？" class="headerlink" title="1.4.2 如何解决？"></a>1.4.2 如何解决？</h4><ul>
+<li>我们可以在需要用到它的地方，不去实现它，而是留出一个接口，利用set，我们去代码里修改下。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao;</span><br><span class="line">    // 利用set实现</span><br><span class="line">    public void setUserDao(UserDao userDao) &#123;</span><br><span class="line">        this.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样改后，就不需要再动service里的代码，用户想调用什么就在外面直接调用。</p>
+<ol>
+<li>之前，程序是主动创建对象！控制权在程序员手上！</li>
+<li>使用set注入后，程序不再具有主动性，而是变成可被动的接收到对象。</li>
+</ol>
+<ul>
+<li>这种思想，从本质上解决了问题，外面程序员不再管理对象的创建，系统的耦合性大大降低，可以更加专注在业务的实现上，这就是ioc的原型。</li>
+</ul>
+<h2 id="1-5-ioc本质"><a href="#1-5-ioc本质" class="headerlink" title="1.5 ioc本质"></a>1.5 ioc本质</h2><ul>
+<li>ioc：inverse of controller 控制反转，ioc是一种新的java编程模式。由Spring来负责控制对象的生命周期和对象间的关系，而不需要程序员来管理，Di是实现ioc的一种方法。</li>
+<li>Spring容器在初始化时会读取配置文件，根据配置文件或元数据创建组织对象存入容器中，程序使用时从ioc容器中取出需要的对象</li>
+</ul>
+<p><strong>搞清楚几个问题：</strong></p>
+<ul>
+<li>谁依赖谁：应用程序依赖于ioc容器</li>
+<li>为什么要依赖：应用程序需要ioc容器来提供对象需要的外部资源。</li>
+<li>谁注入谁：IOC容器注入应用程序某个对象，应用程序依赖的对象。</li>
+<li>注入了什么：注入了某个对象所需要的外部资源（包括对象、资源、常量数据）</li>
+</ul>]]></content>
+      <categories>
+        <category>spring</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【mybaits】：(1) Mybatis简介</title>
+    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89Mybatis%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<h3 id="1、Mybatis介绍"><a href="#1、Mybatis介绍" class="headerlink" title="1、Mybatis介绍"></a>1、Mybatis介绍</h3><ul>
+<li><p>Object relationship mapping 对象关系映射</p>
+</li>
+<li><p>映射关系：将数据中和java对象联系起来。</p>
+</li>
+<li><p>对比jdbc：</p>
+<ul>
+<li>定制化sql：更能适应业务复杂度（灵活的修改sql）</li>
+<li>进行动态sql ：（sql语句的部分可以根据不同的条件出现）</li>
+<li>分离sql集中管理：可以把SQL语句放在配置文件中，进行集中管理。这个配置文件叫做Mapping映射文件，多个映射文件分别管理不同的模块</li>
+<li>mybatis对参数和结果的封装处理更完善，使用更方便 直接封装成对应的类型</li>
+<li>输出映射：把数据库查询出来的数据记录，封装成结果集：可以是基本类型、数组、集合或JavaBean······</li>
+<li>输入映射：把参数的值交给SQL语句，去数据库中查询对应的记录。</li>
+</ul>
+</li>
+<li><p>实际上就是把：sql语句暴露给开发者，自己去写，其他的封装起来。去修改非常方便（增删改查都是我们自己来写）</p>
+</li>
+<li><p>Mybatis是一款持久层框架，它支持定制化sql（灵活的修改）、存储过程（函数）、以及高级映射（javabean和数据库对象的映射–&gt;输入映射和输出映射）。Mybatis避免了几乎所有的jdbc代码和手动设置参数以及获取结果集。</p>
+</li>
+<li><p>Mybatis可以使用简单的XML或注解来配置和映射原生信息。</p>
+</li>
+<li><p>将接口和java的POJOs映射成数据库中的记录</p>
+</li>
+</ul>
+<h3 id="2、第一个程序"><a href="#2、第一个程序" class="headerlink" title="2、第一个程序"></a>2、第一个程序</h3><ul>
+<li>1、搭建数据库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE `mybatis`;</span><br><span class="line"></span><br><span class="line">USE `mybatis`;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `user`;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(20) NOT NULL,</span><br><span class="line">  `name` varchar(30) DEFAULT NULL,</span><br><span class="line">  `pwd` varchar(30) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">insert  into `user`(`id`,`name`,`pwd`) values (1,&apos;狂神&apos;,&apos;123456&apos;),(2,&apos;张三&apos;,&apos;abcdef&apos;),(3,&apos;李四&apos;,&apos;987654&apos;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2、导入Mybatis相关的jar包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.47&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、编写mybatis核心配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/kuang/dao/userMapper.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>4、编写mybatis工具类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.apache.ibatis.io.Resources;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">public class MybatisUtils &#123;</span><br><span class="line"></span><br><span class="line">    private static SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String resource = &quot;mybatis-config.xml&quot;;</span><br><span class="line">            InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取SqlSession连接</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return sqlSessionFactory.openSession();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>这是一个建造者的生产模式：</p>
+<ul>
+<li>1、首先通过Resource.getResourceAsStream（）获取输入流，参数为mybatis配置文件</li>
+<li>2、然后new一个SqlSessionFactoryBuilder，创建一个 工厂的建造者</li>
+<li>3、工厂建造者对象调用build（）方法获取一个Sqlsession工厂对象，参数是之前得到的输入流</li>
+<li>4、工厂对象调用openSession()方法，获取一个sqlSesson对象。</li>
+<li>5、sqlSesson对象可以调用各种sql语句，其中本例中查询一个记录就是selectOne（）</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>5、创建实体类：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    </span><br><span class="line">    private int id;  //id</span><br><span class="line">    private String name;   //姓名</span><br><span class="line">    private String pwd;   //密码</span><br><span class="line">    </span><br><span class="line">    //构造,有参,无参</span><br><span class="line">    //set/get</span><br><span class="line">    //toString()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>6、编写Mapper接口类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import com.kuang.pojo.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserMapper &#123;</span><br><span class="line">    List&lt;User&gt; selectUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>7、编写Mapper.xml配置文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.kuang.dao.UserMapper&quot;&gt;</span><br><span class="line">  &lt;select id=&quot;selectUser&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>8、编写测试类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void selectUser() &#123;</span><br><span class="line">        SqlSession session = MybatisUtils.getSession();</span><br><span class="line">        //方法一:</span><br><span class="line">        //List&lt;User&gt; users = session.selectList(&quot;com.kuang.mapper.UserMapper.selectUser&quot;);</span><br><span class="line">        //方法二:</span><br><span class="line">        UserMapper mapper = session.getMapper(UserMapper.class);</span><br><span class="line">        List&lt;User&gt; users = mapper.selectUser();</span><br><span class="line"></span><br><span class="line">        for (User user: users)&#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、CRUD"><a href="#3、CRUD" class="headerlink" title="3、CRUD"></a>3、CRUD</h3><ul>
+<li><p>namespace：名称为对应Mapper接口或者Dao接口的完整包名。</p>
+</li>
+<li><p>select：</p>
+<ul>
+<li>接口中的方法名与映射文件中的sql语句id一一对应</li>
+<li>parameterType：传入SQL语句的参数类型。【万能的Map，参数多的时候多使用】</li>
+<li>resultType：Sql语句返回值类型【完整的类名】</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByNP2&quot; parameterType=&quot;map&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">select * from user where name = #&#123;username&#125; and pwd = #&#123;pwd&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>insert：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">     insert into user (id,name,pwd) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>update：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;update id=&quot;updateUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>delete：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteUser&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    delete from user where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ol>
+<li>所有的增删改操作都需要提交事务</li>
+<li>接口的所有普通参数，尽量都写上@Param参数，尤其是多个参数时，必须写上</li>
+<li>有时候根据业务的需求，可以考虑map传递参数</li>
+<li>为了规范操作，在sql配置文件中，我们尽量将Parameter参数和resultType都写上</li>
+</ol>]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【JUC并发编程】：（2）锁理解、集合类的并发使用、JUC三个辅助类、读写锁、阻塞队列</title>
     <url>/2020/03/01/%E3%80%90JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E9%94%81%E7%90%86%E8%A7%A3%E3%80%81%E9%9B%86%E5%90%88%E7%B1%BB%E7%9A%84%E5%B9%B6%E5%8F%91%E4%BD%BF%E7%94%A8%E3%80%81JUC%E4%B8%89%E4%B8%AA%E8%BE%85%E5%8A%A9%E7%B1%BB%E3%80%81%E8%AF%BB%E5%86%99%E9%94%81%E3%80%81%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/</url>
     <content><![CDATA[<h3 id="1、锁理解"><a href="#1、锁理解" class="headerlink" title="1、锁理解"></a>1、锁理解</h3><ul>
@@ -277,114 +467,69 @@
       </tags>
   </entry>
   <entry>
-    <title>【mybaits】：(1) Mybatis简介</title>
-    <url>/2020/02/28/%E3%80%90Mybatis%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89Mybatis%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<h3 id="1、Mybatis介绍"><a href="#1、Mybatis介绍" class="headerlink" title="1、Mybatis介绍"></a>1、Mybatis介绍</h3><ul>
-<li><p>Object relationship mapping 对象关系映射</p>
-</li>
-<li><p>映射关系：将数据中和java对象联系起来。</p>
-</li>
-<li><p>对比jdbc：</p>
-<ul>
-<li>定制化sql：更能适应业务复杂度（灵活的修改sql）</li>
-<li>进行动态sql ：（sql语句的部分可以根据不同的条件出现）</li>
-<li>分离sql集中管理：可以把SQL语句放在配置文件中，进行集中管理。这个配置文件叫做Mapping映射文件，多个映射文件分别管理不同的模块</li>
-<li>mybatis对参数和结果的封装处理更完善，使用更方便 直接封装成对应的类型</li>
-<li>输出映射：把数据库查询出来的数据记录，封装成结果集：可以是基本类型、数组、集合或JavaBean······</li>
-<li>输入映射：把参数的值交给SQL语句，去数据库中查询对应的记录。</li>
+    <title>【spring】：（2）第一个程序、ioc创建对象方式、spring配置</title>
+    <url>/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="1、第一个Spring程序"><a href="#1、第一个Spring程序" class="headerlink" title="1、第一个Spring程序"></a>1、第一个Spring程序</h2><ul>
+<li>spring的xml配置：</li>
 </ul>
-</li>
-<li><p>实际上就是把：sql语句暴露给开发者，自己去写，其他的封装起来。去修改非常方便（增删改查都是我们自己来写）</p>
-</li>
-<li><p>Mybatis是一款持久层框架，它支持定制化sql（灵活的修改）、存储过程（函数）、以及高级映射（javabean和数据库对象的映射–&gt;输入映射和输出映射）。Mybatis避免了几乎所有的jdbc代码和手动设置参数以及获取结果集。</p>
-</li>
-<li><p>Mybatis可以使用简单的XML或注解来配置和映射原生信息。</p>
-</li>
-<li><p>将接口和java的POJOs映射成数据库中的记录</p>
-</li>
-</ul>
-<h3 id="2、第一个程序"><a href="#2、第一个程序" class="headerlink" title="2、第一个程序"></a>2、第一个程序</h3><ul>
-<li>1、搭建数据库</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE `mybatis`;</span><br><span class="line"></span><br><span class="line">USE `mybatis`;</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `user`;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `user` (</span><br><span class="line">  `id` int(20) NOT NULL,</span><br><span class="line">  `name` varchar(30) DEFAULT NULL,</span><br><span class="line">  `pwd` varchar(30) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">insert  into `user`(`id`,`name`,`pwd`) values (1,&apos;狂神&apos;,&apos;123456&apos;),(2,&apos;张三&apos;,&apos;abcdef&apos;),(3,&apos;李四&apos;,&apos;987654&apos;);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>2、导入Mybatis相关的jar包</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.47&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>3、编写mybatis核心配置文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;environments default=&quot;development&quot;&gt;</span><br><span class="line">        &lt;environment id=&quot;development&quot;&gt;</span><br><span class="line">            &lt;transactionManager type=&quot;JDBC&quot;/&gt;</span><br><span class="line">            &lt;dataSource type=&quot;POOLED&quot;&gt;</span><br><span class="line">                &lt;property name=&quot;driver&quot; value=&quot;com.mysql.jdbc.Driver&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/mybatis?useSSL=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;</span><br><span class="line">                &lt;property name=&quot;password&quot; value=&quot;123456&quot;/&gt;</span><br><span class="line">            &lt;/dataSource&gt;</span><br><span class="line">        &lt;/environment&gt;</span><br><span class="line">    &lt;/environments&gt;</span><br><span class="line">    &lt;mappers&gt;</span><br><span class="line">        &lt;mapper resource=&quot;com/kuang/dao/userMapper.xml&quot;/&gt;</span><br><span class="line">    &lt;/mappers&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>4、编写mybatis工具类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import org.apache.ibatis.io.Resources;</span><br><span class="line">import org.apache.ibatis.session.SqlSession;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line">import org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line"></span><br><span class="line">public class MybatisUtils &#123;</span><br><span class="line"></span><br><span class="line">    private static SqlSessionFactory sqlSessionFactory;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            String resource = &quot;mybatis-config.xml&quot;;</span><br><span class="line">            InputStream inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取SqlSession连接</span><br><span class="line">    public static SqlSession getSession()&#123;</span><br><span class="line">        return sqlSessionFactory.openSession();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>这是一个建造者的生产模式：</p>
-<ul>
-<li>1、首先通过Resource.getResourceAsStream（）获取输入流，参数为mybatis配置文件</li>
-<li>2、然后new一个SqlSessionFactoryBuilder，创建一个 工厂的建造者</li>
-<li>3、工厂建造者对象调用build（）方法获取一个Sqlsession工厂对象，参数是之前得到的输入流</li>
-<li>4、工厂对象调用openSession()方法，获取一个sqlSesson对象。</li>
-<li>5、sqlSesson对象可以调用各种sql语句，其中本例中查询一个记录就是selectOne（）</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>5、创建实体类：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    </span><br><span class="line">    private int id;  //id</span><br><span class="line">    private String name;   //姓名</span><br><span class="line">    private String pwd;   //密码</span><br><span class="line">    </span><br><span class="line">    //构造,有参,无参</span><br><span class="line">    //set/get</span><br><span class="line">    //toString()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>6、编写Mapper接口类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import com.kuang.pojo.User;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">public interface UserMapper &#123;</span><br><span class="line">    List&lt;User&gt; selectUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>7、编写Mapper.xml配置文件</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper</span><br><span class="line">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span><br><span class="line">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span><br><span class="line">&lt;mapper namespace=&quot;com.kuang.dao.UserMapper&quot;&gt;</span><br><span class="line">  &lt;select id=&quot;selectUser&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    select * from user</span><br><span class="line">  &lt;/select&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>8、编写测试类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void selectUser() &#123;</span><br><span class="line">        SqlSession session = MybatisUtils.getSession();</span><br><span class="line">        //方法一:</span><br><span class="line">        //List&lt;User&gt; users = session.selectList(&quot;com.kuang.mapper.UserMapper.selectUser&quot;);</span><br><span class="line">        //方法二:</span><br><span class="line">        UserMapper mapper = session.getMapper(UserMapper.class);</span><br><span class="line">        List&lt;User&gt; users = mapper.selectUser();</span><br><span class="line"></span><br><span class="line">        for (User user: users)&#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">        session.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、CRUD"><a href="#3、CRUD" class="headerlink" title="3、CRUD"></a>3、CRUD</h3><ul>
-<li><p>namespace：名称为对应Mapper接口或者Dao接口的完整包名。</p>
-</li>
-<li><p>select：</p>
-<ul>
-<li>接口中的方法名与映射文件中的sql语句id一一对应</li>
-<li>parameterType：传入SQL语句的参数类型。【万能的Map，参数多的时候多使用】</li>
-<li>resultType：Sql语句返回值类型【完整的类名】</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;select id=&quot;selectUserByNP2&quot; parameterType=&quot;map&quot; resultType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">select * from user where name = #&#123;username&#125; and pwd = #&#123;pwd&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>insert：</li>
+<li>先写一个简单的pojo类：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;insert id=&quot;addUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">     insert into user (id,name,pwd) values (#&#123;id&#125;,#&#123;name&#125;,#&#123;pwd&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>update：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;update id=&quot;updateUser&quot; parameterType=&quot;com.kuang.pojo.User&quot;&gt;</span><br><span class="line">    update user set name=#&#123;name&#125;,pwd=#&#123;pwd&#125; where id = #&#123;id&#125;</span><br><span class="line">&lt;/update&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>delete：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;delete id=&quot;deleteUser&quot; parameterType=&quot;int&quot;&gt;</span><br><span class="line">    delete from user where id = #&#123;id&#125;</span><br><span class="line">&lt;/delete&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Hello &#123;</span><br><span class="line">    private String str;</span><br><span class="line"></span><br><span class="line">    public String getStr() &#123;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setStr(String str) &#123;</span><br><span class="line">        this.str = str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Hello&#123;&quot; +</span><br><span class="line">                &quot;str=&apos;&quot; + str + &apos;\&apos;&apos; +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>注意：</p>
-<ol>
-<li>所有的增删改操作都需要提交事务</li>
-<li>接口的所有普通参数，尽量都写上@Param参数，尤其是多个参数时，必须写上</li>
-<li>有时候根据业务的需求，可以考虑map传递参数</li>
-<li>为了规范操作，在sql配置文件中，我们尽量将Parameter参数和resultType都写上</li>
-</ol>]]></content>
+<ul>
+<li>再在xml中配置bean：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--使用spring来创建对象，在spring这些都称为bean--&gt;</span><br><span class="line">&lt;bean id=&quot;hello&quot; class=&quot;xiaolei.pojo.Hello&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;str&quot; value=&quot;Spring&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在测试类中，不需要创建Hello对象就获得：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //获取Spring的上下文对象！</span><br><span class="line">        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        //我们的对象现在都在spring中的管理了，我们要使用，直接去里面取出来就可以了</span><br><span class="line">        Hello hello = (Hello) context.getBean(&quot;hello&quot;);</span><br><span class="line">        System.out.println(hello.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>思考：</strong></p>
+<ul>
+<li>hello对象是谁创建的？答：hello对象是由spring创建的。</li>
+<li>hello对象的属性是怎么设置的？答：hello对象的属性是由spring容器设置的。</li>
+</ul>
+<h2 id="2、ioc创建对象常见方式"><a href="#2、ioc创建对象常见方式" class="headerlink" title="2、ioc创建对象常见方式"></a>2、ioc创建对象常见方式</h2><h4 id="2-1-无参构造"><a href="#2-1-无参构造" class="headerlink" title="2.1 无参构造"></a>2.1 无参构造</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    String username;</span><br><span class="line">    String password;</span><br><span class="line">    public User() &#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--注册无参构造--&gt;</span><br><span class="line">&lt;bean id=&quot;user2&quot; class=&quot;Bean.User&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;hahaha&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过<property>标签给构造出来的无参对象赋值</li>
+<li>这个便签内的name的值必须是类中存在的setter方法。</li>
+<li>至于后面的ref，指向其他类型的bean，如果该bean已经被注册，则ref值指向该bean的id，如果该bean没有被注册，则写该bean的全类限定名。</li>
+<li>当然，value也可以写在bean标签的外部，单独写一个标签。</li>
+</ul>
+<h4 id="2-2-有参构造"><a href="#2-2-有参构造" class="headerlink" title="2.2 有参构造"></a>2.2 有参构造</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public User(String username,String password)&#123;</span><br><span class="line">    this.password=password;</span><br><span class="line">    this.username=username;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;bean.User&quot;&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;password&quot; value=&quot;123&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过<constructor-arg>标签构造方法的参数</li>
+<li>当是有参构造时，name的参数就是构造方法的形参名</li>
+<li>如果这个参数变量是javabean，写ref</li>
+<li>如果是基本类型，写value</li>
+</ul>
+<h2 id="3-spring配置"><a href="#3-spring配置" class="headerlink" title="3.spring配置"></a>3.spring配置</h2><h5 id="3-1-别名"><a href="#3-1-别名" class="headerlink" title="3.1 别名"></a>3.1 别名</h5><ul>
+<li>alias 设置别名 , 为bean设置别名 , 可以设置多个别名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot;&gt;</span><br><span class="line">   &lt;constructor-arg name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;alias name=&quot;user&quot; alias=&quot;user2&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-Bean的配置"><a href="#3-2-Bean的配置" class="headerlink" title="3.2 Bean的配置"></a>3.2 Bean的配置</h5><ul>
+<li>id:bean的唯一标识符，也就是java对象名。如果没有配置id，name就是默认标识符；如果配置了id，又配置了name，那么name是别名，name可以设置多个别名，可以用逗号，分号，空格隔开。</li>
+<li>如果不配置id和name，可以根据applicationContext.getBean(.class)获取对象;</li>
+<li>class:bean对象所对应的全限定名</li>
+</ul>
+<h5 id="3-3-import"><a href="#3-3-import" class="headerlink" title="3.3 import"></a>3.3 import</h5><ul>
+<li>一般用于团队开发使用，它可以将多个配置文件，导入合并为一个</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;import resource=&quot;&#123;path&#125;/beans.xml&quot;/&gt;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>mybatis</category>
+        <category>spring</category>
       </categories>
       <tags>
-        <tag>mybatis</tag>
+        <tag>spring</tag>
       </tags>
   </entry>
   <entry>
@@ -504,151 +649,6 @@
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【spring】：（1）概述、ioc理论</title>
-    <url>/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E6%A6%82%E8%BF%B0%E3%80%81ioc%E7%90%86%E8%AE%BA/</url>
-    <content><![CDATA[<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1 简介"></a>1.1 简介</h2><ul>
-<li>Spring：春天-&gt;给软件行业带来了春天</li>
-<li>2002年，首先推出Spring框架的雏形：interface21</li>
-<li>2004年3月24号：在interface21框架上，发布了Spring框架的1.0版本</li>
-<li>Rod Johnson：Spring Framework创始人,音乐学博士</li>
-<li>Spring理念：本身就是大杂烩，整合现有的框架技术。</li>
-</ul>
-<p>官网：<a href="https://spring.io/projects/spring-framework" target="_blank" rel="noopener">https://spring.io/projects/spring-framework</a></p>
-<p>官方下载地址：<a href="https://repo.spring.io/release/org/springframework/spring/" target="_blank" rel="noopener">https://repo.spring.io/release/org/springframework/spring/</a></p>
-<p>Github：<a href="https://github.com/spring-projects/spring-framework" target="_blank" rel="noopener">https://github.com/spring-projects/spring-framework</a></p>
-<h2 id="1-2-优点"><a href="#1-2-优点" class="headerlink" title="1.2 优点"></a>1.2 优点</h2><ol>
-<li>方便解耦，简化开发（高内聚，低耦合）</li>
-<li>Spring是一个轻量级的、非侵入式的框架！非侵入式就是对原来的东西没有影响</li>
-<li><strong>控制反转（ioc）、面向切面编程（AOP）</strong></li>
-<li>支持事务的处理，对框架整合的支持</li>
-</ol>
-<p><strong>==总结一句话：Spring就是一个轻量级的控制反转（ioc）和面向切面编程的框架==</strong></p>
-<h2 id="1-3-组成"><a href="#1-3-组成" class="headerlink" title="1.3 组成"></a>1.3 组成</h2><ul>
-<li>spring框架是一个分层架构，由7个定义良好的模块组成，Spring模块构建在核心容器之上，核心容器定义了创建、配置和管理bean的方式。</li>
-</ul>
-<p><img src="https://blog.kuangstudy.com/usr/uploads/2019/10/3294472123.png" alt="image"></p>
-<ul>
-<li>组成Sping框架的每个模块都可以单独存在，或者与其他一个或多个模块联合实现，每个模块的功能如下：<ul>
-<li>核心容器：核心容器提供 Spring 框架的基本功能。核心容器的主要组件是 BeanFactory，它是工厂模式的实现。BeanFactory 使用控制反转（IOC） 模式将应用程序的配置和依赖性规范与实际的应用程序代码分开。</li>
-<li>Spring 上下文：Spring 上下文是一个配置文件，向 Spring 框架提供上下文信息。Spring 上下文包括企业服务，例如 JNDI、EJB、电子邮件、国际化、校验和调度功能。</li>
-<li>Spring AOP：通过配置管理特性，Spring AOP 模块直接将面向切面的编程功能 , 集成到了 Spring 框架中。所以，可以很容易地使 Spring 框架管理任何支持 AOP的对象。Spring AOP 模块为基于 Spring 的应用程序中的对象提供了事务管理服务。通过使用 Spring AOP，不用依赖组件，就可以将声明性事务管理集成到应用程序中。</li>
-<li>Spring DAO：JDBC DAO 抽象层提供了有意义的异常层次结构，可用该结构来管理异常处理和不同数据库供应商抛出的错误消息。异常层次结构简化了错误处理，并且极大地降低了需要编写的异常代码数量（例如打开和关闭连接）。Spring DAO 的面向 JDBC 的异常遵从通用的 DAO 异常层次结构。</li>
-<li>Spring ORM：Spring 框架插入了若干个 ORM 框架，从而提供了 ORM 的对象关系工具，其中包括 JDO、Hibernate 和 iBatis SQL Map。所有这些都遵从 Spring 的通用事务和 DAO 异常层次结构。</li>
-<li>Spring Web 模块：Web 上下文模块建立在应用程序上下文模块之上，为基于 Web 的应用程序提供了上下文。所以，Spring 框架支持与 Jakarta Struts 的集成。Web 模块还简化了处理多部分请求以及将请求参数绑定到域对象的工作。</li>
-<li>Spring MVC 框架：MVC 框架是一个全功能的构建 Web 应用程序的 MVC 实现。通过策略接口，MVC 框架变成为高度可配置的，MVC 容纳了大量视图技术，其中包括 JSP、Velocity、Tiles、iText 和 POI。</li>
-</ul>
-</li>
-</ul>
-<h2 id="1-4-ioc理论推导"><a href="#1-4-ioc理论推导" class="headerlink" title="1.4 ioc理论推导"></a>1.4 ioc理论推导</h2><h4 id="1-4-1-过去我们写代码："><a href="#1-4-1-过去我们写代码：" class="headerlink" title="1.4.1 过去我们写代码："></a>1.4.1 过去我们写代码：</h4><ul>
-<li>1、先一个UserDao接口<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserDao &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>2、再去写Dao的实现类<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserDaoImpl implements UserDao &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        System.out.println(&quot;获取用户数据&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>3、然后去写UserService的接口<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line">    public void getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>4、最后写UserService的实现类</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao = new UserDaoImpl();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>5、测试一下<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void test()&#123;</span><br><span class="line">    UserService service = new UserServiceImpl();</span><br><span class="line">    service.getUser();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>这是我们原来的方式，如果在dao层在增加一个实现类，则需要更改service实现类的代码。如果大量增加实现类，大量更改service代码的话，这种方法也就不适用了。耦合性太高，牵一发而动全身！</p>
-<h4 id="1-4-2-如何解决？"><a href="#1-4-2-如何解决？" class="headerlink" title="1.4.2 如何解决？"></a>1.4.2 如何解决？</h4><ul>
-<li>我们可以在需要用到它的地方，不去实现它，而是留出一个接口，利用set，我们去代码里修改下。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    private UserDao userDao;</span><br><span class="line">    // 利用set实现</span><br><span class="line">    public void setUserDao(UserDao userDao) &#123;</span><br><span class="line">        this.userDao = userDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void getUser() &#123;</span><br><span class="line">        userDao.getUser();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样改后，就不需要再动service里的代码，用户想调用什么就在外面直接调用。</p>
-<ol>
-<li>之前，程序是主动创建对象！控制权在程序员手上！</li>
-<li>使用set注入后，程序不再具有主动性，而是变成可被动的接收到对象。</li>
-</ol>
-<ul>
-<li>这种思想，从本质上解决了问题，外面程序员不再管理对象的创建，系统的耦合性大大降低，可以更加专注在业务的实现上，这就是ioc的原型。</li>
-</ul>
-<h2 id="1-5-ioc本质"><a href="#1-5-ioc本质" class="headerlink" title="1.5 ioc本质"></a>1.5 ioc本质</h2><ul>
-<li>ioc：inverse of controller 控制反转，ioc是一种新的java编程模式。由Spring来负责控制对象的生命周期和对象间的关系，而不需要程序员来管理，Di是实现ioc的一种方法。</li>
-<li>Spring容器在初始化时会读取配置文件，根据配置文件或元数据创建组织对象存入容器中，程序使用时从ioc容器中取出需要的对象</li>
-</ul>
-<p><strong>搞清楚几个问题：</strong></p>
-<ul>
-<li>谁依赖谁：应用程序依赖于ioc容器</li>
-<li>为什么要依赖：应用程序需要ioc容器来提供对象需要的外部资源。</li>
-<li>谁注入谁：IOC容器注入应用程序某个对象，应用程序依赖的对象。</li>
-<li>注入了什么：注入了某个对象所需要的外部资源（包括对象、资源、常量数据）</li>
-</ul>]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【spring】：（2）第一个程序、ioc创建对象方式、spring配置</title>
-    <url>/2020/02/25/%E3%80%90Spring%E3%80%91%EF%BC%9A%EF%BC%882%EF%BC%89%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F%E3%80%81ioc%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E6%96%B9%E5%BC%8F%E3%80%81spring%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="1、第一个Spring程序"><a href="#1、第一个Spring程序" class="headerlink" title="1、第一个Spring程序"></a>1、第一个Spring程序</h2><ul>
-<li>spring的xml配置：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:util=&quot;http://www.springframework.org/schema/util&quot; xsi:schemaLocation=&quot;</span><br><span class="line">        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>先写一个简单的pojo类：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Hello &#123;</span><br><span class="line">    private String str;</span><br><span class="line"></span><br><span class="line">    public String getStr() &#123;</span><br><span class="line">        return str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setStr(String str) &#123;</span><br><span class="line">        this.str = str;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Hello&#123;&quot; +</span><br><span class="line">                &quot;str=&apos;&quot; + str + &apos;\&apos;&apos; +</span><br><span class="line">                &apos;&#125;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>再在xml中配置bean：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--使用spring来创建对象，在spring这些都称为bean--&gt;</span><br><span class="line">&lt;bean id=&quot;hello&quot; class=&quot;xiaolei.pojo.Hello&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;str&quot; value=&quot;Spring&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在测试类中，不需要创建Hello对象就获得：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class MyTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        //获取Spring的上下文对象！</span><br><span class="line">        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);</span><br><span class="line">        //我们的对象现在都在spring中的管理了，我们要使用，直接去里面取出来就可以了</span><br><span class="line">        Hello hello = (Hello) context.getBean(&quot;hello&quot;);</span><br><span class="line">        System.out.println(hello.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>思考：</strong></p>
-<ul>
-<li>hello对象是谁创建的？答：hello对象是由spring创建的。</li>
-<li>hello对象的属性是怎么设置的？答：hello对象的属性是由spring容器设置的。</li>
-</ul>
-<h2 id="2、ioc创建对象常见方式"><a href="#2、ioc创建对象常见方式" class="headerlink" title="2、ioc创建对象常见方式"></a>2、ioc创建对象常见方式</h2><h4 id="2-1-无参构造"><a href="#2-1-无参构造" class="headerlink" title="2.1 无参构造"></a>2.1 无参构造</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    String username;</span><br><span class="line">    String password;</span><br><span class="line">    public User() &#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;!--注册无参构造--&gt;</span><br><span class="line">&lt;bean id=&quot;user2&quot; class=&quot;Bean.User&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/property&gt;</span><br><span class="line">    &lt;property name=&quot;password&quot; value=&quot;hahaha&quot;&gt;&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>通过<property>标签给构造出来的无参对象赋值</li>
-<li>这个便签内的name的值必须是类中存在的setter方法。</li>
-<li>至于后面的ref，指向其他类型的bean，如果该bean已经被注册，则ref值指向该bean的id，如果该bean没有被注册，则写该bean的全类限定名。</li>
-<li>当然，value也可以写在bean标签的外部，单独写一个标签。</li>
-</ul>
-<h4 id="2-2-有参构造"><a href="#2-2-有参构造" class="headerlink" title="2.2 有参构造"></a>2.2 有参构造</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public User(String username,String password)&#123;</span><br><span class="line">    this.password=password;</span><br><span class="line">    this.username=username;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;bean.User&quot;&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;username&quot; value=&quot;zhangsan&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">    &lt;constructor-arg name=&quot;password&quot; value=&quot;123&quot;&gt;&lt;/constructor-arg&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>通过<constructor-arg>标签构造方法的参数</li>
-<li>当是有参构造时，name的参数就是构造方法的形参名</li>
-<li>如果这个参数变量是javabean，写ref</li>
-<li>如果是基本类型，写value</li>
-</ul>
-<h2 id="3-spring配置"><a href="#3-spring配置" class="headerlink" title="3.spring配置"></a>3.spring配置</h2><h5 id="3-1-别名"><a href="#3-1-别名" class="headerlink" title="3.1 别名"></a>3.1 别名</h5><ul>
-<li>alias 设置别名 , 为bean设置别名 , 可以设置多个别名</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;bean id=&quot;user&quot; class=&quot;xiaolei.pojo.User&quot;&gt;</span><br><span class="line">   &lt;constructor-arg name=&quot;name&quot; value=&quot;潇雷&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;alias name=&quot;user&quot; alias=&quot;user2&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="3-2-Bean的配置"><a href="#3-2-Bean的配置" class="headerlink" title="3.2 Bean的配置"></a>3.2 Bean的配置</h5><ul>
-<li>id:bean的唯一标识符，也就是java对象名。如果没有配置id，name就是默认标识符；如果配置了id，又配置了name，那么name是别名，name可以设置多个别名，可以用逗号，分号，空格隔开。</li>
-<li>如果不配置id和name，可以根据applicationContext.getBean(.class)获取对象;</li>
-<li>class:bean对象所对应的全限定名</li>
-</ul>
-<h5 id="3-3-import"><a href="#3-3-import" class="headerlink" title="3.3 import"></a>3.3 import</h5><ul>
-<li>一般用于团队开发使用，它可以将多个配置文件，导入合并为一个</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;import resource=&quot;&#123;path&#125;/beans.xml&quot;/&gt;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>spring</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1208,35 +1208,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【工作】：入职前的一些规划</title>
-    <url>/2019/11/18/%E3%80%90%E5%B7%A5%E4%BD%9C%E3%80%91%EF%BC%9A%E5%85%A5%E8%81%8C%E5%89%8D%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%84%E5%88%92%E5%92%8C%E6%83%B3%E6%B3%95/</url>
-    <content><![CDATA[##  一、前言
-
-<p>&emsp;&emsp;未来不可知，上海的职业生涯将正式开始，花自缤纷花自谢，时间太紧了，拼不了爹的自己只能拼命去学习。万一实现了呢？ </p>
-<h2 id="二、未来计划（2019-11-2021-9）"><a href="#二、未来计划（2019-11-2021-9）" class="headerlink" title="二、未来计划（2019.11-2021.9）"></a>二、未来计划（2019.11-2021.9）</h2><p>&emsp;&emsp;我希望在这近两年的时间内，竭尽全力的提升自己，努力往（三初一高）的方向发展：    </p>
-<ul>
-<li><strong>高级的Java开发</strong>；</li>
-<li><strong>初级的大数据学习者</strong>；</li>
-<li><strong>初级的人工智能学习者</strong>；</li>
-<li><strong>初级的vr学习者</strong>；</li>
-</ul>
-<h2 id="三、着手当下"><a href="#三、着手当下" class="headerlink" title="三、着手当下"></a>三、着手当下</h2><ol>
-<li>融入公司，跟上工作节奏。</li>
-<li>学习不再片面，有条理的规划出一块内容深入学习</li>
-<li>每周抽出20个小时的时间学习新知识。</li>
-<li>不打游戏。</li>
-<li>开始阅读书籍，书单已经选好。</li>
-<li>开始慢慢的理财，关注房价和理财的事儿。</li>
-<li>待更。。。</li>
-</ol>]]></content>
-      <categories>
-        <category>工作</category>
-      </categories>
-      <tags>
-        <tag>规划</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【redis】：（3）进阶</title>
     <url>/2020/04/18/%E3%80%90redis%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89%E8%BF%9B%E9%98%B6/</url>
     <content><![CDATA[<h2 id="1、Redis发布订阅"><a href="#1、Redis发布订阅" class="headerlink" title="1、Redis发布订阅"></a>1、Redis发布订阅</h2><ul>
@@ -1368,6 +1339,35 @@
       </tags>
   </entry>
   <entry>
+    <title>【工作】：入职前的一些规划</title>
+    <url>/2019/11/18/%E3%80%90%E5%B7%A5%E4%BD%9C%E3%80%91%EF%BC%9A%E5%85%A5%E8%81%8C%E5%89%8D%E7%9A%84%E4%B8%80%E4%BA%9B%E8%A7%84%E5%88%92%E5%92%8C%E6%83%B3%E6%B3%95/</url>
+    <content><![CDATA[##  一、前言
+
+<p>&emsp;&emsp;未来不可知，上海的职业生涯将正式开始，花自缤纷花自谢，时间太紧了，拼不了爹的自己只能拼命去学习。万一实现了呢？ </p>
+<h2 id="二、未来计划（2019-11-2021-9）"><a href="#二、未来计划（2019-11-2021-9）" class="headerlink" title="二、未来计划（2019.11-2021.9）"></a>二、未来计划（2019.11-2021.9）</h2><p>&emsp;&emsp;我希望在这近两年的时间内，竭尽全力的提升自己，努力往（三初一高）的方向发展：    </p>
+<ul>
+<li><strong>高级的Java开发</strong>；</li>
+<li><strong>初级的大数据学习者</strong>；</li>
+<li><strong>初级的人工智能学习者</strong>；</li>
+<li><strong>初级的vr学习者</strong>；</li>
+</ul>
+<h2 id="三、着手当下"><a href="#三、着手当下" class="headerlink" title="三、着手当下"></a>三、着手当下</h2><ol>
+<li>融入公司，跟上工作节奏。</li>
+<li>学习不再片面，有条理的规划出一块内容深入学习</li>
+<li>每周抽出20个小时的时间学习新知识。</li>
+<li>不打游戏。</li>
+<li>开始阅读书籍，书单已经选好。</li>
+<li>开始慢慢的理财，关注房价和理财的事儿。</li>
+<li>待更。。。</li>
+</ol>]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>规划</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【并发编程的艺术】：(1)并发编程的挑战</title>
     <url>/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E6%8C%91%E6%88%98/</url>
     <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
@@ -1452,6 +1452,54 @@
       </tags>
   </entry>
   <entry>
+    <title>【并发编程的艺术】：(4)原子操作</title>
+    <url>/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 原子操作就是不可被中断的一个或一系列操作。在多处理器上实现原子操作就优点复杂。</p>
+<h3 id="一、处理器如何实现原子操作"><a href="#一、处理器如何实现原子操作" class="headerlink" title="一、处理器如何实现原子操作"></a>一、处理器如何实现原子操作</h3><h4 id="1-1、使用总线锁保证原子性"><a href="#1-1、使用总线锁保证原子性" class="headerlink" title="1.1、使用总线锁保证原子性"></a>1.1、使用总线锁保证原子性</h4><ul>
+<li><p>多个处理器在对共享变量进行操作时，就不是原子性的，通过总线锁，就是使用处理器提供的一个Lock #信号，当一个处理器在总线上输出此信号，其他处理器的请求就会被阻塞，只有该处理器能独占共享变量。</p>
+</li>
+<li><p>缺陷：总线锁把CPu和内存的通信锁住了。其他处理器不能操作其他内存的数据。</p>
+</li>
+</ul>
+<h4 id="1-2、缓存锁保证原子性"><a href="#1-2、缓存锁保证原子性" class="headerlink" title="1.2、缓存锁保证原子性"></a>1.2、缓存锁保证原子性</h4><ul>
+<li>这个应该就是Volatile的实现原理，缓存一致性机制会阻止同时修改由两个以上处理器缓存的内存区域数据，其他处理器回写缓存数据时，会无效。</li>
+</ul>
+<h3 id="二、Java如何实现原子操作"><a href="#二、Java如何实现原子操作" class="headerlink" title="二、Java如何实现原子操作"></a>二、Java如何实现原子操作</h3><h4 id="2-1-使用CAS操作"><a href="#2-1-使用CAS操作" class="headerlink" title="2.1 使用CAS操作"></a>2.1 使用CAS操作</h4><ul>
+<li><p>CAS即为CompareAndSwap，比较并替换</p>
+</li>
+<li><p>JVM中的CAS操作正是利用了处理器提供的CMPXCHG(Compare and Exchange)指令实现的。自旋CAS实现的基本思路就是循环进行CAS操作直到成功为止。</p>
+</li>
+<li><p>从Java 1.5开始，JDK的并发包里提供了一些类来实现原子操作，如AtomicBoolean，AtomicInteger和AtomicLong。这些原子包装类还提供了有用的工具方法，比如以原子的方式将当前值自增1和自减1。</p>
+</li>
+</ul>
+<h4 id="2-2-CAS三大问题"><a href="#2-2-CAS三大问题" class="headerlink" title="2.2 CAS三大问题"></a>2.2 CAS三大问题</h4><ol>
+<li><p>ABA问题：</p>
+<ul>
+<li>问题：如果一个值由原来的A变为B，在变为A，那么使用CAS进行检查的时候会发现它的值没有发生变化，但是实际上变了。</li>
+<li>解决：在变量前增加版本号，1A-2B-3A。</li>
+<li>解决2：jdk5的atomic包提供了一个类，有个方法叫compareandset，会检查当前标记是否等于预期标记。</li>
+</ul>
+</li>
+<li><p>循环时间长开销大：</p>
+<ul>
+<li>自旋长时间不成功，会带来非常大的执行开销</li>
+<li>解决：处理器提供了pause命令</li>
+</ul>
+</li>
+<li><p>只能保证一个共享变量的原子操作</p>
+<ul>
+<li>解决：把多个变量放在一个对象里进行操作</li>
+</ul>
+</li>
+</ol>]]></content>
+      <categories>
+        <category>并发编程的艺术</category>
+      </categories>
+      <tags>
+        <tag>并发编程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【并发编程的艺术】：(3)Synchronized的实现原理</title>
     <url>/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%883%EF%BC%89synchronized%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为学习java时遇到的第一个锁，拼写也没那么容器，但是地位却不低，还是悲观色彩的，就像一个元老级人物一样，开始学习。不过锁升级的过程这里并没有讲全，下次再回来补这块内容。</p>
@@ -1495,54 +1543,6 @@
 <li>会使用原子的CAS操作将Displaced Mark Word替换回到对象头，如果成功，则表示没有竞争发生，如果失败，表示当前锁存在竞争，锁就会膨胀为重量级锁。</li>
 </ul>
 <h4 id="4-5-总的对比"><a href="#4-5-总的对比" class="headerlink" title="4.5 总的对比"></a>4.5 总的对比</h4><p><img src="http://www.pladios.top/upload/2019/12/image-397c41fde0584582a3f02dd1eb41b279.png" alt="image"></p>]]></content>
-      <categories>
-        <category>并发编程的艺术</category>
-      </categories>
-      <tags>
-        <tag>并发编程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【并发编程的艺术】：(4)原子操作</title>
-    <url>/2020/05/16/%E3%80%90%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%9A%84%E8%89%BA%E6%9C%AF%E3%80%91%EF%BC%9A%EF%BC%884%EF%BC%89%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p> 原子操作就是不可被中断的一个或一系列操作。在多处理器上实现原子操作就优点复杂。</p>
-<h3 id="一、处理器如何实现原子操作"><a href="#一、处理器如何实现原子操作" class="headerlink" title="一、处理器如何实现原子操作"></a>一、处理器如何实现原子操作</h3><h4 id="1-1、使用总线锁保证原子性"><a href="#1-1、使用总线锁保证原子性" class="headerlink" title="1.1、使用总线锁保证原子性"></a>1.1、使用总线锁保证原子性</h4><ul>
-<li><p>多个处理器在对共享变量进行操作时，就不是原子性的，通过总线锁，就是使用处理器提供的一个Lock #信号，当一个处理器在总线上输出此信号，其他处理器的请求就会被阻塞，只有该处理器能独占共享变量。</p>
-</li>
-<li><p>缺陷：总线锁把CPu和内存的通信锁住了。其他处理器不能操作其他内存的数据。</p>
-</li>
-</ul>
-<h4 id="1-2、缓存锁保证原子性"><a href="#1-2、缓存锁保证原子性" class="headerlink" title="1.2、缓存锁保证原子性"></a>1.2、缓存锁保证原子性</h4><ul>
-<li>这个应该就是Volatile的实现原理，缓存一致性机制会阻止同时修改由两个以上处理器缓存的内存区域数据，其他处理器回写缓存数据时，会无效。</li>
-</ul>
-<h3 id="二、Java如何实现原子操作"><a href="#二、Java如何实现原子操作" class="headerlink" title="二、Java如何实现原子操作"></a>二、Java如何实现原子操作</h3><h4 id="2-1-使用CAS操作"><a href="#2-1-使用CAS操作" class="headerlink" title="2.1 使用CAS操作"></a>2.1 使用CAS操作</h4><ul>
-<li><p>CAS即为CompareAndSwap，比较并替换</p>
-</li>
-<li><p>JVM中的CAS操作正是利用了处理器提供的CMPXCHG(Compare and Exchange)指令实现的。自旋CAS实现的基本思路就是循环进行CAS操作直到成功为止。</p>
-</li>
-<li><p>从Java 1.5开始，JDK的并发包里提供了一些类来实现原子操作，如AtomicBoolean，AtomicInteger和AtomicLong。这些原子包装类还提供了有用的工具方法，比如以原子的方式将当前值自增1和自减1。</p>
-</li>
-</ul>
-<h4 id="2-2-CAS三大问题"><a href="#2-2-CAS三大问题" class="headerlink" title="2.2 CAS三大问题"></a>2.2 CAS三大问题</h4><ol>
-<li><p>ABA问题：</p>
-<ul>
-<li>问题：如果一个值由原来的A变为B，在变为A，那么使用CAS进行检查的时候会发现它的值没有发生变化，但是实际上变了。</li>
-<li>解决：在变量前增加版本号，1A-2B-3A。</li>
-<li>解决2：jdk5的atomic包提供了一个类，有个方法叫compareandset，会检查当前标记是否等于预期标记。</li>
-</ul>
-</li>
-<li><p>循环时间长开销大：</p>
-<ul>
-<li>自旋长时间不成功，会带来非常大的执行开销</li>
-<li>解决：处理器提供了pause命令</li>
-</ul>
-</li>
-<li><p>只能保证一个共享变量的原子操作</p>
-<ul>
-<li>解决：把多个变量放在一个对象里进行操作</li>
-</ul>
-</li>
-</ol>]]></content>
       <categories>
         <category>并发编程的艺术</category>
       </categories>
@@ -1694,63 +1694,21 @@
       </tags>
   </entry>
   <entry>
-    <title>【java基础】：(1)反射机制</title>
-    <url>/2020/02/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="java基础之反射"><a href="#java基础之反射" class="headerlink" title="java基础之反射"></a>java基础之反射</h1><ul>
-<li><strong>1、反射概述</strong></li>
-<li><strong>2、获取class类型的对象</strong></li>
-<li><strong>3、通过反射获取构造方法并使用</strong></li>
-<li><strong>4、通过反射获取成员变量并使用</strong></li>
-<li><strong>5、通过反射并获取成员方法并使用</strong></li>
-</ul>
-<h2 id="1、反射概述"><a href="#1、反射概述" class="headerlink" title="1、反射概述"></a>1、反射概述</h2><p>&emsp;&emsp;java不是动态 语言，但java可以被称为准动态语言，因为它的反射机制。而这个反射机制是java被视为动态语言的关键。反射机制允许程序在执行期间借助Reflection API取得任何类的内部消息，并能直接操作任意对象的内部属性及方法。加载完类之后，在堆内存的方法区中就产生了一个Class类型的对象（一个类只有一个Class对象），这个对象就包含了完整的类的结构信息。我们可以通过这个对象看到类的结构。这个对象就像一面镜子，透过这个镜子看到类的结构，所以我们形象的称为：反射。</p>
-<p><strong>优点</strong>：可以实现动态创建对象和编译，体现出很大的灵活性。</p>
-<p><strong>缺点</strong>：对性能有影响，使用反射基本上是一种解析操作，我们可以告诉jvm，我们希望做什么并且它满足我们的要求。这类操作总是慢于直接执行相同的操作。</p>
-<h2 id="2、获取class类型对象"><a href="#2、获取class类型对象" class="headerlink" title="2、获取class类型对象"></a>2、获取class类型对象</h2><h3 id="2-1-java代码分析"><a href="#2-1-java代码分析" class="headerlink" title="2.1 java代码分析"></a>2.1 java代码分析</h3><p>java代码在计算机中经历有三个阶段。</p>
-<p>第一阶段：源代码阶段。由程序员写的一个pojo类，假设为A，可以包含成员变量，构造方法，和成员方法。然后该类经过javac编译，生成了一个A.class的字节码文件。</p>
-<p>第二阶段：class类对象阶段。这个阶段由类加载器ClassLoader加载得到一个class类的对象。该对象包含成员变量，构造方法以及成员方法。一个类只产生一个class对象。</p>
-<p>第三阶段：运行时阶段。通过class类的这几个方法创建对象。反射的本质理解就是得到class对象后反向获取student对象的各种信息。</p>
-<h2 id="2-2-如何得到class类对象"><a href="#2-2-如何得到class类对象" class="headerlink" title="2.2 如何得到class类对象"></a>2.2 如何得到class类对象</h2><p><strong>方式一：</strong> Object类的getClass（）方法</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person p = new Person();</span><br><span class="line">Class c = p.getClass();</span><br></pre></td></tr></table></figure>
-<p><strong>方式二：</strong> 任何数据类型都有一个“静态”的class属性.</p>
-<p>所有类型的class对象：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test03 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Class c1 = Object.class;//对象</span><br><span class="line">        Class c2= Comparable.class;//接口</span><br><span class="line">        Class c3=String[].class;//数组</span><br><span class="line">        Class c4=int[][].class;//二维数组</span><br><span class="line">        Class c5=Override.class;//注解</span><br><span class="line">        Class c6=Integer.class;//基本数据类型</span><br><span class="line">        Class c7= ElementType.class;//枚举类型</span><br><span class="line">        Class c8=void.class;//空</span><br><span class="line">        Class c9=Class.class;//class</span><br><span class="line"></span><br><span class="line">        System.out.println(c1);</span><br><span class="line">        System.out.println(c2);</span><br><span class="line">        System.out.println(c3);</span><br><span class="line">        System.out.println(c4);</span><br><span class="line">        System.out.println(c5);</span><br><span class="line">        System.out.println(c6);</span><br><span class="line">        System.out.println(c7);</span><br><span class="line">        System.out.println(c8);</span><br><span class="line">        System.out.println(c9);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class java.lang.Object</span><br><span class="line">interface java.lang.Comparable</span><br><span class="line">class [Ljava.lang.String;</span><br><span class="line">class [[I</span><br><span class="line">interface java.lang.Override</span><br><span class="line">class java.lang.Integer</span><br><span class="line">class java.lang.annotation.ElementType</span><br><span class="line">void</span><br><span class="line">class java.lang.Class</span><br></pre></td></tr></table></figure>
-<p><strong>方式三（常用）：</strong> 通过Class类的静态方法：forName（String  className）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Class c4 = Class.forName(&quot;com.xiaolei.Person&quot;);</span><br></pre></td></tr></table></figure>
-<h2 id="3、通过反射获取构造方法并使用"><a href="#3、通过反射获取构造方法并使用" class="headerlink" title="3、通过反射获取构造方法并使用"></a>3、通过反射获取构造方法并使用</h2><p>写个person类：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Person &#123;</span><br><span class="line">    //定义三个成员变量</span><br><span class="line">    private String name;</span><br><span class="line">    int age;</span><br><span class="line">    public String address;</span><br><span class="line"></span><br><span class="line">    public Person() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Person(String name)&#123;</span><br><span class="line">        this.name=name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Person(String name, int age) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Person(String name, int age, String address) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个无参的方法</span><br><span class="line">    public void show() &#123;</span><br><span class="line">        System.out.println(&quot;show!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个带参的方法</span><br><span class="line">    public void method(String s) &#123;</span><br><span class="line">        System.out.println(&quot;method:&quot; + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个带两个参数的方法</span><br><span class="line">    public String getString(String s,int i)&#123;</span><br><span class="line">        return s+&quot;---&quot;+i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个私有的方法</span><br><span class="line">    private void function()&#123;</span><br><span class="line">        System.out.println(&quot;function !&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //重写toStirng（）</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Person[name=&quot;+name+&quot;,age=&quot;+age+&quot;,address=&quot;+address+&quot;]&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试类：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package fqy1;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Constructor;</span><br><span class="line">import java.lang.reflect.InvocationTargetException;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">1).批量的方法：</span><br><span class="line">   public Constructor[] getConstructors()：所有public构造方法</span><br><span class="line">   public Constructor[] getDeclaredConstructors()：</span><br><span class="line">   获取所有的构造方法(包括私有、受保护、默认、公有)</span><br><span class="line"></span><br><span class="line">2).获取单个的方法，并调用：</span><br><span class="line">public Constructor getConstructor(Class... parameterTypes):</span><br><span class="line">获取指定单个的&quot;公有的&quot;构造方法：</span><br><span class="line">public Constructor getDeclaredConstructor(Class... parameterTypes):</span><br><span class="line">获取&quot;某个构造方法&quot;可以是私有的，或受保护、默认、公有；</span><br><span class="line">调用构造方法：</span><br><span class="line">      Constructor--&gt;newInstance(Object... initargs)</span><br><span class="line">创建对象：</span><br><span class="line">      newInstance()</span><br><span class="line">      con.newInstance(“zhangsan&quot;, 20);</span><br><span class="line"> */</span><br><span class="line">public class ReflectDemo2 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //获取字节码文件对象</span><br><span class="line">        Class c1=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //第一：public Constructor[] getConstructors()：所有public构造方法</span><br><span class="line">        System.out.println(&quot;一、获取所有公有构造方法:&quot;);</span><br><span class="line">        Constructor[] cons = c1.getConstructors();</span><br><span class="line">        for(Constructor con:cons)&#123;</span><br><span class="line">            System.out.println(con);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //第二：public Constructor[] getDeclaredConstructors()：</span><br><span class="line">        //   获取所有的构造方法</span><br><span class="line">        System.out.println(&quot;二、获取所有的构造方法:&quot;);</span><br><span class="line">        Constructor[] cons2 =c1.getDeclaredConstructors();</span><br><span class="line">        for(Constructor con:cons2)&#123;</span><br><span class="line">            System.out.println(con);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //第三：public Constructor getConstructor(Class... parameterTypes):</span><br><span class="line">        //获取指定的单个“共有的”构造方法</span><br><span class="line">        //步骤：</span><br><span class="line">        //  A：首先创造字节码文件对象</span><br><span class="line">        //  B：通过字节码文件对象去创建构造器对象</span><br><span class="line">        //  C：通过构造器对象去创建一个实例对象</span><br><span class="line">        System.out.println(&quot;三、无参：获取指定的单个“共有的”构造方法:&quot;);</span><br><span class="line">        Constructor con3= c1.getConstructor(null);//返回的是构造方法对象</span><br><span class="line">        Object obj=con3.newInstance();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">        第四：需求：通过反射去获取该构造方法并使用</span><br><span class="line">        public person (String name,int age,String address)</span><br><span class="line">         */</span><br><span class="line">        System.out.println(&quot;四、通过反射去获取该构造方法并使用:&quot;);</span><br><span class="line">        Constructor con4=c1.getConstructor(String.class,int.class,String.class);</span><br><span class="line"></span><br><span class="line">        //通过带参构造方法对象创建对象</span><br><span class="line">        Object obj2=con4.newInstance(&quot;徐雷&quot;,18,&quot;武汉&quot;);</span><br><span class="line">        System.out.println(obj2);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">        需求：通过反射获取私有构造方法并使用</span><br><span class="line">         */</span><br><span class="line">        System.out.println(&quot;五、需求：通过反射获取私有构造方法并使用:&quot;);</span><br><span class="line">        Constructor con5=c1.getDeclaredConstructor(String.class);</span><br><span class="line">        //暴力访问</span><br><span class="line">        con5.setAccessible(true);</span><br><span class="line">         obj2=con5.newInstance(&quot;猫猫&quot;);//IllegalArgumentException:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(obj2);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>后台输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">一、获取所有公有构造方法:</span><br><span class="line">public fqy1.Person(java.lang.String,int,java.lang.String)</span><br><span class="line">public fqy1.Person()</span><br><span class="line">二、获取所有的构造方法:</span><br><span class="line">public fqy1.Person(java.lang.String,int,java.lang.String)</span><br><span class="line">fqy1.Person(java.lang.String,int)</span><br><span class="line">private fqy1.Person(java.lang.String)</span><br><span class="line">public fqy1.Person()</span><br><span class="line">三、无参：获取指定的单个“共有的”构造方法:</span><br><span class="line">Person[name=null,age=0,address=null]</span><br><span class="line">四、通过反射去获取该构造方法并使用:</span><br><span class="line">Person[name=徐雷,age=18,address=武汉]</span><br><span class="line">五、需求：通过反射获取私有构造方法并使用:</span><br><span class="line">Person[name=猫猫,age=0,address=null]</span><br></pre></td></tr></table></figure>
-<h2 id="4、通过反射获取成员变量并使用"><a href="#4、通过反射获取成员变量并使用" class="headerlink" title="4、通过反射获取成员变量并使用"></a>4、通过反射获取成员变量并使用</h2><p>1.获取所有成员：<br>     1).Field[] getFields():获取所有的”公有字段”<br>     2).Field[] getDeclaredFields():获取所有字段，包括：私有、受保护、默认、公有；</p>
-<p>2.获取单个成员的：<br>     1).public Field getField(String fieldName):获取某个”公有的”字段；<br>     2).public Field getDeclaredField(String fieldName):获取某个字段(可以是私有的)</p>
-<p>3.修改成员的值：<br>         Field –&gt; public void set(Object obj,Object value):</p>
-<p> 参数说明：<br>             1.obj:要设置的字段所在的对象；这个对象通过Constructor创建<br>             2.value:要为字段设置的值；</p>
-<p>测试类：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class ReflectDemo3 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //创建class类对象</span><br><span class="line">        Class c2=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //Field[] getFields():获取所有的&quot;公有字段&quot;</span><br><span class="line">        System.out.println(&quot;第一：获取所有公有成员变量：&quot;);</span><br><span class="line">        Field[] field=c2.getFields();</span><br><span class="line">        for(Field f:field)&#123;</span><br><span class="line">            System.out.println(f);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //Field[] getDeclaredFields():获取所有字段，包括：私有、受保护、默认、公有</span><br><span class="line">        System.out.println(&quot;第二：获取所有字段&quot;);</span><br><span class="line">        Field [] field2=c2.getDeclaredFields();</span><br><span class="line">        for(Field f:field2)&#123;</span><br><span class="line">            System.out.println(f);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //public Field getField(String fieldName):获取某个&quot;公有的&quot;字段；</span><br><span class="line">        //Field --&gt; public void set(Object obj,Object value):</span><br><span class="line">        System.out.println(&quot;第三：获取某个公共字段并赋值：&quot;);</span><br><span class="line">        //通过无参构造方法创建对象</span><br><span class="line">        Constructor con =c2.getConstructor();</span><br><span class="line">        Object obj =con.newInstance();</span><br><span class="line">        Field field3=c2.getField(&quot;address&quot;);</span><br><span class="line">        field3.set(obj,&quot;武汉&quot;);//给object对象的f字段设置为”武汉“</span><br><span class="line">        System.out.println(obj);</span><br><span class="line"></span><br><span class="line">        //获取name并对其赋值</span><br><span class="line">        System.out.println(&quot;第四：获取私有变量并赋值&quot;);</span><br><span class="line">        Field field4=c2.getDeclaredField(&quot;name&quot;);</span><br><span class="line">        field4.setAccessible(true);</span><br><span class="line">        field4.set(obj,&quot;徐雷&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>后台输出：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">第一：获取所有公有成员变量：</span><br><span class="line">public java.lang.String fqy1.Person.address</span><br><span class="line">第二：获取所有字段</span><br><span class="line">private java.lang.String fqy1.Person.name</span><br><span class="line">int fqy1.Person.age</span><br><span class="line">public java.lang.String fqy1.Person.address</span><br><span class="line">第三：获取某个公共字段并赋值：</span><br><span class="line">Person[name=null,age=0,address=武汉]</span><br><span class="line">第四：获取私有变量并赋值</span><br><span class="line">Person[name=徐雷,age=0,address=武汉]</span><br></pre></td></tr></table></figure>
-<h2 id="5、通过反射获取成员方法并使用"><a href="#5、通过反射获取成员方法并使用" class="headerlink" title="5、通过反射获取成员方法并使用"></a>5、通过反射获取成员方法并使用</h2><h3 id="1-批量的："><a href="#1-批量的：" class="headerlink" title="1.批量的："></a>1.批量的：</h3><pre><code>public Method[] getMethods():获取所有&quot;公有方法&quot;；（包含了父类的方法也包含Object类）
-public Method[] getDeclaredMethods():获取所有的成员方法，包括私有的(不包括继承的)</code></pre><h3 id="2-获取单个的："><a href="#2-获取单个的：" class="headerlink" title="2.获取单个的："></a>2.获取单个的：</h3><pre><code>public Method getMethod(String name,Class&lt;?&gt;... parameterTypes):
-            参数：
-                 name : 方法名；
-                Class ... : 形参的Class类型对象
-public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</code></pre><p> 【注】：第一个参数表示的是方法名，第二个参数表示的是方法的参数的class类型，这个方法返回值是Object接收，第一个参数表示对象是谁，第二参数表示调用该方法的实际参数。</p>
-<h3 id="3-调用方法："><a href="#3-调用方法：" class="headerlink" title="3.调用方法："></a>3.调用方法：</h3><pre><code>Method --&gt; public Object invoke(Object obj,Object... args):
-    参数说明：
-    obj : 要调用方法的对象；
-    args:调用方式时所传递的实参；</code></pre><p>测试成员方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line">测试成员方法：</span><br><span class="line"> */</span><br><span class="line">public class ReflectDemo4 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //创建class类对象</span><br><span class="line">        Class c=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //public Method[] getMethods():获取所有&quot;公有方法&quot;；</span><br><span class="line">        System.out.println(&quot;------第一：获取所有公有方法-------&quot;);</span><br><span class="line">        Method []m=c.getMethods();</span><br><span class="line">        for(Method method:m)&#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        //public Method[] getDeclaredMethods():</span><br><span class="line">        System.out.println(&quot;---------第二：获取所有方法--------&quot;);</span><br><span class="line">        Method[] m2=c.getDeclaredMethods();</span><br><span class="line">        for(Method method:m2)&#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Constructor con=c.getConstructor();</span><br><span class="line">        Object obj=con.newInstance();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;--------第三获取单个无参方法并使用----------&quot;);</span><br><span class="line">        //调用show方法</span><br><span class="line">        Method m1=c.getMethod(&quot;show&quot;);</span><br><span class="line">        //obj.m1();错误</span><br><span class="line">        //</span><br><span class="line">        m1.invoke(obj);//调用obj对象的m1方法</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第四，获取单个有参参数并使用-----------&quot;);</span><br><span class="line">        Method m3=c.getMethod(&quot;method&quot;, String.class);</span><br><span class="line">        m3.invoke(obj,&quot;hello&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第五，获取带多个参数的方法并使用-----&quot;);</span><br><span class="line">        Method m4=c.getMethod(&quot;getString&quot;, String.class, int.class);</span><br><span class="line">        Object objectString=m4.invoke(obj,&quot;徐雷&quot;,18);//返回object类型，记住！</span><br><span class="line">        System.out.println(objectString);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第六。获取私有的方法并使用----&quot;);</span><br><span class="line">        Method m5=c.getDeclaredMethod(&quot;function&quot;);</span><br><span class="line">        m5.setAccessible(true);</span><br><span class="line">        m5.invoke(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">------第一：获取所有公有方法-------</span><br><span class="line">public java.lang.String fqy1.Person.toString()</span><br><span class="line">public void fqy1.Person.method(java.lang.String)</span><br><span class="line">public java.lang.String fqy1.Person.getString(java.lang.String,int)</span><br><span class="line">public void fqy1.Person.show()</span><br><span class="line">public final void java.lang.Object.wait() throws java.lang.InterruptedException</span><br><span class="line">public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException</span><br><span class="line">public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException</span><br><span class="line">public boolean java.lang.Object.equals(java.lang.Object)</span><br><span class="line">public native int java.lang.Object.hashCode()</span><br><span class="line">public final native java.lang.Class java.lang.Object.getClass()</span><br><span class="line">public final native void java.lang.Object.notify()</span><br><span class="line">public final native void java.lang.Object.notifyAll()</span><br><span class="line">---------第二：获取所有方法--------</span><br><span class="line">public java.lang.String fqy1.Person.toString()</span><br><span class="line">private void fqy1.Person.function()</span><br><span class="line">public void fqy1.Person.method(java.lang.String)</span><br><span class="line">public java.lang.String fqy1.Person.getString(java.lang.String,int)</span><br><span class="line">public void fqy1.Person.show()</span><br><span class="line">--------第三获取单个无参方法并使用----------</span><br><span class="line">show!</span><br><span class="line">-----第四，获取单个有参参数并使用-----------</span><br><span class="line">method:hello</span><br><span class="line">-----第五，获取带多个参数的方法并使用-----</span><br><span class="line">徐雷---18</span><br><span class="line">-----第六。获取私</span><br></pre></td></tr></table></figure>]]></content>
+    <title>【刻意学习】：天赋来自大脑布线的重构</title>
+    <url>/2020/01/16/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E3%80%82/</url>
+    <content><![CDATA[<p>很早的时候也听过10000小时的理论，貌似突然凭空出现的一个简单粗暴的真理让人们对它深信不疑，因为简单！只要相信在某个领域内做满10000小时就可以成功，但是，事实并非如此。<strong>埋头努力不如正确的练习</strong>，这就是今天要说的刻意练习。</p>
+<p>​    什么是刻意练习？简单说就是有目的的练习，要做到刻意练习，书中说到下面几点：</p>
+<p>  <strong>1、走出舒适区</strong>。习惯在自己的舒适区里重复做着一件事，日复一日的重复着增删改查的工作，并不能说明你越来越优秀，只能说明你更熟练了业务，但是自己的技术并没有进步。要找到自己感兴趣的东西，然后专门去研究，老守着以前的东西的话，总有一天会坐吃山空。</p>
+<p>  <strong>2、要明确练习的目的和目标。</strong>首先要设定并接受那个一般的目标，并且日益精进，并将其转化为一些具体目标，就达到了切合实际进步的期望，比如对自己三年后的期望是怎样的，一步步的划分，一年内你将成为怎样的人？你将要掌握哪些技术？你将要读完哪些书？你将会输出多少篇博客？找对你练习的目的和目标。</p>
+<p>  <strong>3、要想取得进步，必须集中注意力，做到专注。</strong>这点在任何领域都是必备的，刻意练习是有意而为的，也就是说，它需要人们完全的关注和有意识的行动，简单的遵照导师或领导的指示去做，还不够。还必须紧跟练习的特定目标，做出适当的调整。更大的突破自己的瓶颈。</p>
+<p>  <strong>4、反馈机制</strong>。知道自己做的对错，是什么原因造成的，我总不容易面对错误，不管是以前做错的题还是面试时答错的题，自己总是草草的结束或扔在一边，并不敢很好的直视错误，后面慢慢的还是打开了尴尬的录音开始了回放，学习中的反馈也要适当的创作，学完一个小阶段，写篇博客，学完一个大阶段，然后在做个小项目。反馈机制也要学会总结，监测自己，发现自己学习效率低下产生的原因，并作出改正。</p>
+<p>   <strong>刻意练习就是在已有能力水平基础上通过完成更为复杂的操作和练习达到提升当前水平的目的。*刻意练习，成为一名合格的程序员。</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/guZlFTiaTz4qp8O0bGR0W3KkJomsFIctCHpUYTqkt16GIEKW9iaEgibpllr380fx2CbVyAN31veiatlJIumEewGQuw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt=""></p>]]></content>
       <categories>
-        <category>java基础</category>
+        <category>随笔</category>
       </categories>
       <tags>
-        <tag>反射</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -1938,6 +1896,66 @@ public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</c
       </categories>
       <tags>
         <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【java基础】：(1)反射机制</title>
+    <url>/2020/02/18/%E3%80%90java%E5%9F%BA%E7%A1%80%E3%80%91%EF%BC%9A%EF%BC%881%EF%BC%89%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="java基础之反射"><a href="#java基础之反射" class="headerlink" title="java基础之反射"></a>java基础之反射</h1><ul>
+<li><strong>1、反射概述</strong></li>
+<li><strong>2、获取class类型的对象</strong></li>
+<li><strong>3、通过反射获取构造方法并使用</strong></li>
+<li><strong>4、通过反射获取成员变量并使用</strong></li>
+<li><strong>5、通过反射并获取成员方法并使用</strong></li>
+</ul>
+<h2 id="1、反射概述"><a href="#1、反射概述" class="headerlink" title="1、反射概述"></a>1、反射概述</h2><p>&emsp;&emsp;java不是动态 语言，但java可以被称为准动态语言，因为它的反射机制。而这个反射机制是java被视为动态语言的关键。反射机制允许程序在执行期间借助Reflection API取得任何类的内部消息，并能直接操作任意对象的内部属性及方法。加载完类之后，在堆内存的方法区中就产生了一个Class类型的对象（一个类只有一个Class对象），这个对象就包含了完整的类的结构信息。我们可以通过这个对象看到类的结构。这个对象就像一面镜子，透过这个镜子看到类的结构，所以我们形象的称为：反射。</p>
+<p><strong>优点</strong>：可以实现动态创建对象和编译，体现出很大的灵活性。</p>
+<p><strong>缺点</strong>：对性能有影响，使用反射基本上是一种解析操作，我们可以告诉jvm，我们希望做什么并且它满足我们的要求。这类操作总是慢于直接执行相同的操作。</p>
+<h2 id="2、获取class类型对象"><a href="#2、获取class类型对象" class="headerlink" title="2、获取class类型对象"></a>2、获取class类型对象</h2><h3 id="2-1-java代码分析"><a href="#2-1-java代码分析" class="headerlink" title="2.1 java代码分析"></a>2.1 java代码分析</h3><p>java代码在计算机中经历有三个阶段。</p>
+<p>第一阶段：源代码阶段。由程序员写的一个pojo类，假设为A，可以包含成员变量，构造方法，和成员方法。然后该类经过javac编译，生成了一个A.class的字节码文件。</p>
+<p>第二阶段：class类对象阶段。这个阶段由类加载器ClassLoader加载得到一个class类的对象。该对象包含成员变量，构造方法以及成员方法。一个类只产生一个class对象。</p>
+<p>第三阶段：运行时阶段。通过class类的这几个方法创建对象。反射的本质理解就是得到class对象后反向获取student对象的各种信息。</p>
+<h2 id="2-2-如何得到class类对象"><a href="#2-2-如何得到class类对象" class="headerlink" title="2.2 如何得到class类对象"></a>2.2 如何得到class类对象</h2><p><strong>方式一：</strong> Object类的getClass（）方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person p = new Person();</span><br><span class="line">Class c = p.getClass();</span><br></pre></td></tr></table></figure>
+<p><strong>方式二：</strong> 任何数据类型都有一个“静态”的class属性.</p>
+<p>所有类型的class对象：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Test03 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Class c1 = Object.class;//对象</span><br><span class="line">        Class c2= Comparable.class;//接口</span><br><span class="line">        Class c3=String[].class;//数组</span><br><span class="line">        Class c4=int[][].class;//二维数组</span><br><span class="line">        Class c5=Override.class;//注解</span><br><span class="line">        Class c6=Integer.class;//基本数据类型</span><br><span class="line">        Class c7= ElementType.class;//枚举类型</span><br><span class="line">        Class c8=void.class;//空</span><br><span class="line">        Class c9=Class.class;//class</span><br><span class="line"></span><br><span class="line">        System.out.println(c1);</span><br><span class="line">        System.out.println(c2);</span><br><span class="line">        System.out.println(c3);</span><br><span class="line">        System.out.println(c4);</span><br><span class="line">        System.out.println(c5);</span><br><span class="line">        System.out.println(c6);</span><br><span class="line">        System.out.println(c7);</span><br><span class="line">        System.out.println(c8);</span><br><span class="line">        System.out.println(c9);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class java.lang.Object</span><br><span class="line">interface java.lang.Comparable</span><br><span class="line">class [Ljava.lang.String;</span><br><span class="line">class [[I</span><br><span class="line">interface java.lang.Override</span><br><span class="line">class java.lang.Integer</span><br><span class="line">class java.lang.annotation.ElementType</span><br><span class="line">void</span><br><span class="line">class java.lang.Class</span><br></pre></td></tr></table></figure>
+<p><strong>方式三（常用）：</strong> 通过Class类的静态方法：forName（String  className）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Class c4 = Class.forName(&quot;com.xiaolei.Person&quot;);</span><br></pre></td></tr></table></figure>
+<h2 id="3、通过反射获取构造方法并使用"><a href="#3、通过反射获取构造方法并使用" class="headerlink" title="3、通过反射获取构造方法并使用"></a>3、通过反射获取构造方法并使用</h2><p>写个person类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class Person &#123;</span><br><span class="line">    //定义三个成员变量</span><br><span class="line">    private String name;</span><br><span class="line">    int age;</span><br><span class="line">    public String address;</span><br><span class="line"></span><br><span class="line">    public Person() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private Person(String name)&#123;</span><br><span class="line">        this.name=name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     Person(String name, int age) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Person(String name, int age, String address) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.age = age;</span><br><span class="line">        this.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个无参的方法</span><br><span class="line">    public void show() &#123;</span><br><span class="line">        System.out.println(&quot;show!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个带参的方法</span><br><span class="line">    public void method(String s) &#123;</span><br><span class="line">        System.out.println(&quot;method:&quot; + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个带两个参数的方法</span><br><span class="line">    public String getString(String s,int i)&#123;</span><br><span class="line">        return s+&quot;---&quot;+i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写个私有的方法</span><br><span class="line">    private void function()&#123;</span><br><span class="line">        System.out.println(&quot;function !&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //重写toStirng（）</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return &quot;Person[name=&quot;+name+&quot;,age=&quot;+age+&quot;,address=&quot;+address+&quot;]&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">package fqy1;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Constructor;</span><br><span class="line">import java.lang.reflect.InvocationTargetException;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">1).批量的方法：</span><br><span class="line">   public Constructor[] getConstructors()：所有public构造方法</span><br><span class="line">   public Constructor[] getDeclaredConstructors()：</span><br><span class="line">   获取所有的构造方法(包括私有、受保护、默认、公有)</span><br><span class="line"></span><br><span class="line">2).获取单个的方法，并调用：</span><br><span class="line">public Constructor getConstructor(Class... parameterTypes):</span><br><span class="line">获取指定单个的&quot;公有的&quot;构造方法：</span><br><span class="line">public Constructor getDeclaredConstructor(Class... parameterTypes):</span><br><span class="line">获取&quot;某个构造方法&quot;可以是私有的，或受保护、默认、公有；</span><br><span class="line">调用构造方法：</span><br><span class="line">      Constructor--&gt;newInstance(Object... initargs)</span><br><span class="line">创建对象：</span><br><span class="line">      newInstance()</span><br><span class="line">      con.newInstance(“zhangsan&quot;, 20);</span><br><span class="line"> */</span><br><span class="line">public class ReflectDemo2 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //获取字节码文件对象</span><br><span class="line">        Class c1=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //第一：public Constructor[] getConstructors()：所有public构造方法</span><br><span class="line">        System.out.println(&quot;一、获取所有公有构造方法:&quot;);</span><br><span class="line">        Constructor[] cons = c1.getConstructors();</span><br><span class="line">        for(Constructor con:cons)&#123;</span><br><span class="line">            System.out.println(con);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //第二：public Constructor[] getDeclaredConstructors()：</span><br><span class="line">        //   获取所有的构造方法</span><br><span class="line">        System.out.println(&quot;二、获取所有的构造方法:&quot;);</span><br><span class="line">        Constructor[] cons2 =c1.getDeclaredConstructors();</span><br><span class="line">        for(Constructor con:cons2)&#123;</span><br><span class="line">            System.out.println(con);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //第三：public Constructor getConstructor(Class... parameterTypes):</span><br><span class="line">        //获取指定的单个“共有的”构造方法</span><br><span class="line">        //步骤：</span><br><span class="line">        //  A：首先创造字节码文件对象</span><br><span class="line">        //  B：通过字节码文件对象去创建构造器对象</span><br><span class="line">        //  C：通过构造器对象去创建一个实例对象</span><br><span class="line">        System.out.println(&quot;三、无参：获取指定的单个“共有的”构造方法:&quot;);</span><br><span class="line">        Constructor con3= c1.getConstructor(null);//返回的是构造方法对象</span><br><span class="line">        Object obj=con3.newInstance();</span><br><span class="line">        System.out.println(obj);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">        第四：需求：通过反射去获取该构造方法并使用</span><br><span class="line">        public person (String name,int age,String address)</span><br><span class="line">         */</span><br><span class="line">        System.out.println(&quot;四、通过反射去获取该构造方法并使用:&quot;);</span><br><span class="line">        Constructor con4=c1.getConstructor(String.class,int.class,String.class);</span><br><span class="line"></span><br><span class="line">        //通过带参构造方法对象创建对象</span><br><span class="line">        Object obj2=con4.newInstance(&quot;徐雷&quot;,18,&quot;武汉&quot;);</span><br><span class="line">        System.out.println(obj2);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">        需求：通过反射获取私有构造方法并使用</span><br><span class="line">         */</span><br><span class="line">        System.out.println(&quot;五、需求：通过反射获取私有构造方法并使用:&quot;);</span><br><span class="line">        Constructor con5=c1.getDeclaredConstructor(String.class);</span><br><span class="line">        //暴力访问</span><br><span class="line">        con5.setAccessible(true);</span><br><span class="line">         obj2=con5.newInstance(&quot;猫猫&quot;);//IllegalArgumentException:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(obj2);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>后台输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">一、获取所有公有构造方法:</span><br><span class="line">public fqy1.Person(java.lang.String,int,java.lang.String)</span><br><span class="line">public fqy1.Person()</span><br><span class="line">二、获取所有的构造方法:</span><br><span class="line">public fqy1.Person(java.lang.String,int,java.lang.String)</span><br><span class="line">fqy1.Person(java.lang.String,int)</span><br><span class="line">private fqy1.Person(java.lang.String)</span><br><span class="line">public fqy1.Person()</span><br><span class="line">三、无参：获取指定的单个“共有的”构造方法:</span><br><span class="line">Person[name=null,age=0,address=null]</span><br><span class="line">四、通过反射去获取该构造方法并使用:</span><br><span class="line">Person[name=徐雷,age=18,address=武汉]</span><br><span class="line">五、需求：通过反射获取私有构造方法并使用:</span><br><span class="line">Person[name=猫猫,age=0,address=null]</span><br></pre></td></tr></table></figure>
+<h2 id="4、通过反射获取成员变量并使用"><a href="#4、通过反射获取成员变量并使用" class="headerlink" title="4、通过反射获取成员变量并使用"></a>4、通过反射获取成员变量并使用</h2><p>1.获取所有成员：<br>     1).Field[] getFields():获取所有的”公有字段”<br>     2).Field[] getDeclaredFields():获取所有字段，包括：私有、受保护、默认、公有；</p>
+<p>2.获取单个成员的：<br>     1).public Field getField(String fieldName):获取某个”公有的”字段；<br>     2).public Field getDeclaredField(String fieldName):获取某个字段(可以是私有的)</p>
+<p>3.修改成员的值：<br>         Field –&gt; public void set(Object obj,Object value):</p>
+<p> 参数说明：<br>             1.obj:要设置的字段所在的对象；这个对象通过Constructor创建<br>             2.value:要为字段设置的值；</p>
+<p>测试类：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public class ReflectDemo3 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //创建class类对象</span><br><span class="line">        Class c2=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //Field[] getFields():获取所有的&quot;公有字段&quot;</span><br><span class="line">        System.out.println(&quot;第一：获取所有公有成员变量：&quot;);</span><br><span class="line">        Field[] field=c2.getFields();</span><br><span class="line">        for(Field f:field)&#123;</span><br><span class="line">            System.out.println(f);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //Field[] getDeclaredFields():获取所有字段，包括：私有、受保护、默认、公有</span><br><span class="line">        System.out.println(&quot;第二：获取所有字段&quot;);</span><br><span class="line">        Field [] field2=c2.getDeclaredFields();</span><br><span class="line">        for(Field f:field2)&#123;</span><br><span class="line">            System.out.println(f);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //public Field getField(String fieldName):获取某个&quot;公有的&quot;字段；</span><br><span class="line">        //Field --&gt; public void set(Object obj,Object value):</span><br><span class="line">        System.out.println(&quot;第三：获取某个公共字段并赋值：&quot;);</span><br><span class="line">        //通过无参构造方法创建对象</span><br><span class="line">        Constructor con =c2.getConstructor();</span><br><span class="line">        Object obj =con.newInstance();</span><br><span class="line">        Field field3=c2.getField(&quot;address&quot;);</span><br><span class="line">        field3.set(obj,&quot;武汉&quot;);//给object对象的f字段设置为”武汉“</span><br><span class="line">        System.out.println(obj);</span><br><span class="line"></span><br><span class="line">        //获取name并对其赋值</span><br><span class="line">        System.out.println(&quot;第四：获取私有变量并赋值&quot;);</span><br><span class="line">        Field field4=c2.getDeclaredField(&quot;name&quot;);</span><br><span class="line">        field4.setAccessible(true);</span><br><span class="line">        field4.set(obj,&quot;徐雷&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>后台输出：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">第一：获取所有公有成员变量：</span><br><span class="line">public java.lang.String fqy1.Person.address</span><br><span class="line">第二：获取所有字段</span><br><span class="line">private java.lang.String fqy1.Person.name</span><br><span class="line">int fqy1.Person.age</span><br><span class="line">public java.lang.String fqy1.Person.address</span><br><span class="line">第三：获取某个公共字段并赋值：</span><br><span class="line">Person[name=null,age=0,address=武汉]</span><br><span class="line">第四：获取私有变量并赋值</span><br><span class="line">Person[name=徐雷,age=0,address=武汉]</span><br></pre></td></tr></table></figure>
+<h2 id="5、通过反射获取成员方法并使用"><a href="#5、通过反射获取成员方法并使用" class="headerlink" title="5、通过反射获取成员方法并使用"></a>5、通过反射获取成员方法并使用</h2><h3 id="1-批量的："><a href="#1-批量的：" class="headerlink" title="1.批量的："></a>1.批量的：</h3><pre><code>public Method[] getMethods():获取所有&quot;公有方法&quot;；（包含了父类的方法也包含Object类）
+public Method[] getDeclaredMethods():获取所有的成员方法，包括私有的(不包括继承的)</code></pre><h3 id="2-获取单个的："><a href="#2-获取单个的：" class="headerlink" title="2.获取单个的："></a>2.获取单个的：</h3><pre><code>public Method getMethod(String name,Class&lt;?&gt;... parameterTypes):
+            参数：
+                 name : 方法名；
+                Class ... : 形参的Class类型对象
+public Method getDeclaredMethod(String name,Class&lt;?&gt;... parameterTypes)</code></pre><p> 【注】：第一个参数表示的是方法名，第二个参数表示的是方法的参数的class类型，这个方法返回值是Object接收，第一个参数表示对象是谁，第二参数表示调用该方法的实际参数。</p>
+<h3 id="3-调用方法："><a href="#3-调用方法：" class="headerlink" title="3.调用方法："></a>3.调用方法：</h3><pre><code>Method --&gt; public Object invoke(Object obj,Object... args):
+    参数说明：
+    obj : 要调用方法的对象；
+    args:调用方式时所传递的实参；</code></pre><p>测试成员方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line">测试成员方法：</span><br><span class="line"> */</span><br><span class="line">public class ReflectDemo4 &#123;</span><br><span class="line">    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException &#123;</span><br><span class="line">        //创建class类对象</span><br><span class="line">        Class c=Class.forName(&quot;fqy1.Person&quot;);</span><br><span class="line"></span><br><span class="line">        //public Method[] getMethods():获取所有&quot;公有方法&quot;；</span><br><span class="line">        System.out.println(&quot;------第一：获取所有公有方法-------&quot;);</span><br><span class="line">        Method []m=c.getMethods();</span><br><span class="line">        for(Method method:m)&#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line">        //public Method[] getDeclaredMethods():</span><br><span class="line">        System.out.println(&quot;---------第二：获取所有方法--------&quot;);</span><br><span class="line">        Method[] m2=c.getDeclaredMethods();</span><br><span class="line">        for(Method method:m2)&#123;</span><br><span class="line">            System.out.println(method);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Constructor con=c.getConstructor();</span><br><span class="line">        Object obj=con.newInstance();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;--------第三获取单个无参方法并使用----------&quot;);</span><br><span class="line">        //调用show方法</span><br><span class="line">        Method m1=c.getMethod(&quot;show&quot;);</span><br><span class="line">        //obj.m1();错误</span><br><span class="line">        //</span><br><span class="line">        m1.invoke(obj);//调用obj对象的m1方法</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第四，获取单个有参参数并使用-----------&quot;);</span><br><span class="line">        Method m3=c.getMethod(&quot;method&quot;, String.class);</span><br><span class="line">        m3.invoke(obj,&quot;hello&quot;);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第五，获取带多个参数的方法并使用-----&quot;);</span><br><span class="line">        Method m4=c.getMethod(&quot;getString&quot;, String.class, int.class);</span><br><span class="line">        Object objectString=m4.invoke(obj,&quot;徐雷&quot;,18);//返回object类型，记住！</span><br><span class="line">        System.out.println(objectString);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;-----第六。获取私有的方法并使用----&quot;);</span><br><span class="line">        Method m5=c.getDeclaredMethod(&quot;function&quot;);</span><br><span class="line">        m5.setAccessible(true);</span><br><span class="line">        m5.invoke(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">------第一：获取所有公有方法-------</span><br><span class="line">public java.lang.String fqy1.Person.toString()</span><br><span class="line">public void fqy1.Person.method(java.lang.String)</span><br><span class="line">public java.lang.String fqy1.Person.getString(java.lang.String,int)</span><br><span class="line">public void fqy1.Person.show()</span><br><span class="line">public final void java.lang.Object.wait() throws java.lang.InterruptedException</span><br><span class="line">public final void java.lang.Object.wait(long,int) throws java.lang.InterruptedException</span><br><span class="line">public final native void java.lang.Object.wait(long) throws java.lang.InterruptedException</span><br><span class="line">public boolean java.lang.Object.equals(java.lang.Object)</span><br><span class="line">public native int java.lang.Object.hashCode()</span><br><span class="line">public final native java.lang.Class java.lang.Object.getClass()</span><br><span class="line">public final native void java.lang.Object.notify()</span><br><span class="line">public final native void java.lang.Object.notifyAll()</span><br><span class="line">---------第二：获取所有方法--------</span><br><span class="line">public java.lang.String fqy1.Person.toString()</span><br><span class="line">private void fqy1.Person.function()</span><br><span class="line">public void fqy1.Person.method(java.lang.String)</span><br><span class="line">public java.lang.String fqy1.Person.getString(java.lang.String,int)</span><br><span class="line">public void fqy1.Person.show()</span><br><span class="line">--------第三获取单个无参方法并使用----------</span><br><span class="line">show!</span><br><span class="line">-----第四，获取单个有参参数并使用-----------</span><br><span class="line">method:hello</span><br><span class="line">-----第五，获取带多个参数的方法并使用-----</span><br><span class="line">徐雷---18</span><br><span class="line">-----第六。获取私</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java基础</category>
+      </categories>
+      <tags>
+        <tag>反射</tag>
       </tags>
   </entry>
 </search>
